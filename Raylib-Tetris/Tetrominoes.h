@@ -2,6 +2,7 @@
 #include "Vec2.h"
 #include "raylibCpp.h"
 #include "Board.h"
+#include <rlgl.h>
 
 class Tetromino
 {
@@ -14,29 +15,32 @@ public:
 		LEFT
 	};
 public:
-	Tetromino(const bool* shape, int dimension, Color color, const Board& board);
+	Tetromino(const bool* shape, int dimension, Color color, Board& board);
 	void RotateClockwise();
 	void RotateCounterClockwise();
+	void RotateFull();
 	void Fall();
 	void MoveRight();
 	void MoveLeft();
+	bool IsBottom();
 	void Draw() const;
 	void DebugNum();
-	static Tetromino SelectRandomPiece(const Board& board);
+	static Tetromino SelectRandomPiece(Board& board);
 
 private:
 	Vec2<int> boardPos;
+	bool isBottom;
 	Rotation currentRotation;
 	const bool* shape;
 	const int dimension;
 	const Color color;
-	const Board& board;
+	Board& board;
 };
 
 class Straight : public Tetromino
 {
 public:
-	Straight(const Board& board)
+	Straight(Board& board)
 		:
 		Tetromino(shape, dimension, color, board)
 	{
@@ -48,13 +52,14 @@ private:
 									  0, 0, 0, 0,
 									  0, 0, 0, 0 };
 	static constexpr int dimension = 4;
+	static constexpr Color color = Color{ 102, 191, 255, 255 };
 	
 };
 
 class Square : public Tetromino
 {
 public:
-	Square(const Board& board)
+	Square(Board& board)
 		:
 		Tetromino(shape, dimension, color, board)
 	{
@@ -70,7 +75,7 @@ private:
 class Tee : public Tetromino
 {
 public:
-	Tee(const Board& board)
+	Tee(Board& board)
 		:
 		Tetromino(shape, dimension, color, board)
 	{
@@ -87,7 +92,7 @@ private:
 class Jay : public Tetromino
 {
 public:
-	Jay(const Board& board)
+	Jay(Board& board)
 		:
 		Tetromino(shape, dimension, color, board)
 	{
@@ -104,7 +109,7 @@ private:
 class El : public Tetromino
 {
 public:
-	El(const Board& board)
+	El(Board& board)
 		:
 		Tetromino(shape, dimension, color, board)
 	{
@@ -121,7 +126,7 @@ private:
 class SkewS : public Tetromino
 {
 public:
-	SkewS(const Board& board)
+	SkewS(Board& board)
 		:
 		Tetromino(shape, dimension, color, board)
 	{
@@ -138,7 +143,7 @@ private:
 class SkewZ : public Tetromino
 {
 public:
-	SkewZ(const Board& board)
+	SkewZ(Board& board)
 		:
 		Tetromino(shape, dimension, color, board)
 	{

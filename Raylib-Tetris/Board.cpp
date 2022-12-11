@@ -1,5 +1,6 @@
 #include "Board.h"
 #include <assert.h>
+#include <iostream>
 
 Board::Cell::Cell()
 	:
@@ -41,6 +42,12 @@ Board::Board(Vec2<int> screenPos, Vec2<int> widhtHeight, int cellSize_in, int pa
 	assert(width > 0 && height > 0); // checking if the width and height are larger than 0;
 	assert(cellSize > 0); // checking if cells aren't too small
 	cells.resize(width * height);
+	BoardSave.assign(width * height, 0);
+	
+	for (int i = 0; i < width * height; i++)
+	{
+		std::cout << BoardSave[i] << "\n";
+	}
 }
 
 void Board::SetCell(Vec2<int> pos, Color c)
@@ -98,4 +105,14 @@ int Board::GetWidth() const
 int Board::GetHeight() const
 {
 	return height;
+}
+
+std::vector<int> Board::GetBoard()
+{
+	return BoardSave;
+}
+
+void Board::SetBoardPos(Vec2<int> pos, bool exists)
+{
+	BoardSave[pos.GetY() * 10 + pos.GetX()] = exists;
 }

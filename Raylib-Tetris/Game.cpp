@@ -51,25 +51,54 @@ void Game::Update()
 	if (IsKeyPressed(KEY_X))
 	{
 		tetromino.RotateClockwise();
+		if (tetromino.IsBottom())
+		{
+			counter = 0;
+		}
 	}
 	if (IsKeyPressed(KEY_Z))
 	{
 		tetromino.RotateCounterClockwise();
+		if (tetromino.IsBottom())
+		{
+			counter = 0;
+		}
+	}
+	if (IsKeyPressed(KEY_C))
+	{
+		tetromino.RotateFull();
+		if (tetromino.IsBottom())
+		{
+			counter = 0;
+		}
 	}
 	if (IsKeyPressed(KEY_LEFT))
 	{
 		tetromino.MoveLeft();
+		if (tetromino.IsBottom())
+		{
+			counter = 0;
+		}
 	}
 	if (IsKeyPressed(KEY_RIGHT))
 	{
 		tetromino.MoveRight();
+		if (tetromino.IsBottom())
+		{
+			counter = 0;
+		}
+	}
+	if (IsKeyDown(KEY_DOWN))
+	{
+		counter += 20;
 	}
 
 	counter++;
 	tetromino.DebugNum();
 
-	if (counter % 60 == 0)
+	if (counter >= 60)
 	{
 		tetromino.Fall();
+		counter = 0;
 	}
 }

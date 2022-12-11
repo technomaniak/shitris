@@ -32,6 +32,9 @@ public:
 	int GetWidth() const;
 	int GetHeight() const;
 
+	std::vector<int> GetBoard();
+	void SetBoardPos(Vec2<int> pos, bool exists);
+
 private:
 	std::vector<Cell> cells;
 	const int width;
@@ -39,4 +42,5 @@ private:
 	const int cellSize;
 	const int padding;
 	Vec2<int> screenPos;
+	std::vector<int> BoardSave;
 }; 
