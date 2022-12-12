@@ -70,7 +70,7 @@ void Tetromino::Fall()
 	bool end = false;
 	for (int y = dimension-1; y >= 0; y--)
 	{
-		for (int x = dimension-1; x >= 0; x--)
+		for (int x = 0; x < dimension; x++)
 		{
 			bool cell = false;
 
@@ -96,15 +96,11 @@ void Tetromino::Fall()
 			{
 				if (boardPos.GetY() + y + 2 > settings::boardWidthHeight.GetY())
 				{
-					cell = false;
-					end = true;
-					isBottom = true;
+					PlaceTetromino();
 				}
 				else if (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y + 1 }))
 				{
-					cell = false;
-					end = true;
-					isBottom = true;
+					PlaceTetromino();
 				}
 
 				if (end)
@@ -118,12 +114,45 @@ void Tetromino::Fall()
 	{
 		boardPos.SetY(boardPos.GetY() + 1);
 	}
-	else
+}
+
+void Tetromino::PlaceTetromino()
+{
+
+	for (int y = 0; y < dimension; y++)
 	{
-		boardPos.SetX(board.GetWidth() / 2 - dimension / 2);
-		boardPos.SetY(0);
-		currentRotation = Rotation::UP;
+		for (int x = 0; x < dimension; x++)
+		{
+			bool cell = false;
+
+			switch (currentRotation)
+			{
+			case Tetromino::Rotation::UP:
+				cell = shape[y * dimension + x];
+				break;
+			case Tetromino::Rotation::RIGHT:
+				cell = shape[dimension * (dimension - 1) - dimension * x + y];
+				break;
+			case Tetromino::Rotation::DOWN:
+				cell = shape[(dimension * dimension - 1) - dimension * y - x];
+				break;
+			case Tetromino::Rotation::LEFT:
+				cell = shape[(dimension - 1) + dimension * x - y];
+				break;
+			default:
+				break;
+			}
+
+			if (cell)
+			{
+				board.SetCell({ boardPos.GetX() + x,  boardPos.GetY() + y }, color);
+			}
+		}
 	}
+	boardPos.SetX(board.GetWidth() / 2 - dimension / 2);
+	boardPos.SetY(0);
+	currentRotation = Rotation::UP;
+	return;
 }
 
 void Tetromino::MoveRight()

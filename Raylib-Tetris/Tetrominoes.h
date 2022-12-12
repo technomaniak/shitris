@@ -21,6 +21,7 @@ public:
 	void RotateCounterClockwise();
 	void RotateFull();
 	void Fall();
+	void PlaceTetromino();
 	void MoveRight();
 	void MoveLeft();
 	bool IsBottom();
