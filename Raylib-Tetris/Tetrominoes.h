@@ -3,6 +3,7 @@
 #include "raylibCpp.h"
 #include "Board.h"
 #include <rlgl.h>
+#include <fstream>
 
 class Tetromino
 {
@@ -47,11 +48,11 @@ public:
 		static_assert(sizeof(shape) / sizeof(bool) == dimension * dimension); // check if dimension is valid
 	}
 private:
+	static constexpr int dimension = 4;
 	static constexpr bool shape[] = { 0, 0, 0, 0,
 									  1, 1, 1, 1,
 									  0, 0, 0, 0,
 									  0, 0, 0, 0 };
-	static constexpr int dimension = 4;
 	static constexpr Color color = Color{ 102, 191, 255, 255 };
 	
 };

@@ -7,7 +7,6 @@ int main(void)
     //--------------------------------------------------------------------------------------
        
     Game game{ settings::screenWidth, settings::screenHeight, settings::fps, "Tetris Raylib" };
-    game.counter = 0;
 
     while (!game.GameShouldClose())
     {

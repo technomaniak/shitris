@@ -24,16 +24,16 @@ private:
 public:
 	Board(Vec2<int> screenPos, Vec2<int> widhtHeight, int cellSize_in, int padding);
 	void SetCell(Vec2<int> pos, Color c);
+	void MoveCell(Vec2<int> posOld, Vec2<int> posNew);
 	void DrawCell(Vec2<int> pos) const;
 	void DrawCell(Vec2<int> pos, Color color) const;
 	void DrawBorder() const;
 	void Draw() const;
+	std::vector<int> CheckForLines();
+	void ClearLines();
 	bool CellExists(Vec2<int> pos) const;
 	int GetWidth() const;
 	int GetHeight() const;
-
-	std::vector<int> GetBoard();
-	void SetBoardPos(Vec2<int> pos, bool exists);
 
 private:
 	std::vector<Cell> cells;
@@ -42,5 +42,6 @@ private:
 	const int cellSize;
 	const int padding;
 	Vec2<int> screenPos;
-	std::vector<int> BoardSave;
+
+	Score score;
 }; 

@@ -151,18 +151,26 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="raylibCpp.cpp" />
+    <ClCompile Include="ScoreManagament.cpp" />
     <ClCompile Include="Tetrominoes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="ScoreManagament.h" />
     <ClInclude Include="Tetrominoes.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="raylibCpp.h" />
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Straight.tetris" />
+    <None Include="El.tetromino" />
+    <None Include="Jay.tetromino" />
+    <None Include="SkewS.tetromino" />
+    <None Include="SkewZ.tetromino" />
+    <None Include="Square.tetromino" />
+    <None Include="Straight.tetromino" />
+    <None Include="Tee.tetromino" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -18,7 +18,40 @@ Tetromino::Tetromino(const bool* shape, int dimension, Color color, Board& board
 
 void Tetromino::RotateClockwise()
 {
-	currentRotation = Rotation((int(currentRotation) + 1) % 4);
+	for (int y = 0; y < dimension; y++)
+	{
+		for (int x = 0; x < dimension; x++)
+		{
+			bool cell = false;
+
+			switch (currentRotation)
+			{
+			case Tetromino::Rotation::UP:
+				cell = shape[y * dimension + x];
+				break;
+			case Tetromino::Rotation::RIGHT:
+				cell = shape[dimension * (dimension - 1) - dimension * x + y];
+				break;
+			case Tetromino::Rotation::DOWN:
+				cell = shape[(dimension * dimension - 1) - dimension * y - x];
+				break;
+			case Tetromino::Rotation::LEFT:
+				cell = shape[dimension - 1 * dimension + dimension * x + y];
+				break;
+			default:
+				break;
+			}
+
+			if (cell)
+			{
+				std::cout << "\n" << boardPos.GetX() + x + 2 << "\n";
+				if (!board.CellExists(boardPos))
+				{
+					currentRotation = Rotation((int(currentRotation) + 1) % 4);
+				}
+			}
+		}
+	}
 }
 
 void Tetromino::RotateCounterClockwise()
@@ -33,6 +66,7 @@ void Tetromino::RotateFull()
 
 void Tetromino::Fall()
 {
+	bool found = false;
 	bool end = false;
 	for (int y = dimension-1; y >= 0; y--)
 	{
@@ -62,13 +96,19 @@ void Tetromino::Fall()
 			{
 				if (boardPos.GetY() + y + 2 > settings::boardWidthHeight.GetY())
 				{
-					std::cout << boardPos.GetY() << "\t" << x << "\t" << y << "\n";
 					cell = false;
 					end = true;
+					isBottom = true;
 				}
+				else if (board.CellExists({ boardPos.GetX(), boardPos.GetY() + y + 1 }))
+				{
+					cell = false;
+					end = true;
+					isBottom = true;
+				}
+
 				if (end)
 				{
-					isBottom = true;
 					board.SetCell({ boardPos.GetX() + x,  boardPos.GetY() + y }, color);
 				}
 			}
@@ -76,8 +116,13 @@ void Tetromino::Fall()
 	}
 	if (!end)
 	{
-		isBottom = false;
 		boardPos.SetY(boardPos.GetY() + 1);
+	}
+	else
+	{
+		boardPos.SetX(board.GetWidth() / 2 - dimension / 2);
+		boardPos.SetY(0);
+		currentRotation = Rotation::UP;
 	}
 }
 
@@ -163,6 +208,47 @@ void Tetromino::MoveLeft()
 
 bool Tetromino::IsBottom()
 {
+	for (int y = dimension - 1; y >= 0; y--)
+	{
+		for (int x = dimension - 1; x >= 0; x--)
+		{
+			bool cell = false;
+
+			switch (currentRotation)
+			{
+			case Tetromino::Rotation::UP:
+				cell = shape[y * dimension + x];
+				break;
+			case Tetromino::Rotation::RIGHT:
+				cell = shape[dimension * (dimension - 1) - dimension * x + y];
+				break;
+			case Tetromino::Rotation::DOWN:
+				cell = shape[(dimension * dimension - 1) - dimension * y - x];
+				break;
+			case Tetromino::Rotation::LEFT:
+				cell = shape[(dimension - 1) + dimension * x - y];
+				break;
+			default:
+				break;
+			}
+
+			if (cell)
+			{
+				if (boardPos.GetY() + y + 2 > settings::boardWidthHeight.GetY())
+				{
+					isBottom = true;
+					return isBottom;
+				}
+				else if (board.CellExists({ boardPos.GetX(), boardPos.GetY() + y + 1 }))
+				{
+					isBottom = true;
+					return isBottom;
+				}
+			}
+		}
+	}
+	std::cout << isBottom;
+	isBottom = false;
 	return isBottom;
 }
 
@@ -208,13 +294,24 @@ void Tetromino::DebugNum()
 
 Tetromino Tetromino::SelectRandomPiece(Board& board)
 {
-	int val = GetRandomValue(1, 1);
-	std::cout << "\ngay" << val;
+	srand(time(NULL));
+	int val = rand()%7;
+	std::cout << "\ngenerated new piece" << val;
 	switch (val)
 	{
+	case 0:
+		return SkewZ(board);
 	case 1:
-		return Jay(board);
+		return SkewS(board);
 	case 2:
+		return Straight(board);
+	case 3:
 		return Square(board);
+	case 4:
+		return Jay(board);
+	case 5:
+		return El(board);
+	case 6:
+		return Tee(board);
 	}
 }

@@ -2,6 +2,7 @@
 #include <string>
 #include "Board.h"
 #include "Tetrominoes.h"
+#include "ScoreManagament.h"
 
 class Game
 {
@@ -13,16 +14,16 @@ public:
 
 	bool GameShouldClose() const;
 	void Tick();
-	int GetScore();
-
-	int counter;
 
 private:
 	void Draw();
 	void Update();
 
-	int score;
+	int counter;
+	int counterDos;
+	int counterTres;
+	bool moved;
+
 	Board board;
 	Tetromino tetromino;
-
 };
