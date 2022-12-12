@@ -33,7 +33,7 @@
     <ClCompile Include="Tetrominoes.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="ScoreManagament.cpp">
+    <ClCompile Include="ScoreManagement.cpp">
       <Filter>Pliki nagłówkowe</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,7 +56,7 @@
     <ClInclude Include="Tetrominoes.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="ScoreManagament.h">
+    <ClInclude Include="ScoreManagement.h">
       <Filter>Pliki źródłowe</Filter>
     </ClInclude>
   </ItemGroup>

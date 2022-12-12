@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <iostream>
 #include "Game.h"
-#include "ScoreManagament.h"
+#include "ScoreManagement.h"
 
 Board::Cell::Cell()
 	:
@@ -95,6 +95,7 @@ void Board::Draw() const
 		}
 	}
 	DrawBorder();
+	score.DrawScore();
 }
 
 std::vector<int> Board::CheckForLines()
@@ -138,16 +139,16 @@ void Board::ClearLines()
 	switch (toRemove.size())
 	{
 	case 1:
-		score.SetScore(40);
+		score.IncreaseScore(40);
 		break;
 	case 2:
-		score.SetScore(100);
+		score.IncreaseScore(100);
 		break;
 	case 3:
-		score.SetScore(300);
+		score.IncreaseScore(300);
 		break;
 	case 4:
-		score.SetScore(1200);
+		score.IncreaseScore(1200);
 		break;
 	}
 }

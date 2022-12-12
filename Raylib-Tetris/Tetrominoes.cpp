@@ -100,7 +100,7 @@ void Tetromino::Fall()
 					end = true;
 					isBottom = true;
 				}
-				else if (board.CellExists({ boardPos.GetX(), boardPos.GetY() + y + 1 }))
+				else if (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y + 1 }))
 				{
 					cell = false;
 					end = true;
@@ -194,7 +194,7 @@ void Tetromino::MoveLeft()
 
 			if (cell)
 			{
-				std::cout << boardPos.GetX() + x - 1;
+				std::cout << boardPos.GetX() + x - 1 << " ";
 				if (boardPos.GetX() + x - 1 < 0)
 				{
 					return;
@@ -239,7 +239,7 @@ bool Tetromino::IsBottom()
 					isBottom = true;
 					return isBottom;
 				}
-				else if (board.CellExists({ boardPos.GetX(), boardPos.GetY() + y + 1 }))
+				else if (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y + 1 }))
 				{
 					isBottom = true;
 					return isBottom;

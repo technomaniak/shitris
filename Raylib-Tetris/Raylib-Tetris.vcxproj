@@ -151,13 +151,13 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="raylibCpp.cpp" />
-    <ClCompile Include="ScoreManagament.cpp" />
+    <ClCompile Include="ScoreManagement.cpp" />
     <ClCompile Include="Tetrominoes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="ScoreManagament.h" />
+    <ClInclude Include="ScoreManagement.h" />
     <ClInclude Include="Tetrominoes.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="raylibCpp.h" />

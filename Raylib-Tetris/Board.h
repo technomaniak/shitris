@@ -2,6 +2,7 @@
 #include "raylibCpp.h"
 #include <vector>
 #include "Vec2.h"
+#include "ScoreManagement.h"
 
 class Board
 {
@@ -43,5 +44,5 @@ private:
 	const int padding;
 	Vec2<int> screenPos;
 
-	Score score;
+	ScoreManagement score;
 }; 

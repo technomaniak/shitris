@@ -2,7 +2,6 @@
 #include <string>
 #include "Board.h"
 #include "Tetrominoes.h"
-#include "ScoreManagament.h"
 
 class Game
 {
