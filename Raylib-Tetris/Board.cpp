@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <iostream>
 #include "Game.h"
+#include "Settings.h"
 #include "ScoreManagement.h"
 
 Board::Cell::Cell()
@@ -39,7 +40,8 @@ Board::Board(Vec2<int> screenPos, Vec2<int> widhtHeight, int cellSize_in, int pa
 	width(widhtHeight.GetX()),
 	height(widhtHeight.GetY()),
 	cellSize(cellSize_in),
-	padding(padding)
+	padding(padding),
+	speed(0)
 {
 	assert(width > 0 && height > 0); // checking if the width and height are larger than 0;
 	assert(cellSize > 0); // checking if cells aren't too small
@@ -82,6 +84,18 @@ void Board::DrawBorder() const
 	raycpp::DrawRectangleLinesEx(screenPos - (cellSize / 2)-2, Vec2{ width * cellSize, height * cellSize } + cellSize+1, cellSize / 2, WHITE);
 }
 
+void Board::DrawBoardGrid() const
+{
+	//for (int y = 0; y <= GetWidth(); y++)
+	//{
+	//	DrawLine(settings::boardPosition.GetX() - 1 + (y * settings::cellSize),
+	//		settings::boardPosition.GetY(),
+	//		settings::boardPosition.GetX() + (y * settings::cellSize),
+	//		settings::boardPosition.GetY() + (settings::boardWidthHeight.GetY() * settings::cellSize),
+	//		Color{ 102, 191, 255, 255 });
+	//}
+}
+
 void Board::Draw() const
 {
 	for (int iY = 0; iY < height; iY++)
@@ -95,6 +109,7 @@ void Board::Draw() const
 		}
 	}
 	DrawBorder();
+	DrawBoardGrid();
 	score.DrawScore();
 }
 
@@ -151,6 +166,10 @@ void Board::ClearLines()
 		score.IncreaseScore(1200);
 		break;
 	}
+	if (score.GetScore() > speed * 10)
+	{
+		speed += 20;
+	}
 }
 
 bool Board::CellExists(Vec2<int> pos) const
@@ -167,4 +186,9 @@ int Board::GetWidth() const
 int Board::GetHeight() const
 {
 	return height;
+}
+
+int Board::GetSpeed() const
+{
+	return speed;
 }

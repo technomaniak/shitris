@@ -24,38 +24,73 @@ void Tetromino::RotateClockwise()
 		{
 			bool cell = false;
 
-			switch (currentRotation)
+			switch ((int)currentRotation + 1)
 			{
-			case Tetromino::Rotation::UP:
+			case 04:
 				cell = shape[y * dimension + x];
 				break;
-			case Tetromino::Rotation::RIGHT:
+			case 1:
 				cell = shape[dimension * (dimension - 1) - dimension * x + y];
 				break;
-			case Tetromino::Rotation::DOWN:
+			case 2:
 				cell = shape[(dimension * dimension - 1) - dimension * y - x];
 				break;
-			case Tetromino::Rotation::LEFT:
+			case 3:
 				cell = shape[dimension - 1 * dimension + dimension * x + y];
-				break;
-			default:
 				break;
 			}
 
 			if (cell)
 			{
-				std::cout << "\n" << boardPos.GetX() + x + 2 << "\n";
-				if (!board.CellExists(boardPos))
+				std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
+				if (!(boardPos.GetX() + x + 1 > 0) || !(boardPos.GetX() + x < board.GetWidth()))
 				{
-					currentRotation = Rotation((int(currentRotation) + 1) % 4);
+					std::cout << " return ";
+					return;
 				}
 			}
 		}
 	}
+	std::cout << "\t rotation" << (int)currentRotation << "\t";
+	currentRotation = Rotation((int(currentRotation) + 1) % 4);
 }
 
 void Tetromino::RotateCounterClockwise()
 {
+	for (int y = 0; y < dimension; y++)
+	{
+		for (int x = 0; x < dimension; x++)
+		{
+			bool cell = false;
+
+			switch ((int)currentRotation + 3)
+			{
+			case 4:
+				cell = shape[y * dimension + x];
+				break;
+			case 5:
+				cell = shape[dimension * (dimension - 1) - dimension * x + y];
+				break;
+			case 6:
+				cell = shape[(dimension * dimension - 1) - dimension * y - x];
+				break;
+			case 3:
+				cell = shape[dimension - 1 * dimension + dimension * x + y];
+				break;
+			}
+
+			if (cell)
+			{
+				std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
+				if (!(boardPos.GetX() + x + 1 > 0) || !(boardPos.GetX() + x < board.GetWidth()))
+				{
+					std::cout << " return ";
+					return;
+				}
+			}
+		}
+	}
+	std::cout << "\t rotation" << (int)currentRotation << "\t";
 	currentRotation = Rotation((int(currentRotation) + 3) % 4);
 }
 
@@ -184,7 +219,7 @@ void Tetromino::MoveRight()
 			if (cell)
 			{
 				std::cout << boardPos.GetX() + x + 2;
-				if (boardPos.GetX() + x + 2 > settings::boardWidthHeight.GetX())
+				if (boardPos.GetX() + x + 2 > settings::boardWidthHeight.GetX() || board.CellExists({ boardPos.GetX() + x + 1, boardPos.GetY() + y }))
 				{
 					return;
 				}
@@ -223,8 +258,8 @@ void Tetromino::MoveLeft()
 
 			if (cell)
 			{
-				std::cout << boardPos.GetX() + x - 1 << " ";
-				if (boardPos.GetX() + x - 1 < 0)
+				std::cout << boardPos.GetX() << " ";
+				if (boardPos.GetX() + x - 1 < 0 || board.CellExists({ boardPos.GetX() + x - 1, boardPos.GetY() + y }))
 				{
 					return;
 				}

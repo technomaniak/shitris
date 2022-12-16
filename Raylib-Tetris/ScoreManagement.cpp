@@ -14,5 +14,10 @@ void ScoreManagement::IncreaseScore(int increase)
 
 void ScoreManagement::DrawScore() const
 {
-	DrawText(TextFormat("SCORE: %d", score), 500, 50, 60, VIOLET);
+	DrawText(TextFormat("Score: %d", score), 500, 50, 60, VIOLET);
+}
+
+int ScoreManagement::GetScore() const
+{
+	return score;
 }

@@ -142,13 +142,13 @@ void Game::Update()
 	{
 		if (!tetromino.IsBottom())
 		{
-			counter += 15;
+			counter += 15 + board.GetSpeed();
 		}
-		counter += 5;
+		counter += 5 + board.GetSpeed();
 	}
 
 	board.ClearLines();
-	counter++;
+	counter += board.GetSpeed() + 1;
 	tetromino.DebugNum();
 
 	if (counter >= 60)
