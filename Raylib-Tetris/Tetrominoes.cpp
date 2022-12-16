@@ -1,23 +1,116 @@
 #include "Tetrominoes.h"
 #include "Settings.h"
+#include <assert.h>
 #include <string>
 #include <iostream>
+#include <vector>
 
-Tetromino::Tetromino(const bool* shape, int dimension, Color color, Board& board)
+Tetromino::Tetromino(
+	const bool* shape,
+	int dimension,
+	int overloads,
+	std::vector<Vec2<int>> zeroToOne,
+	std::vector<Vec2<int>> oneToZero,
+	std::vector<Vec2<int>> oneToTwo,
+	std::vector<Vec2<int>> twoToOne,
+	std::vector<Vec2<int>> twoToThree,
+	std::vector<Vec2<int>> threeToTwo,
+	std::vector<Vec2<int>> threeToZero,
+	std::vector<Vec2<int>> zeroToThree,
+	Color color,
+	Board& board)
 	:
 	shape(shape),
 	dimension(dimension),
+	overloads(overloads),
+	zeroToOne(zeroToOne),
+	oneToZero(oneToZero),
+	oneToTwo(oneToTwo),
+	twoToOne(twoToOne),
+	twoToThree(twoToThree),
+	threeToTwo(threeToTwo),
+	threeToZero(threeToZero),
+	zeroToThree(zeroToThree),
 	color(color),
 	boardPos(board.GetWidth() / 2 - dimension / 2, 0),
 	board(board),
 	currentRotation(Rotation::UP),
 	isBottom(false)
 {
-
+	assert(threeToZero.size() > 0);
 }
+
+const std::vector<Vec2<int>> Straight::zeroToOne = { {-2, 0}, {1, 0}, {-2 , -1}, {1, 2} };
+const std::vector<Vec2<int>> Straight::oneToZero = { {2, 0}, {-1, 0}, {2 , 1}, {-1, -2} };
+const std::vector<Vec2<int>> Straight::oneToTwo = { {-1, 0}, {2, 0}, {-1 , 2}, {2, -1} };
+const std::vector<Vec2<int>> Straight::twoToOne = { {1, 0}, {-2, 0}, {1 , -2}, {-2, 1} };
+const std::vector<Vec2<int>> Straight::twoToThree = { {2, 0}, {-1, 0}, {2 , 1}, {-1, -2} };
+const std::vector<Vec2<int>> Straight::threeToTwo = { {-2, 0}, {1, 0}, {-2 , -1}, {1, 2} };
+const std::vector<Vec2<int>> Straight::threeToZero = { {1, 0}, {-2, 0}, {1 , -2}, {-2, 1} };
+const std::vector<Vec2<int>> Straight::zeroToThree = { {-1, 0}, {2, 0}, {-1 , 2}, {2, -1} };
+
+const std::vector<Vec2<int>> Square::zeroToOne = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
+const std::vector<Vec2<int>> Square::oneToZero = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
+const std::vector<Vec2<int>> Square::oneToTwo = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
+const std::vector<Vec2<int>> Square::twoToOne = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
+const std::vector<Vec2<int>> Square::twoToThree = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
+const std::vector<Vec2<int>> Square::threeToTwo = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
+const std::vector<Vec2<int>> Square::threeToZero = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
+const std::vector<Vec2<int>> Square::zeroToThree = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
+
+const std::vector<Vec2<int>> Tee::zeroToOne = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
+const std::vector<Vec2<int>> Tee::oneToZero = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
+const std::vector<Vec2<int>> Tee::oneToTwo = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
+const std::vector<Vec2<int>> Tee::twoToOne = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
+const std::vector<Vec2<int>> Tee::twoToThree = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
+const std::vector<Vec2<int>> Tee::threeToTwo = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
+const std::vector<Vec2<int>> Tee::threeToZero = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
+const std::vector<Vec2<int>> Tee::zeroToThree = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
+
+const std::vector<Vec2<int>> Jay::zeroToOne = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
+const std::vector<Vec2<int>> Jay::oneToZero = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
+const std::vector<Vec2<int>> Jay::oneToTwo = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
+const std::vector<Vec2<int>> Jay::twoToOne = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
+const std::vector<Vec2<int>> Jay::twoToThree = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
+const std::vector<Vec2<int>> Jay::threeToTwo = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
+const std::vector<Vec2<int>> Jay::threeToZero = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
+const std::vector<Vec2<int>> Jay::zeroToThree = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
+
+const std::vector<Vec2<int>> El::zeroToOne = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
+const std::vector<Vec2<int>> El::oneToZero = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
+const std::vector<Vec2<int>> El::oneToTwo = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
+const std::vector<Vec2<int>> El::twoToOne = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
+const std::vector<Vec2<int>> El::twoToThree = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
+const std::vector<Vec2<int>> El::threeToTwo = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
+const std::vector<Vec2<int>> El::threeToZero = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
+const std::vector<Vec2<int>> El::zeroToThree = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
+
+const std::vector<Vec2<int>> SkewS::zeroToOne = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
+const std::vector<Vec2<int>> SkewS::oneToZero = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
+const std::vector<Vec2<int>> SkewS::oneToTwo = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
+const std::vector<Vec2<int>> SkewS::twoToOne = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
+const std::vector<Vec2<int>> SkewS::twoToThree = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
+const std::vector<Vec2<int>> SkewS::threeToTwo = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
+const std::vector<Vec2<int>> SkewS::threeToZero = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
+const std::vector<Vec2<int>> SkewS::zeroToThree = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
+
+const std::vector<Vec2<int>> SkewZ::zeroToOne = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
+const std::vector<Vec2<int>> SkewZ::oneToZero = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
+const std::vector<Vec2<int>> SkewZ::oneToTwo = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
+const std::vector<Vec2<int>> SkewZ::twoToOne = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
+const std::vector<Vec2<int>> SkewZ::twoToThree = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
+const std::vector<Vec2<int>> SkewZ::threeToTwo = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
+const std::vector<Vec2<int>> SkewZ::threeToZero = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
+const std::vector<Vec2<int>> SkewZ::zeroToThree = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
 
 void Tetromino::RotateClockwise()
 {
+	bool canDoOne = true;
+	bool canDoTwo = true;
+	bool canDoThree = true;
+	bool canDoFour = true;
+	bool canDoFive = true;
+	
 	for (int y = 0; y < dimension; y++)
 	{
 		for (int x = 0; x < dimension; x++)
@@ -26,7 +119,7 @@ void Tetromino::RotateClockwise()
 
 			switch ((int)currentRotation + 1)
 			{
-			case 04:
+			case 4:
 				cell = shape[y * dimension + x];
 				break;
 			case 1:
@@ -57,6 +150,8 @@ void Tetromino::RotateClockwise()
 
 void Tetromino::RotateCounterClockwise()
 {
+	std::vector<bool> canDoX(overloads, true);
+
 	for (int y = 0; y < dimension; y++)
 	{
 		for (int x = 0; x < dimension; x++)
@@ -67,6 +162,21 @@ void Tetromino::RotateCounterClockwise()
 			{
 			case 4:
 				cell = shape[y * dimension + x];
+
+				if (cell)
+				{
+					std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
+
+					for (int i = 0; i < overloads; i++)
+					{
+						std::cout << " return " << i;
+						if (!(boardPos.GetX() + x + 1 + threeToZero[i].GetX() > 0) || !(boardPos.GetX() + x < board.GetWidth()))
+						{
+							canDoX[i] = false;
+						}
+					}
+				}
+
 				break;
 			case 5:
 				cell = shape[dimension * (dimension - 1) - dimension * x + y];
@@ -77,16 +187,6 @@ void Tetromino::RotateCounterClockwise()
 			case 3:
 				cell = shape[dimension - 1 * dimension + dimension * x + y];
 				break;
-			}
-
-			if (cell)
-			{
-				std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
-				if (!(boardPos.GetX() + x + 1 > 0) || !(boardPos.GetX() + x < board.GetWidth()))
-				{
-					std::cout << " return ";
-					return;
-				}
 			}
 		}
 	}
@@ -277,7 +377,7 @@ bool Tetromino::IsBottom()
 		for (int x = dimension - 1; x >= 0; x--)
 		{
 			bool cell = false;
-
+			
 			switch (currentRotation)
 			{
 			case Tetromino::Rotation::UP:
@@ -318,6 +418,8 @@ bool Tetromino::IsBottom()
 
 void Tetromino::Draw() const
 {
+	//assert(threeToZero.size() > 0);
+
 	for (int y = 0; y < dimension; y++)
 	{
 		for (int x = 0; x < dimension; x++) 
@@ -361,7 +463,8 @@ Tetromino Tetromino::SelectRandomPiece(Board& board)
 	srand(time(NULL));
 	int val = rand()%7;
 	std::cout << "\ngenerated new piece" << val;
-	switch (val)
+	return Straight(board);
+	/*switch (val)
 	{
 	case 0:
 		return SkewZ(board);
@@ -377,5 +480,5 @@ Tetromino Tetromino::SelectRandomPiece(Board& board)
 		return El(board);
 	case 6:
 		return Tee(board);
-	}
+	}*/
 }

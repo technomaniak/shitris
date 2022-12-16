@@ -51,7 +51,10 @@ void Game::Update()
 	if (IsKeyDown(KEY_LEFT))
 	{
 		counterDos++;
-
+		if (tetromino.IsBottom())
+		{
+			counter = 0;
+		}
 		if (counterDos > 10)
 		{
 			counterTres++;
@@ -84,6 +87,11 @@ void Game::Update()
 	if (IsKeyDown(KEY_RIGHT))
 	{
 		counterDos++;
+		
+		if (tetromino.IsBottom())
+		{
+			counter = 0;
+		}
 
 		if (counterDos > 10)
 		{
@@ -116,6 +124,10 @@ void Game::Update()
 
 	if (IsKeyPressed(KEY_X))
 	{
+		if (tetromino.IsBottom())
+		{
+			counter = 0;
+		}
 		tetromino.RotateClockwise();
 		if (tetromino.IsBottom())
 		{
@@ -124,6 +136,10 @@ void Game::Update()
 	}
 	if (IsKeyPressed(KEY_Z))
 	{
+		if (tetromino.IsBottom())
+		{
+			counter = 0;
+		}
 		tetromino.RotateCounterClockwise();
 		if (tetromino.IsBottom())
 		{
@@ -132,6 +148,10 @@ void Game::Update()
 	}
 	if (IsKeyPressed(KEY_C))
 	{
+		if (tetromino.IsBottom())
+		{
+			counter = 0;
+		}
 		tetromino.RotateFull();
 		if (tetromino.IsBottom())
 		{
