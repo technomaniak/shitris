@@ -14,6 +14,7 @@ Game::Game(int width, int height, int fps, std::string title)
 	moved(false)
 {
 	assert(!IsWindowReady()); // if triggered game is already open.
+	SetConfigFlags(FLAG_FULLSCREEN_MODE);
 	InitWindow(width, height, title.c_str());
 	SetTargetFPS(fps);
 }
@@ -37,10 +38,9 @@ void Game::Tick()
 	EndDrawing();
 }
 
-
 void Game::Draw()
 {
-	ClearBackground(BLACK);
+	DrawRectangleGradientV(0, 0, settings::screenWidth, settings::screenHeight, Color{ 33,1,0,255 }, Color{ 14,42,1,255 });
 	board.Draw();
 	tetromino.Draw();
 	DrawFPS(0, 0);

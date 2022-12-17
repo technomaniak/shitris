@@ -16,6 +16,12 @@
     <Filter Include="Pliki zasobów\Default">
       <UniqueIdentifier>{3996516d-853b-4f2e-a277-60ed36d98453}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki zasobów\Default\tetrominoes">
+      <UniqueIdentifier>{ea2bc007-1e7c-4dac-8a55-bd1a812457c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki zasobów\Default\board">
+      <UniqueIdentifier>{359cc0c7-5bd3-4d1d-993c-32b5b1737159}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -34,7 +40,7 @@
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
     <ClCompile Include="ScoreManagement.cpp">
-      <Filter>Pliki nagłówkowe</Filter>
+      <Filter>Pliki źródłowe</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -57,30 +63,30 @@
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="ScoreManagement.h">
-      <Filter>Pliki źródłowe</Filter>
+      <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Straight.tetromino">
-      <Filter>Pliki zasobów\Default</Filter>
-    </None>
-    <None Include="Square.tetromino">
-      <Filter>Pliki zasobów\Default</Filter>
-    </None>
-    <None Include="Tee.tetromino">
-      <Filter>Pliki zasobów\Default</Filter>
+    <None Include="El.tetromino">
+      <Filter>Pliki zasobów\Default\tetrominoes</Filter>
     </None>
     <None Include="Jay.tetromino">
-      <Filter>Pliki zasobów\Default</Filter>
-    </None>
-    <None Include="El.tetromino">
-      <Filter>Pliki zasobów\Default</Filter>
+      <Filter>Pliki zasobów\Default\tetrominoes</Filter>
     </None>
     <None Include="SkewS.tetromino">
-      <Filter>Pliki zasobów\Default</Filter>
+      <Filter>Pliki zasobów\Default\tetrominoes</Filter>
     </None>
     <None Include="SkewZ.tetromino">
-      <Filter>Pliki zasobów\Default</Filter>
+      <Filter>Pliki zasobów\Default\tetrominoes</Filter>
+    </None>
+    <None Include="Square.tetromino">
+      <Filter>Pliki zasobów\Default\tetrominoes</Filter>
+    </None>
+    <None Include="Straight.tetromino">
+      <Filter>Pliki zasobów\Default\tetrominoes</Filter>
+    </None>
+    <None Include="Tee.tetromino">
+      <Filter>Pliki zasobów\Default\tetrominoes</Filter>
     </None>
   </ItemGroup>
 </Project>

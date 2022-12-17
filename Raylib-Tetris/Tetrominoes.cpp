@@ -40,117 +40,303 @@ Tetromino::Tetromino(
 	assert(threeToZero.size() > 0);
 }
 
-const std::vector<Vec2<int>> Straight::zeroToOne = { {-2, 0}, {1, 0}, {-2 , -1}, {1, 2} };
-const std::vector<Vec2<int>> Straight::oneToZero = { {2, 0}, {-1, 0}, {2 , 1}, {-1, -2} };
-const std::vector<Vec2<int>> Straight::oneToTwo = { {-1, 0}, {2, 0}, {-1 , 2}, {2, -1} };
-const std::vector<Vec2<int>> Straight::twoToOne = { {1, 0}, {-2, 0}, {1 , -2}, {-2, 1} };
-const std::vector<Vec2<int>> Straight::twoToThree = { {2, 0}, {-1, 0}, {2 , 1}, {-1, -2} };
-const std::vector<Vec2<int>> Straight::threeToTwo = { {-2, 0}, {1, 0}, {-2 , -1}, {1, 2} };
-const std::vector<Vec2<int>> Straight::threeToZero = { {1, 0}, {-2, 0}, {1 , -2}, {-2, 1} };
-const std::vector<Vec2<int>> Straight::zeroToThree = { {-1, 0}, {2, 0}, {-1 , 2}, {2, -1} };
+const std::vector<Vec2<int>> Straight::zeroToOne = { {-2, 0}, {1, 0}, {-2 , 1}, {1, -2} };
+const std::vector<Vec2<int>> Straight::oneToZero = { {2, 0}, {-1, 0}, {2 , -1}, {-1, 2} };
+const std::vector<Vec2<int>> Straight::oneToTwo = { {-1, 0}, {2, 0}, {-1 , -2}, {2, 1} };
+const std::vector<Vec2<int>> Straight::twoToOne = { {1, 0}, {-2, 0}, {1 , 2}, {-2, -1} };
+const std::vector<Vec2<int>> Straight::twoToThree = { {2, 0}, {-1, 0}, {2 , -1}, {-1, 2} };
+const std::vector<Vec2<int>> Straight::threeToTwo = { {-2, 0}, {1, 0}, {-2 , 1}, {1, -2} };
+const std::vector<Vec2<int>> Straight::threeToZero = { {1, 0}, {-2, 0}, {1 , 2}, {-2, -1} };
+const std::vector<Vec2<int>> Straight::zeroToThree = { {-1, 0}, {2, 0}, {-1 , -2}, {2, 1} };
 
-const std::vector<Vec2<int>> Square::zeroToOne = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
-const std::vector<Vec2<int>> Square::oneToZero = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
-const std::vector<Vec2<int>> Square::oneToTwo = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
-const std::vector<Vec2<int>> Square::twoToOne = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
-const std::vector<Vec2<int>> Square::twoToThree = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
-const std::vector<Vec2<int>> Square::threeToTwo = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
-const std::vector<Vec2<int>> Square::threeToZero = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
-const std::vector<Vec2<int>> Square::zeroToThree = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
+const std::vector<Vec2<int>> Square::zeroToOne = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
+const std::vector<Vec2<int>> Square::oneToZero = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
+const std::vector<Vec2<int>> Square::oneToTwo = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
+const std::vector<Vec2<int>> Square::twoToOne = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
+const std::vector<Vec2<int>> Square::twoToThree = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
+const std::vector<Vec2<int>> Square::threeToTwo = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
+const std::vector<Vec2<int>> Square::threeToZero = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
+const std::vector<Vec2<int>> Square::zeroToThree = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
 
-const std::vector<Vec2<int>> Tee::zeroToOne = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
-const std::vector<Vec2<int>> Tee::oneToZero = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
-const std::vector<Vec2<int>> Tee::oneToTwo = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
-const std::vector<Vec2<int>> Tee::twoToOne = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
-const std::vector<Vec2<int>> Tee::twoToThree = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
-const std::vector<Vec2<int>> Tee::threeToTwo = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
-const std::vector<Vec2<int>> Tee::threeToZero = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
-const std::vector<Vec2<int>> Tee::zeroToThree = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
+const std::vector<Vec2<int>> Tee::zeroToOne = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
+const std::vector<Vec2<int>> Tee::oneToZero = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
+const std::vector<Vec2<int>> Tee::oneToTwo = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
+const std::vector<Vec2<int>> Tee::twoToOne = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
+const std::vector<Vec2<int>> Tee::twoToThree = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
+const std::vector<Vec2<int>> Tee::threeToTwo = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
+const std::vector<Vec2<int>> Tee::threeToZero = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
+const std::vector<Vec2<int>> Tee::zeroToThree = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
 
-const std::vector<Vec2<int>> Jay::zeroToOne = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
-const std::vector<Vec2<int>> Jay::oneToZero = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
-const std::vector<Vec2<int>> Jay::oneToTwo = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
-const std::vector<Vec2<int>> Jay::twoToOne = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
-const std::vector<Vec2<int>> Jay::twoToThree = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
-const std::vector<Vec2<int>> Jay::threeToTwo = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
-const std::vector<Vec2<int>> Jay::threeToZero = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
-const std::vector<Vec2<int>> Jay::zeroToThree = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
+const std::vector<Vec2<int>> Jay::zeroToOne = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
+const std::vector<Vec2<int>> Jay::oneToZero = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
+const std::vector<Vec2<int>> Jay::oneToTwo = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
+const std::vector<Vec2<int>> Jay::twoToOne = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
+const std::vector<Vec2<int>> Jay::twoToThree = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
+const std::vector<Vec2<int>> Jay::threeToTwo = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
+const std::vector<Vec2<int>> Jay::threeToZero = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
+const std::vector<Vec2<int>> Jay::zeroToThree = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
 
-const std::vector<Vec2<int>> El::zeroToOne = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
-const std::vector<Vec2<int>> El::oneToZero = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
-const std::vector<Vec2<int>> El::oneToTwo = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
-const std::vector<Vec2<int>> El::twoToOne = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
-const std::vector<Vec2<int>> El::twoToThree = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
-const std::vector<Vec2<int>> El::threeToTwo = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
-const std::vector<Vec2<int>> El::threeToZero = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
-const std::vector<Vec2<int>> El::zeroToThree = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
+const std::vector<Vec2<int>> El::zeroToOne = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
+const std::vector<Vec2<int>> El::oneToZero = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
+const std::vector<Vec2<int>> El::oneToTwo = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
+const std::vector<Vec2<int>> El::twoToOne = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
+const std::vector<Vec2<int>> El::twoToThree = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
+const std::vector<Vec2<int>> El::threeToTwo = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
+const std::vector<Vec2<int>> El::threeToZero = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
+const std::vector<Vec2<int>> El::zeroToThree = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
 
-const std::vector<Vec2<int>> SkewS::zeroToOne = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
-const std::vector<Vec2<int>> SkewS::oneToZero = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
-const std::vector<Vec2<int>> SkewS::oneToTwo = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
-const std::vector<Vec2<int>> SkewS::twoToOne = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
-const std::vector<Vec2<int>> SkewS::twoToThree = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
-const std::vector<Vec2<int>> SkewS::threeToTwo = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
-const std::vector<Vec2<int>> SkewS::threeToZero = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
-const std::vector<Vec2<int>> SkewS::zeroToThree = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
+const std::vector<Vec2<int>> SkewS::zeroToOne = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
+const std::vector<Vec2<int>> SkewS::oneToZero = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
+const std::vector<Vec2<int>> SkewS::oneToTwo = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
+const std::vector<Vec2<int>> SkewS::twoToOne = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
+const std::vector<Vec2<int>> SkewS::twoToThree = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
+const std::vector<Vec2<int>> SkewS::threeToTwo = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
+const std::vector<Vec2<int>> SkewS::threeToZero = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
+const std::vector<Vec2<int>> SkewS::zeroToThree = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
 
-const std::vector<Vec2<int>> SkewZ::zeroToOne = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
-const std::vector<Vec2<int>> SkewZ::oneToZero = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
-const std::vector<Vec2<int>> SkewZ::oneToTwo = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
-const std::vector<Vec2<int>> SkewZ::twoToOne = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
-const std::vector<Vec2<int>> SkewZ::twoToThree = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
-const std::vector<Vec2<int>> SkewZ::threeToTwo = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
-const std::vector<Vec2<int>> SkewZ::threeToZero = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
-const std::vector<Vec2<int>> SkewZ::zeroToThree = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
+const std::vector<Vec2<int>> SkewZ::zeroToOne = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
+const std::vector<Vec2<int>> SkewZ::oneToZero = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
+const std::vector<Vec2<int>> SkewZ::oneToTwo = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
+const std::vector<Vec2<int>> SkewZ::twoToOne = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
+const std::vector<Vec2<int>> SkewZ::twoToThree = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
+const std::vector<Vec2<int>> SkewZ::threeToTwo = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
+const std::vector<Vec2<int>> SkewZ::threeToZero = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
+const std::vector<Vec2<int>> SkewZ::zeroToThree = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
 
 void Tetromino::RotateClockwise()
 {
-	bool canDoOne = true;
-	bool canDoTwo = true;
-	bool canDoThree = true;
-	bool canDoFour = true;
-	bool canDoFive = true;
-	
+	std::vector<bool> canDoX(overloads + 1, true);
+
 	for (int y = 0; y < dimension; y++)
 	{
 		for (int x = 0; x < dimension; x++)
 		{
 			bool cell = false;
 
+			std::cout << "\n rotation" << (int)currentRotation + 1 << "\n";
 			switch ((int)currentRotation + 1)
 			{
 			case 4:
 				cell = shape[y * dimension + x];
+
+				// selecting rotation
+				if (cell)
+				{
+					if (!(boardPos.GetX() + x + 1 > 0)
+						|| !(boardPos.GetX() + x < board.GetWidth())
+						|| !(boardPos.GetY() + y < board.GetHeight())
+						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
+					{
+						canDoX[0] = false;
+					}
+					for (int i = 0; i < overloads; i++)
+					{
+						std::cout << "\ndoing x = " << i + 1 << "\n";
+						std::cout << "\nNEW X = " << boardPos.GetX() + threeToZero[i].GetX() << " AND NEW Y = " << boardPos.GetY() + threeToZero[i].GetY() << "\n";
+						std::cout << " return " << i;
+						if (!(boardPos.GetX() + x + 1 + threeToZero[i].GetX() > 0)
+							|| !(boardPos.GetX() + x + threeToZero[i].GetX() < board.GetWidth())
+							|| !(boardPos.GetY() + y + threeToZero[i].GetY() < board.GetHeight())
+							|| (board.CellExists({ boardPos.GetX() + x + threeToZero[i].GetX() , boardPos.GetY() + y + threeToZero[i].GetY() })))
+						{
+							std::cout << "\nI hate programming: " << i + 1 << "\n";
+							canDoX[i + 1] = false;
+						}
+					}
+				}
 				break;
+
 			case 1:
 				cell = shape[dimension * (dimension - 1) - dimension * x + y];
+				// selecting rotation
+				if (cell)
+				{
+					std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
+					if (!(boardPos.GetX() + x + 1 > 0)
+						|| !(boardPos.GetX() + x < board.GetWidth())
+						|| !(boardPos.GetY() + y < board.GetHeight())
+						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
+					{
+						canDoX[0] = false;
+					}
+					for (int i = 0; i < overloads; i++)
+					{
+						std::cout << " return " << i;
+						if (!(boardPos.GetX() + x + 1 + zeroToOne[i].GetX() > 0)
+							|| !(boardPos.GetX() + x + zeroToOne[i].GetX() < board.GetWidth())
+							|| !(boardPos.GetY() + y + zeroToOne[i].GetY() < board.GetHeight())
+							|| (board.CellExists({ boardPos.GetX() + x + zeroToOne[i].GetX(), boardPos.GetY() + y + zeroToOne[i].GetY() })))
+						{
+							canDoX[i + 1] = false;
+						}
+					}
+				}
 				break;
+
 			case 2:
+				std::cout << "\nnewp" << boardPos.GetX() << " " << boardPos.GetY() << "\n";
+				std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
+
 				cell = shape[(dimension * dimension - 1) - dimension * y - x];
+				// selecting rotation
+				if (cell)
+				{
+					std::cout << "\nnewp" << boardPos.GetX() << " " << boardPos.GetY() << "\n";
+					std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
+					if (!(boardPos.GetX() + x + 1 > 0)
+						|| !(boardPos.GetX() + x < board.GetWidth())
+						|| !(boardPos.GetY() + y < board.GetHeight())
+						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
+					{
+						std::cout << "I'm false at " << x << " " << y << "\n";
+						canDoX[0] = false;
+					}
+					for (int i = 0; i < overloads; i++)
+					{
+						std::cout << " return " << i;
+						if (!(boardPos.GetX() + x + 1 + oneToTwo[i].GetX() > 0)
+							|| !(boardPos.GetX() + x + oneToTwo[i].GetX() < board.GetWidth())
+							|| !(boardPos.GetY() + y + oneToTwo[i].GetY() < board.GetHeight())
+							|| (board.CellExists({ boardPos.GetX() + x + oneToTwo[i].GetX(), boardPos.GetY() + y + oneToTwo[i].GetY() })))
+						{
+							canDoX[i + 1] = false;
+						}
+					}
+				}
 				break;
 			case 3:
 				cell = shape[dimension - 1 * dimension + dimension * x + y];
-				break;
-			}
-
-			if (cell)
-			{
-				std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
-				if (!(boardPos.GetX() + x + 1 > 0) || !(boardPos.GetX() + x < board.GetWidth()))
+				// selecting rotation
+				if (cell)
 				{
-					std::cout << " return ";
-					return;
+					std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
+					if (!(boardPos.GetX() + x + 1 > 0)
+						|| !(boardPos.GetX() + x < board.GetWidth())
+						|| !(boardPos.GetY() + y < board.GetHeight())
+						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
+					{
+						canDoX[0] = false;
+					}
+					for (int i = 0; i < overloads; i++)
+					{
+						std::cout << " return " << i;
+						if (!(boardPos.GetX() + x + 1 + twoToThree[i].GetX() > 0)
+							|| !(boardPos.GetX() + x + twoToThree[i].GetX() < board.GetWidth())
+							|| !(boardPos.GetY() + y + twoToThree[i].GetY() < board.GetHeight())
+							|| (board.CellExists({ boardPos.GetX() + x + twoToThree[i].GetX(), boardPos.GetY() + y + twoToThree[i].GetY() })))
+						{
+							canDoX[i + 1] = false;
+						}
+					}
 				}
+				break;
 			}
 		}
 	}
-	std::cout << "\t rotation" << (int)currentRotation << "\t";
-	currentRotation = Rotation((int(currentRotation) + 1) % 4);
+
+	for (int i = 0; i < overloads + 1; i++)
+	{
+		std::cout << "\n\t" << canDoX[i];
+	}
+
+	switch (((int)currentRotation) + 1)
+	{
+	case 4:
+		// processing rotation
+		if (canDoX[0])
+		{
+			currentRotation = Rotation((int(currentRotation) + 1) % 4);
+			return;
+		}
+		for (int i = 0; i < overloads; i++)
+		{
+			std::cout << "\nze" << threeToZero[i].GetX() << "\t";
+			std::cout << boardPos.GetX() << " bo\n";
+			std::cout << boardPos.GetX() + threeToZero[i].GetX() << " boze\n";
+			if (canDoX[i + 1])
+			{
+				currentRotation = Rotation((int(currentRotation) + 1) % 4);
+				boardPos.SetX(boardPos.GetX() + threeToZero[i].GetX());
+				boardPos.SetY(boardPos.GetY() + threeToZero[i].GetY());
+				std::cout << boardPos.GetX() << "\n";
+				return;
+			}
+		}
+		return;
+	case 1:
+		// processing rotation
+		if (canDoX[0])
+		{
+			currentRotation = Rotation((int(currentRotation) + 1) % 4);
+			return;
+		}
+		for (int i = 0; i < overloads; i++)
+		{
+			if (canDoX[i + 1])
+			{
+				std::cout << "\n\t\t" << zeroToOne[i].GetX() << "\t";
+				std::cout << boardPos.GetX() << "\n";
+				std::cout << boardPos.GetX() + zeroToOne[i].GetX() << "\n";
+				currentRotation = Rotation((int(currentRotation) + 1) % 4);
+				boardPos.SetX(boardPos.GetX() + zeroToOne[i].GetX());
+				boardPos.SetY(boardPos.GetY() + zeroToOne[i].GetY());
+				std::cout << boardPos.GetX() << "\n";
+				return;
+			}
+		}
+		return;
+	case 2:
+		// processing rotation
+		if (canDoX[0])
+		{
+			currentRotation = Rotation((int(currentRotation) + 1) % 4);
+			return;
+		}
+		for (int i = 0; i < overloads; i++)
+		{
+			if (canDoX[i + 1])
+			{
+				std::cout << "\n\t\t" << oneToTwo[i].GetX() << "\t";
+				std::cout << boardPos.GetX() << "\n";
+				std::cout << boardPos.GetX() + oneToTwo[i].GetX() << "\n";
+				currentRotation = Rotation((int(currentRotation) + 1) % 4);
+				boardPos.SetX(boardPos.GetX() + oneToTwo[i].GetX());
+				boardPos.SetY(boardPos.GetY() + oneToTwo[i].GetY());
+				std::cout << boardPos.GetX() << "\n";
+				return;
+			}
+		}
+		return;
+	case 3:
+		// processing rotation
+		if (canDoX[0])
+		{
+			currentRotation = Rotation((int(currentRotation) + 1) % 4);
+			return;
+		}
+		for (int i = 0; i < overloads; i++)
+		{
+			if (canDoX[i + 1])
+			{
+				std::cout << "\n\t\t" << twoToThree[i].GetX() << "\t";
+				std::cout << boardPos.GetX() << "\n";
+				std::cout << boardPos.GetX() + twoToThree[i].GetX() << "\n";
+				currentRotation = Rotation((int(currentRotation) + 1) % 4);
+				boardPos.SetX(boardPos.GetX() + twoToThree[i].GetX());
+				boardPos.SetY(boardPos.GetY() + twoToThree[i].GetY());
+				std::cout << boardPos.GetX() << "\n";
+				return;
+			}
+		}
+		return;
+	}
+	return;
 }
+
 
 void Tetromino::RotateCounterClockwise()
 {
-	std::vector<bool> canDoX(overloads, true);
+	std::vector<bool> canDoX(overloads + 1, true);
 
 	for (int y = 0; y < dimension; y++)
 	{
@@ -158,40 +344,224 @@ void Tetromino::RotateCounterClockwise()
 		{
 			bool cell = false;
 
+			std::cout << "\n rotation" << (int)currentRotation + 3 << "\n";
 			switch ((int)currentRotation + 3)
 			{
 			case 4:
 				cell = shape[y * dimension + x];
 
+				// selecting rotation
 				if (cell)
 				{
-					std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
-
+					if (   !(boardPos.GetX() + x + 1 > 0) 
+						|| !(boardPos.GetX() + x < board.GetWidth())
+						|| !(boardPos.GetY() + y < board.GetHeight())
+						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
+					{
+						canDoX[0] = false;
+					}
 					for (int i = 0; i < overloads; i++)
 					{
+						std::cout << "\ndoing x = " << i + 1 << "\n";
+						std::cout << "\nNEW X = " << boardPos.GetX() + oneToZero[i].GetX() << " AND NEW Y = " << boardPos.GetY() + oneToZero[i].GetY() << "\n";
 						std::cout << " return " << i;
-						if (!(boardPos.GetX() + x + 1 + threeToZero[i].GetX() > 0) || !(boardPos.GetX() + x < board.GetWidth()))
+						if (   !(boardPos.GetX() + x + 1 + oneToZero[i].GetX() > 0) 
+							|| !(boardPos.GetX() + x + oneToZero[i].GetX() < board.GetWidth())
+							|| !(boardPos.GetY() + y + oneToZero[i].GetY() < board.GetHeight())
+							|| (board.CellExists({ boardPos.GetX() + x + oneToZero[i].GetX() , boardPos.GetY() + y + oneToZero[i].GetY() })))
 						{
-							canDoX[i] = false;
+							std::cout << "\nI hate programming: " << i + 1 << "\n";
+							canDoX[i + 1] = false;
 						}
 					}
 				}
-
 				break;
+
 			case 5:
 				cell = shape[dimension * (dimension - 1) - dimension * x + y];
+				// selecting rotation
+				if (cell)
+				{
+					std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
+					if (   !(boardPos.GetX() + x + 1 > 0) 
+						|| !(boardPos.GetX() + x < board.GetWidth())
+						|| !(boardPos.GetY() + y < board.GetHeight())
+						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
+					{
+						canDoX[0] = false;
+					}
+					for (int i = 0; i < overloads; i++)
+					{
+						std::cout << " return " << i;
+						if (   !(boardPos.GetX() + x + 1 + twoToOne[i].GetX() > 0) 
+							|| !(boardPos.GetX() + x + twoToOne[i].GetX() < board.GetWidth())
+							|| !(boardPos.GetY() + y + twoToOne[i].GetY() < board.GetHeight())
+							|| (board.CellExists({ boardPos.GetX() + x + twoToOne[i].GetX(), boardPos.GetY() + y + twoToOne[i].GetY() })))
+						{
+							canDoX[i + 1] = false;
+						}
+					}
+				}
 				break;
+
 			case 6:
+				std::cout << "\nnewp" << boardPos.GetX() << " " << boardPos.GetY() << "\n";
+				std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
+
 				cell = shape[(dimension * dimension - 1) - dimension * y - x];
+				// selecting rotation
+				if (cell)
+				{
+					std::cout << "\nnewp" << boardPos.GetX() << " " << boardPos.GetY() << "\n";
+					std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
+					if (   !(boardPos.GetX() + x + 1 > 0) 
+						|| !(boardPos.GetX() + x < board.GetWidth())
+						|| !(boardPos.GetY() + y < board.GetHeight())
+						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
+					{
+						std::cout << "I'm false at " << x << " " << y << "\n";
+						canDoX[0] = false;
+					}
+					for (int i = 0; i < overloads; i++)
+					{
+						std::cout << " return " << i;
+						if (   !(boardPos.GetX() + x + 1 + threeToTwo[i].GetX() > 0) 
+							|| !(boardPos.GetX() + x + threeToTwo[i].GetX() < board.GetWidth())
+							|| !(boardPos.GetY() + y + threeToTwo[i].GetY() < board.GetHeight())
+							|| (board.CellExists({ boardPos.GetX() + x + threeToTwo[i].GetX(), boardPos.GetY() + y + threeToTwo[i].GetY() })))
+						{
+							canDoX[i + 1] = false;
+						}
+					}
+				}
 				break;
 			case 3:
 				cell = shape[dimension - 1 * dimension + dimension * x + y];
+				// selecting rotation
+				if (cell)
+				{
+					std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
+					if (   !(boardPos.GetX() + x + 1 > 0) 
+						|| !(boardPos.GetX() + x < board.GetWidth())
+						|| !(boardPos.GetY() + y < board.GetHeight())
+						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
+					{
+						canDoX[0] = false;
+					}
+					for (int i = 0; i < overloads; i++)
+					{
+						std::cout << " return " << i;
+						if (   !(boardPos.GetX() + x + 1 + zeroToThree[i].GetX() > 0) 
+							|| !(boardPos.GetX() + x + zeroToThree[i].GetX() < board.GetWidth())
+							|| !(boardPos.GetY() + y + zeroToThree[i].GetY() < board.GetHeight())
+							|| (board.CellExists({ boardPos.GetX() + x + zeroToThree[i].GetX(), boardPos.GetY() + y + zeroToThree[i].GetY() })))
+						{
+							canDoX[i + 1] = false;
+						}
+					}
+				}
 				break;
 			}
 		}
 	}
-	std::cout << "\t rotation" << (int)currentRotation << "\t";
-	currentRotation = Rotation((int(currentRotation) + 3) % 4);
+
+	for (int i = 0; i < overloads + 1; i++)
+	{
+		std::cout << "\n\t" << canDoX[i];
+	}
+
+	switch (((int)currentRotation) + 3)
+	{
+	case 4:
+		// processing rotation
+		if (canDoX[0])
+		{
+			currentRotation = Rotation((int(currentRotation) + 3) % 4);
+			return;
+		}
+		for (int i = 0; i < overloads; i++)
+		{
+			std::cout << "\nze" << oneToZero[i].GetX() << "\t";
+			std::cout << boardPos.GetX() << " bo\n";
+			std::cout << boardPos.GetX() + oneToZero[i].GetX() << " boze\n";
+			if (canDoX[i + 1])
+			{
+				currentRotation = Rotation((int(currentRotation) + 3) % 4);
+				boardPos.SetX(boardPos.GetX() + oneToZero[i].GetX());
+				boardPos.SetY(boardPos.GetY() + oneToZero[i].GetY());
+				std::cout << boardPos.GetX() << "\n";
+				return;
+			}
+		}
+		return;
+	case 5:
+		// processing rotation
+		if (canDoX[0])
+		{
+			currentRotation = Rotation((int(currentRotation) + 3) % 4);
+			return;
+		}
+		for (int i = 0; i < overloads; i++)
+		{
+			if (canDoX[i + 1])
+			{
+				std::cout << "\n\t\t" << twoToOne[i].GetX() << "\t";
+				std::cout << boardPos.GetX() << "\n";
+				std::cout << boardPos.GetX() + twoToOne[i].GetX() << "\n";
+				currentRotation = Rotation((int(currentRotation) + 3) % 4);
+				boardPos.SetX(boardPos.GetX() + twoToOne[i].GetX());
+				boardPos.SetY(boardPos.GetY() + twoToOne[i].GetY());
+				std::cout << boardPos.GetX() << "\n";
+				return;
+			}
+		}
+		return;
+	case 6:
+		// processing rotation
+		if (canDoX[0])
+		{
+			currentRotation = Rotation((int(currentRotation) + 3) % 4);
+			return;
+		}
+		for (int i = 0; i < overloads; i++)
+		{
+			if (canDoX[i + 1])
+			{
+				std::cout << "\n\t\t" << threeToTwo[i].GetX() << "\t";
+				std::cout << boardPos.GetX() << "\n";
+				std::cout << boardPos.GetX() + threeToTwo[i].GetX() << "\n";
+				currentRotation = Rotation((int(currentRotation) + 3) % 4);
+				boardPos.SetX(boardPos.GetX() + threeToTwo[i].GetX());
+				boardPos.SetY(boardPos.GetY() + threeToTwo[i].GetY());
+				std::cout << boardPos.GetX() << "\n";
+				return;
+			}
+		}
+		return;
+	case 3:
+		// processing rotation
+		if (canDoX[0])
+		{
+			currentRotation = Rotation((int(currentRotation) + 3) % 4);
+			return;
+		}
+		for (int i = 0; i < overloads; i++)
+		{
+			if (canDoX[i + 1])
+			{
+				std::cout << "\n\t\t" << zeroToThree[i].GetX() << "\t";
+				std::cout << boardPos.GetX() << "\n";
+				std::cout << boardPos.GetX() + zeroToThree[i].GetX() << "\n";
+				currentRotation = Rotation((int(currentRotation) + 3) % 4);
+				boardPos.SetX(boardPos.GetX() + zeroToThree[i].GetX());
+				boardPos.SetY(boardPos.GetY() + zeroToThree[i].GetY());
+				std::cout << boardPos.GetX() << "\n";
+				return;
+			}
+		}
+		return;
+	}
+	return;
 }
 
 void Tetromino::RotateFull()
@@ -464,7 +834,7 @@ Tetromino Tetromino::SelectRandomPiece(Board& board)
 	int val = rand()%7;
 	std::cout << "\ngenerated new piece" << val;
 	return Straight(board);
-	/*switch (val)
+	switch (val)
 	{
 	case 0:
 		return SkewZ(board);
@@ -480,5 +850,5 @@ Tetromino Tetromino::SelectRandomPiece(Board& board)
 		return El(board);
 	case 6:
 		return Tee(board);
-	}*/
+	}
 }

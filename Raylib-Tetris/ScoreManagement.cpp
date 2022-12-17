@@ -1,5 +1,6 @@
 #include "ScoreManagement.h"
 #include "raylibCpp.h"
+#include "Settings.h"
 #include <string>
 
 ScoreManagement::ScoreManagement():
@@ -14,7 +15,7 @@ void ScoreManagement::IncreaseScore(int increase)
 
 void ScoreManagement::DrawScore() const
 {
-	DrawText(TextFormat("Score: %d", score), 500, 50, 60, VIOLET);
+	DrawText(TextFormat("Score: %08i", score), settings::scoreCounterPosition.GetX(), settings::scoreCounterPosition.GetY(), settings::scoreCounterSize, VIOLET);
 }
 
 int ScoreManagement::GetScore() const

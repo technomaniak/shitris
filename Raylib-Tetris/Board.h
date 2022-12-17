@@ -30,7 +30,9 @@ public:
 	void DrawCell(Vec2<int> pos, Color color) const;
 	void DrawBorder() const;
 	void DrawBoardGrid() const;
+	void DrawBoard() const;
 	void Draw() const;
+	void DrawLevel() const;
 	std::vector<int> CheckForLines();
 	void ClearLines();
 	bool CellExists(Vec2<int> pos) const;
@@ -40,12 +42,13 @@ public:
 
 private:
 	std::vector<Cell> cells;
-	const int width;
-	const int height;
-	const int cellSize;
-	const int padding;
+	int width;
+	int height;
+	int cellSize;
+	int padding;
 	Vec2<int> screenPos;
 	int speed;
+	int level;
 
 	ScoreManagement score;
 }; 

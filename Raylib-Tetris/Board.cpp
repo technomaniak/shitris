@@ -41,7 +41,8 @@ Board::Board(Vec2<int> screenPos, Vec2<int> widhtHeight, int cellSize_in, int pa
 	height(widhtHeight.GetY()),
 	cellSize(cellSize_in),
 	padding(padding),
-	speed(0)
+	speed(0),
+	level(0)
 {
 	assert(width > 0 && height > 0); // checking if the width and height are larger than 0;
 	assert(cellSize > 0); // checking if cells aren't too small
@@ -81,23 +82,40 @@ void Board::DrawCell(Vec2<int> pos, Color color) const
 
 void Board::DrawBorder() const
 {
-	raycpp::DrawRectangleLinesEx(screenPos - (cellSize / 2)-2, Vec2{ width * cellSize, height * cellSize } + cellSize+1, cellSize / 2, WHITE);
+	raycpp::DrawRectangleLinesEx(screenPos - (cellSize / 2)-4, Vec2{ width * cellSize, height * cellSize } + cellSize + 2, cellSize / 2, Color{ 0, 0, 0, 106 });
 }
 
 void Board::DrawBoardGrid() const
 {
-	//for (int y = 0; y <= GetWidth(); y++)
-	//{
-	//	DrawLine(settings::boardPosition.GetX() - 1 + (y * settings::cellSize),
-	//		settings::boardPosition.GetY(),
-	//		settings::boardPosition.GetX() + (y * settings::cellSize),
-	//		settings::boardPosition.GetY() + (settings::boardWidthHeight.GetY() * settings::cellSize),
-	//		Color{ 102, 191, 255, 255 });
-	//}
+	for (int y = 1; y < GetWidth(); y++)
+	{
+		DrawLine(settings::boardPosition.GetX() - 2 + (y * settings::cellSize),
+				 settings::boardPosition.GetY() + 2,
+				 settings::boardPosition.GetX() - 2 + (y * settings::cellSize),
+				 settings::boardPosition.GetY() - 5 + (settings::boardWidthHeight.GetY() * settings::cellSize),
+			     Color{ 102, 191, 255, 55 });
+	}
+	for (int x = 1; x < GetHeight(); x++)
+	{
+		DrawLine(settings::boardPosition.GetX(),
+				 settings::boardPosition.GetY() - 2 + (x * settings::cellSize),
+				 settings::boardPosition.GetX() - 5 + (settings::boardWidthHeight.GetX() * settings::cellSize),
+				 settings::boardPosition.GetY() - 2 + (x * settings::cellSize),
+				 Color{ 102, 191, 255, 55 });
+	}
+}
+
+void Board::DrawBoard() const
+{
+	raycpp::DrawRectangle(screenPos - (cellSize / 2) - 4, Vec2{ width * cellSize, height * cellSize } + cellSize + 2, Color{ 0, 0, 0, 56 });
 }
 
 void Board::Draw() const
 {
+	DrawBoard();
+	DrawBorder();
+	DrawBoardGrid();
+	DrawLevel();
 	for (int iY = 0; iY < height; iY++)
 	{
 		for (int iX = 0; iX < width; iX++)
@@ -108,9 +126,12 @@ void Board::Draw() const
 			}
 		}
 	}
-	DrawBorder();
-	DrawBoardGrid();
 	score.DrawScore();
+}
+
+void Board::DrawLevel() const
+{
+	DrawText(TextFormat("Level: %d", level), settings::levelCounterPosition.GetX(), settings::levelCounterPosition.GetY(), settings::levelCounterSize, PURPLE);
 }
 
 std::vector<int> Board::CheckForLines()
@@ -154,28 +175,33 @@ void Board::ClearLines()
 	switch (toRemove.size())
 	{
 	case 1:
-		score.IncreaseScore(40);
+		score.IncreaseScore(40 * (level + 1));
 		break;
 	case 2:
-		score.IncreaseScore(100);
+		score.IncreaseScore(100 * (level + 1));
 		break;
 	case 3:
-		score.IncreaseScore(300);
+		score.IncreaseScore(300 * (level + 1));
 		break;
 	case 4:
-		score.IncreaseScore(1200);
+		score.IncreaseScore(1200 * (level + 1));
 		break;
 	}
-	if (score.GetScore() > speed * 10)
+	if (score.GetScore() > level * level * 1500)
 	{
-		speed += 20;
+		speed += 3;
+		level += 1;
 	}
 }
 
 bool Board::CellExists(Vec2<int> pos) const
 {
+	if (pos.GetX() >= 0 && pos.GetX() < width && pos.GetY() >= 0 && pos.GetY() < height)
+	{
+		return cells[pos.GetY() * width + pos.GetX()].Exists();
+	}
+	return false;
 	assert(pos.GetX() >= 0 && pos.GetX() < width && pos.GetY() >= 0 && pos.GetY() < height); // check if cell pos is valid
-	return cells[pos.GetY() * width + pos.GetX()].Exists();
 }
 
 int Board::GetWidth() const
