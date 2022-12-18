@@ -23,7 +23,7 @@ private:
 	};
 
 public:
-	Board(Vec2<int> screenPos, Vec2<int> widhtHeight, int cellSize_in, int padding);
+	Board(Vec2<int> screenPos, int cellSize_in, int padding);
 	void SetCell(Vec2<int> pos, Color c);
 	void MoveCell(Vec2<int> posOld, Vec2<int> posNew);
 	void DrawCell(Vec2<int> pos) const;
@@ -31,6 +31,7 @@ public:
 	void DrawBorder() const;
 	void DrawBoardGrid() const;
 	void DrawBoard() const;
+	void DrawTimerLine() const;
 	void Draw() const;
 	void DrawLevel() const;
 	std::vector<int> CheckForLines();
@@ -39,6 +40,8 @@ public:
 	int GetWidth() const;
 	int GetHeight() const;
 	int GetSpeed() const;
+
+	void SetSize(Vec2<int> widthHei);
 
 private:
 	std::vector<Cell> cells;

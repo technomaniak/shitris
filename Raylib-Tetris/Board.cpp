@@ -34,16 +34,17 @@ Color Board::Cell::GetColor() const
 	return c;
 }
 
-Board::Board(Vec2<int> screenPos, Vec2<int> widhtHeight, int cellSize_in, int padding)
+Board::Board(Vec2<int> screenPos, int cellSize_in, int padding)
 	:
 	screenPos(screenPos),
-	width(widhtHeight.GetX()),
-	height(widhtHeight.GetY()),
 	cellSize(cellSize_in),
+	width(settings::boardWidthHeight.GetX()),
+	height(settings::boardWidthHeight.GetY()),
 	padding(padding),
 	speed(0),
 	level(0)
 {
+	std::cout << "doing board";
 	assert(width > 0 && height > 0); // checking if the width and height are larger than 0;
 	assert(cellSize > 0); // checking if cells aren't too small
 	cells.resize(width * height);
@@ -61,8 +62,8 @@ void Board::MoveCell(Vec2<int> posOld, Vec2<int> posNew)
 {
 	if (CellExists(posOld))
 	{
-		SetCell(posNew, cells[posOld.GetX() + (posOld.GetY() * 10)].GetColor());
-		cells[posOld.GetX() + (posOld.GetY() * 10)].Remove();
+		SetCell(posNew, cells[posOld.GetX() + (posOld.GetY() * GetWidth())].GetColor());
+		cells[posOld.GetX() + (posOld.GetY() * GetWidth())].Remove();
 	}
 }
 
@@ -110,12 +111,18 @@ void Board::DrawBoard() const
 	raycpp::DrawRectangle(screenPos - (cellSize / 2) - 4, Vec2{ width * cellSize, height * cellSize } + cellSize + 2, Color{ 0, 0, 0, 56 });
 }
 
+void Board::DrawTimerLine() const
+{
+	raycpp::DrawRectangle({ screenPos.GetX() - 4 - cellSize / 2, screenPos.GetY() + 25 + (cellSize * height) }, { (cellSize * width) + 2 + cellSize, 10 }, Color{ 255, 255, 255, 55 });
+}
+
 void Board::Draw() const
 {
 	DrawBoard();
 	DrawBorder();
 	DrawBoardGrid();
 	DrawLevel();
+	DrawTimerLine();
 	for (int iY = 0; iY < height; iY++)
 	{
 		for (int iX = 0; iX < width; iX++)
@@ -164,7 +171,7 @@ void Board::ClearLines()
 	{
 		for (int x = 0; x < width; x++) // removing cells loop
 		{
-			cells[ x + (toRemove[y] * 10) ].Remove();
+			cells[ x + (toRemove[y] * GetWidth()) ].Remove();
 
 			for (int yDos = toRemove[y]; yDos > 0; yDos--)
 			{
@@ -217,4 +224,10 @@ int Board::GetHeight() const
 int Board::GetSpeed() const
 {
 	return speed;
+}
+
+void Board::SetSize(Vec2<int> widthHei)
+{
+	width = widthHei.GetX();
+	height = widthHei.GetY();
 }

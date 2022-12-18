@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="raylibCpp.cpp" />
     <ClCompile Include="ScoreManagement.cpp" />
@@ -157,6 +158,7 @@
   <ItemGroup>
     <ClInclude Include="Board.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="ScoreManagement.h" />
     <ClInclude Include="Tetrominoes.h" />
     <ClInclude Include="Settings.h" />
@@ -164,6 +166,7 @@
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Default.board" />
     <None Include="El.tetromino" />
     <None Include="Jay.tetromino" />
     <None Include="SkewS.tetromino" />

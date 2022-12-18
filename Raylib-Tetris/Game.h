@@ -2,6 +2,7 @@
 #include <string>
 #include "Board.h"
 #include "Tetrominoes.h"
+#include "InputManager.h"
 
 class Game
 {
@@ -15,14 +16,17 @@ public:
 	void Tick();
 
 private:
+	Board board;
+	Tetromino tetromino;
+	InputManager inputManager;
+
 	void Draw();
 	void Update();
+	void SelectRandomPiece(Tetromino &tetromino);
 
 	int counter;
 	int counterDos;
 	int counterTres;
 	bool moved;
 
-	Board board;
-	Tetromino tetromino;
 };

@@ -1,20 +1,29 @@
 #include "Game.h"
 #include "raylibCpp.h"
 #include "Settings.h"
+#include "Board.h"
 #include <assert.h>
 #include <iostream>
+#include "InputManager.h"
 
 Game::Game(int width, int height, int fps, std::string title)
 	:
-	board(settings::boardPosition, settings::boardWidthHeight, settings::cellSize, settings::padding),
-	tetromino(Tetromino::SelectRandomPiece(board)),
+	board(settings::boardPosition, settings::cellSize, settings::padding),
+	tetromino(Tetromino(board)),
 	counter(0),
 	counterDos(0),
 	counterTres(0),
+	inputManager(InputManager()),
 	moved(false)
 {
 	assert(!IsWindowReady()); // if triggered game is already open.
-	SetConfigFlags(FLAG_FULLSCREEN_MODE);
+
+	std::cout << "Loading Board";
+	inputManager.LoadBoard("Default", board);
+	std::cout << "Board Loaded";
+	SelectRandomPiece(tetromino);
+	std::cout << "Tetromino Loaded";
+	//SetConfigFlags(FLAG_FULLSCREEN_MODE);
 	InitWindow(width, height, title.c_str());
 	SetTargetFPS(fps);
 }
@@ -48,6 +57,14 @@ void Game::Draw()
 
 void Game::Update()
 {
+	if (tetromino.GetFallen())
+	{
+		SelectRandomPiece(tetromino);
+		std::cout << "\nrandom piece selected ";
+		tetromino.SetPos({ board.GetWidth() / 2 - tetromino.GetDimension() / 2, 0 });
+		tetromino.SetFallen(false);
+	}
+
 	if (IsKeyDown(KEY_LEFT))
 	{
 		counterDos++;
@@ -170,10 +187,17 @@ void Game::Update()
 	board.ClearLines();
 	counter += board.GetSpeed() + 1;
 	tetromino.DebugNum();
-
+	
 	if (counter >= 60)
 	{
 		tetromino.Fall();
 		counter = 0;
 	}
 }
+
+void Game::SelectRandomPiece(Tetromino &tetromino)
+{
+	srand(time(NULL));
+	inputManager.LoadTetromino(rand() % 7, tetromino);
+}
+

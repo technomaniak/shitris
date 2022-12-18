@@ -42,6 +42,9 @@
     <ClCompile Include="ScoreManagement.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -63,6 +66,9 @@
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="ScoreManagement.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>
@@ -87,6 +93,9 @@
     </None>
     <None Include="Tee.tetromino">
       <Filter>Pliki zasobów\Default\tetrominoes</Filter>
+    </None>
+    <None Include="Default.board">
+      <Filter>Pliki zasobów\Default\board</Filter>
     </None>
   </ItemGroup>
 </Project>
