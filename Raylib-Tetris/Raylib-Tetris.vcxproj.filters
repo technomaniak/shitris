@@ -97,5 +97,14 @@
     <None Include="Default.board">
       <Filter>Pliki zasobów\Default\board</Filter>
     </None>
+    <None Include="squomino.board">
+      <Filter>Pliki zasobów\Default\board</Filter>
+    </None>
+    <None Include="cock.board">
+      <Filter>Pliki zasobów\Default\board</Filter>
+    </None>
+    <None Include="test.board">
+      <Filter>Pliki zasobów\Default\board</Filter>
+    </None>
   </ItemGroup>
 </Project>

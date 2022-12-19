@@ -75,33 +75,65 @@ void Board::DrawCell(Vec2<int> pos) const
 
 void Board::DrawCell(Vec2<int> pos, Color color) const
 {
-	assert(pos.GetX() >= 0 && pos.GetX() < width && pos.GetY() >= 0 && pos.GetY() < height); // check if cell pos is valid
 	Vec2<int> topLeft = screenPos + (pos * cellSize);
+
+	raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize } - padding, color);
+}
+
+void Board::DrawFutureCell(Vec2<int> pos, Color color) const
+{
+	Vec2<int> topLeft = { screenPos.GetX() + 20 + (pos.GetX() * cellSize), screenPos.GetY() + 25 + (pos.GetY() * cellSize) };
 
 	raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize } - padding, color);
 }
 
 void Board::DrawBorder() const
 {
-	raycpp::DrawRectangleLinesEx(screenPos - (cellSize / 2)-4, Vec2{ width * cellSize, height * cellSize } + cellSize + 2, cellSize / 2, Color{ 0, 0, 0, 106 });
+	raycpp::DrawRectangleLinesEx(screenPos - (cellSize / 2) - 4, Vec2{ width * cellSize, height * cellSize } + cellSize + 2, cellSize / 2, Color{ 0, 0, 0, 106 });
+}
+
+void Board::DrawFutureBorder(Vec2<int> pos, Vec2<int> size) const
+{
+	raycpp::DrawRectangleLinesEx(pos, size, cellSize / 2, Color{ 0, 0, 0, 106 });
+}
+
+
+void Board::DrawFutureBoardGrid(Vec2<int> pos, int amount) const
+{
+	for (int y = 1; y < 6; y++)
+	{
+		DrawLine(pos.GetX() - 2 + (y * cellSize),
+			pos.GetY() + 2 + (cellSize / 2) - 2,
+			pos.GetX() - 2 + (y * cellSize),
+			pos.GetY() - 5 + (amount * 4 * cellSize) - (cellSize / 2),
+			Color{ 102, 191, 255, 55 });
+	}
+	for (int x = 1; x < amount * 4; x++)
+	{
+		DrawLine(pos.GetX() + (cellSize / 2),
+			pos.GetY() - 2 + (x * cellSize),
+			pos.GetX() - 5 + (5 * cellSize) + (cellSize / 2),
+			pos.GetY() - 2 + (x * cellSize),
+			Color{ 102, 191, 255, 55 });
+	}
 }
 
 void Board::DrawBoardGrid() const
 {
 	for (int y = 1; y < GetWidth(); y++)
 	{
-		DrawLine(settings::boardPosition.GetX() - 2 + (y * settings::cellSize),
+		DrawLine(settings::boardPosition.GetX() - 2 + (y * cellSize),
 				 settings::boardPosition.GetY() + 2,
-				 settings::boardPosition.GetX() - 2 + (y * settings::cellSize),
-				 settings::boardPosition.GetY() - 5 + (settings::boardWidthHeight.GetY() * settings::cellSize),
+				 settings::boardPosition.GetX() - 2 + (y * cellSize),
+				 settings::boardPosition.GetY() - 5 + (settings::boardWidthHeight.GetY() * cellSize),
 			     Color{ 102, 191, 255, 55 });
 	}
 	for (int x = 1; x < GetHeight(); x++)
 	{
 		DrawLine(settings::boardPosition.GetX(),
-				 settings::boardPosition.GetY() - 2 + (x * settings::cellSize),
-				 settings::boardPosition.GetX() - 5 + (settings::boardWidthHeight.GetX() * settings::cellSize),
-				 settings::boardPosition.GetY() - 2 + (x * settings::cellSize),
+				 settings::boardPosition.GetY() - 2 + (x * cellSize),
+				 settings::boardPosition.GetX() - 5 + (settings::boardWidthHeight.GetX() * cellSize),
+				 settings::boardPosition.GetY() - 2 + (x * cellSize),
 				 Color{ 102, 191, 255, 55 });
 	}
 }
@@ -109,6 +141,11 @@ void Board::DrawBoardGrid() const
 void Board::DrawBoard() const
 {
 	raycpp::DrawRectangle(screenPos - (cellSize / 2) - 4, Vec2{ width * cellSize, height * cellSize } + cellSize + 2, Color{ 0, 0, 0, 56 });
+}
+
+void Board::DrawFutureBoard(Vec2<int> pos, Vec2<int> size) const
+{
+	raycpp::DrawRectangle(pos, size, Color{ 0, 0, 0, 56 });
 }
 
 void Board::DrawTimerLine() const
@@ -138,7 +175,7 @@ void Board::Draw() const
 
 void Board::DrawLevel() const
 {
-	DrawText(TextFormat("Level: %d", level), settings::levelCounterPosition.GetX(), settings::levelCounterPosition.GetY(), settings::levelCounterSize, PURPLE);
+	DrawText(TextFormat("Level: \n%02i", level), settings::levelCounterPosition.GetX(), settings::levelCounterPosition.GetY(), settings::levelCounterSize, PURPLE);
 }
 
 std::vector<int> Board::CheckForLines()
@@ -194,9 +231,9 @@ void Board::ClearLines()
 		score.IncreaseScore(1200 * (level + 1));
 		break;
 	}
-	if (score.GetScore() > level * level * 1500)
+	if (score.GetScore() >  (level + 1) * (level + 1) * 1500)
 	{
-		speed += 3;
+		speed += 1;
 		level += 1;
 	}
 }
@@ -224,6 +261,16 @@ int Board::GetHeight() const
 int Board::GetSpeed() const
 {
 	return speed;
+}
+
+Vec2<int> Board::GetScreenPos() const
+{
+	return screenPos;
+}
+
+int Board::GetCellSize() const
+{
+	return cellSize;
 }
 
 void Board::SetSize(Vec2<int> widthHei)

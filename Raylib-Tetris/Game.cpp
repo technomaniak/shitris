@@ -10,6 +10,7 @@ Game::Game(int width, int height, int fps, std::string title)
 	:
 	board(settings::boardPosition, settings::cellSize, settings::padding),
 	tetromino(Tetromino(board)),
+	futureMino(Tetromino(board)),
 	counter(0),
 	counterDos(0),
 	counterTres(0),
@@ -19,10 +20,16 @@ Game::Game(int width, int height, int fps, std::string title)
 	assert(!IsWindowReady()); // if triggered game is already open.
 
 	std::cout << "Loading Board";
-	inputManager.LoadBoard("Default", board);
+	inputManager.LoadBoard("test", board);
 	std::cout << "Board Loaded";
-	SelectRandomPiece(tetromino);
+	tetrominoesList.resize(inputManager.GetTetrominoePreviewAmount());
+	for (int i = 0; i < inputManager.GetTetrominoePreviewAmount(); i++)
+	{
+		tetrominoesList[i] = SelectRandomPiece();
+	}
 	std::cout << "Tetromino Loaded";
+	srand(time(NULL));
+
 	//SetConfigFlags(FLAG_FULLSCREEN_MODE);
 	InitWindow(width, height, title.c_str());
 	SetTargetFPS(fps);
@@ -52,6 +59,7 @@ void Game::Draw()
 	DrawRectangleGradientV(0, 0, settings::screenWidth, settings::screenHeight, Color{ 33,1,0,255 }, Color{ 14,42,1,255 });
 	board.Draw();
 	tetromino.Draw();
+	DrawFuturePieces();
 	DrawFPS(0, 0);
 }
 
@@ -59,7 +67,9 @@ void Game::Update()
 {
 	if (tetromino.GetFallen())
 	{
-		SelectRandomPiece(tetromino);
+		inputManager.LoadTetromino(tetrominoesList[0], tetromino);
+		tetrominoesList.erase(tetrominoesList.begin());
+		tetrominoesList.push_back(SelectRandomPiece());
 		std::cout << "\nrandom piece selected ";
 		tetromino.SetPos({ board.GetWidth() / 2 - tetromino.GetDimension() / 2, 0 });
 		tetromino.SetFallen(false);
@@ -163,7 +173,7 @@ void Game::Update()
 			counter = 0;
 		}
 	}
-	if (IsKeyPressed(KEY_C))
+	if (IsKeyPressed(KEY_W))
 	{
 		if (tetromino.IsBottom())
 		{
@@ -195,9 +205,40 @@ void Game::Update()
 	}
 }
 
-void Game::SelectRandomPiece(Tetromino &tetromino)
+int Game::SelectRandomPiece() const
 {
-	srand(time(NULL));
-	inputManager.LoadTetromino(rand() % 7, tetromino);
+	return rand() % inputManager.GetTetrominoAmount();
+}
+
+void Game::DrawFuturePieces()
+{
+	for (int z = 0; z < inputManager.GetTetrominoePreviewAmount(); z++)
+	{
+		inputManager.LoadTetromino(tetrominoesList[z], futureMino);
+		std::vector<bool> shape(futureMino.GetDimension() * futureMino.GetDimension());
+		Vec2<int> pos = { settings::boardWidthHeight.GetX() + 3, ( z * 4 )};
+		for (int y = 0; y < futureMino.GetDimension(); y++)
+		{
+			for (int x = 0; x < futureMino.GetDimension(); x++)
+			{
+				bool cell = false;
+
+				shape = futureMino.GetShape();
+				cell = shape[y * futureMino.GetDimension() + x];
+
+				if (cell)
+				{
+					board.DrawFutureCell(pos + Vec2<int>{x, y}, futureMino.GetColor());
+				}
+			}
+		}
+
+	}
+	
+	board.DrawFutureBoard({ ((settings::boardWidthHeight.GetX() + 8) * board.GetCellSize()), board.GetScreenPos().GetY() - 20 },
+						  { (5 * board.GetCellSize()) + board.GetCellSize() - 6, (inputManager.GetTetrominoePreviewAmount() * board.GetCellSize() * 4) - 5 });
+	board.DrawFutureBorder({ ((settings::boardWidthHeight.GetX() + 8) * board.GetCellSize()), board.GetScreenPos().GetY() - 20 },
+						   { (5 * board.GetCellSize()) + board.GetCellSize() - 6, (inputManager.GetTetrominoePreviewAmount() * board.GetCellSize() * 4) - 5 });
+	board.DrawFutureBoardGrid({ ((settings::boardWidthHeight.GetX() + 8) * board.GetCellSize()), board.GetScreenPos().GetY() - 20 }, inputManager.GetTetrominoePreviewAmount());
 }
 

@@ -770,7 +770,6 @@ bool Tetromino::IsBottom()
 
 void Tetromino::Draw() const
 {
-
 	for (int y = 0; y < dimension; y++)
 	{
 		for (int x = 0; x < dimension; x++) 

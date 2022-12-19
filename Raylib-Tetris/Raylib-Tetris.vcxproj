@@ -166,14 +166,17 @@
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="cock.board" />
     <None Include="Default.board" />
     <None Include="El.tetromino" />
     <None Include="Jay.tetromino" />
     <None Include="SkewS.tetromino" />
     <None Include="SkewZ.tetromino" />
     <None Include="Square.tetromino" />
+    <None Include="squomino.board" />
     <None Include="Straight.tetromino" />
     <None Include="Tee.tetromino" />
+    <None Include="test.board" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

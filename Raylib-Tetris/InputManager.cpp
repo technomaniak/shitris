@@ -5,7 +5,8 @@
 #include "Board.h"
 
 InputManager::InputManager():
-	tetrominoes()
+	tetrominoes(),
+	tetrominoePreviewAmount()
 {
 
 }
@@ -40,14 +41,20 @@ void InputManager::LoadBoard(std::string boardName, Board &board)
 	}
 
 	// getting pieces
+	
 	std::getline(inputFile, input);
-	int loopIg = std::stoi(input);
-	for (int i = 0; i < loopIg; i++)
+	tetrominoeAmount = std::stoi(input);
+	for (int i = 0; i < tetrominoeAmount; i++)
 	{
 		std::getline(inputFile, input);
 		tetrominoes.push_back(Tetromino(board));
 		LoadTetrominoToFile(input, i);
 	}
+
+	// getting amount of preview
+
+	std::getline(inputFile, input);
+	tetrominoePreviewAmount = std::stoi(input);
 }
 
 void InputManager::LoadTetromino(int index, Tetromino &tetromino)
@@ -64,6 +71,16 @@ void InputManager::LoadTetromino(int index, Tetromino &tetromino)
 	tetromino.SetThreeToZero(tetrominoes[index].GetThreeToZero());
 	tetromino.SetTwoToThree(tetrominoes[index].GetTwoToThree());
 	tetromino.SetThreeToTwo(tetrominoes[index].GetThreeToTwo());
+}
+
+int InputManager::GetTetrominoePreviewAmount() const
+{
+	return tetrominoePreviewAmount;
+}
+
+int InputManager::GetTetrominoAmount() const
+{
+	return tetrominoeAmount;
 }
 
 void InputManager::LoadTetrominoToFile(std::string fileName, int index)

@@ -12,12 +12,12 @@ namespace settings
     // Board settings
     inline constexpr int cellSize = 45;
     inline constexpr int padding = 5;
-    inline constexpr Vec2<int> boardPosition { 250, 70 };  // 250 70
+    inline constexpr Vec2<int> boardPosition { 250, 100 };  // 250 70
     inline Vec2<int> boardWidthHeight { 10, 20 };
 
     // Score/Level settings
-    inline constexpr Vec2<int> scoreCounterPosition{ 800, 100 };
+    inline constexpr Vec2<int> scoreCounterPosition{ 1220, 100 };
     inline constexpr int scoreCounterSize = 92;
-    inline constexpr Vec2<int> levelCounterPosition{ 800, 200 };
+    inline constexpr Vec2<int> levelCounterPosition{ 1220, 375 };
     inline constexpr int levelCounterSize = 80;
 }

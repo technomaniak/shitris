@@ -28,9 +28,13 @@ public:
 	void MoveCell(Vec2<int> posOld, Vec2<int> posNew);
 	void DrawCell(Vec2<int> pos) const;
 	void DrawCell(Vec2<int> pos, Color color) const;
+	void DrawFutureCell(Vec2<int> pos, Color color) const;
 	void DrawBorder() const;
+	void DrawFutureBorder(Vec2<int> pos, Vec2<int> size) const;
 	void DrawBoardGrid() const;
+	void DrawFutureBoardGrid(Vec2<int> pos, int amount) const;
 	void DrawBoard() const;
+	void DrawFutureBoard(Vec2<int> pos, Vec2<int> size) const;
 	void DrawTimerLine() const;
 	void Draw() const;
 	void DrawLevel() const;
@@ -40,6 +44,8 @@ public:
 	int GetWidth() const;
 	int GetHeight() const;
 	int GetSpeed() const;
+	Vec2<int> GetScreenPos() const;
+	int GetCellSize() const;
 
 	void SetSize(Vec2<int> widthHei);
 

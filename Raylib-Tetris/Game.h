@@ -18,15 +18,19 @@ public:
 private:
 	Board board;
 	Tetromino tetromino;
+	Tetromino futureMino;
 	InputManager inputManager;
 
 	void Draw();
 	void Update();
-	void SelectRandomPiece(Tetromino &tetromino);
+	int SelectRandomPiece() const;
+	void DrawFuturePieces();
 
 	int counter;
 	int counterDos;
 	int counterTres;
+	std::vector<int> tetrominoesList;
+	int holdPiece;
 	bool moved;
 
 };

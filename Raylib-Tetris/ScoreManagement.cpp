@@ -15,7 +15,7 @@ void ScoreManagement::IncreaseScore(int increase)
 
 void ScoreManagement::DrawScore() const
 {
-	DrawText(TextFormat("Score: %08i", score), settings::scoreCounterPosition.GetX(), settings::scoreCounterPosition.GetY(), settings::scoreCounterSize, VIOLET);
+	DrawText(TextFormat("Score: \n%08i", score), settings::scoreCounterPosition.GetX(), settings::scoreCounterPosition.GetY(), settings::scoreCounterSize, VIOLET);
 }
 
 int ScoreManagement::GetScore() const
