@@ -6,7 +6,9 @@
 
 InputManager::InputManager():
 	tetrominoes(),
-	tetrominoePreviewAmount()
+	tetrominoePreviewAmount(),
+	tetrominoeAmount(),
+	held(-1)
 {
 
 }
@@ -73,7 +75,7 @@ void InputManager::LoadTetromino(int index, Tetromino &tetromino)
 	tetromino.SetThreeToTwo(tetrominoes[index].GetThreeToTwo());
 }
 
-int InputManager::GetTetrominoePreviewAmount() const
+int InputManager::GetTetrominoPreviewAmount() const
 {
 	return tetrominoePreviewAmount;
 }
@@ -81,6 +83,16 @@ int InputManager::GetTetrominoePreviewAmount() const
 int InputManager::GetTetrominoAmount() const
 {
 	return tetrominoeAmount;
+}
+
+int InputManager::GetHeld() const
+{
+	return held;
+}
+
+void InputManager::SetHeld(int tetrominoe)
+{
+	held = tetrominoe;
 }
 
 void InputManager::LoadTetrominoToFile(std::string fileName, int index)

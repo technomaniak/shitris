@@ -25,73 +25,12 @@ Tetromino::Tetromino(Board& board)
 	board(board),
 	boardPos(board.GetWidth() / 2 - dimension / 2, 0),
 	currentRotation(Rotation::UP),
-	isBottom(false)
+	isBottom(false),
+	currentPieceId(-1),
+	isAnythingHeld(false)
 {
 	std::cout << "bpos " << boardPos.GetX() << "  " << boardPos.GetY() << "\n";
 }
-
-//const std::vector<Vec2<int>> Straight::zeroToOne = { {-2, 0}, {1, 0}, {-2 , 1}, {1, -2} };
-//const std::vector<Vec2<int>> Straight::oneToZero = { {2, 0}, {-1, 0}, {2 , -1}, {-1, 2} };
-//const std::vector<Vec2<int>> Straight::oneToTwo = { {-1, 0}, {2, 0}, {-1 , -2}, {2, 1} };
-//const std::vector<Vec2<int>> Straight::twoToOne = { {1, 0}, {-2, 0}, {1 , 2}, {-2, -1} };
-//const std::vector<Vec2<int>> Straight::twoToThree = { {2, 0}, {-1, 0}, {2 , -1}, {-1, 2} };
-//const std::vector<Vec2<int>> Straight::threeToTwo = { {-2, 0}, {1, 0}, {-2 , 1}, {1, -2} };
-//const std::vector<Vec2<int>> Straight::threeToZero = { {1, 0}, {-2, 0}, {1 , 2}, {-2, -1} };
-//const std::vector<Vec2<int>> Straight::zeroToThree = { {-1, 0}, {2, 0}, {-1 , -2}, {2, 1} };
-//
-//const std::vector<Vec2<int>> Square::zeroToOne = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
-//const std::vector<Vec2<int>> Square::oneToZero = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
-//const std::vector<Vec2<int>> Square::oneToTwo = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
-//const std::vector<Vec2<int>> Square::twoToOne = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
-//const std::vector<Vec2<int>> Square::twoToThree = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
-//const std::vector<Vec2<int>> Square::threeToTwo = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
-//const std::vector<Vec2<int>> Square::threeToZero = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
-//const std::vector<Vec2<int>> Square::zeroToThree = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
-//
-//const std::vector<Vec2<int>> Tee::zeroToOne = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
-//const std::vector<Vec2<int>> Tee::oneToZero = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
-//const std::vector<Vec2<int>> Tee::oneToTwo = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
-//const std::vector<Vec2<int>> Tee::twoToOne = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
-//const std::vector<Vec2<int>> Tee::twoToThree = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
-//const std::vector<Vec2<int>> Tee::threeToTwo = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
-//const std::vector<Vec2<int>> Tee::threeToZero = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
-//const std::vector<Vec2<int>> Tee::zeroToThree = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
-//
-//const std::vector<Vec2<int>> Jay::zeroToOne = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
-//const std::vector<Vec2<int>> Jay::oneToZero = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
-//const std::vector<Vec2<int>> Jay::oneToTwo = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
-//const std::vector<Vec2<int>> Jay::twoToOne = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
-//const std::vector<Vec2<int>> Jay::twoToThree = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
-//const std::vector<Vec2<int>> Jay::threeToTwo = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
-//const std::vector<Vec2<int>> Jay::threeToZero = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
-//const std::vector<Vec2<int>> Jay::zeroToThree = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
-//
-//const std::vector<Vec2<int>> El::zeroToOne = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
-//const std::vector<Vec2<int>> El::oneToZero = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
-//const std::vector<Vec2<int>> El::oneToTwo = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
-//const std::vector<Vec2<int>> El::twoToOne = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
-//const std::vector<Vec2<int>> El::twoToThree = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
-//const std::vector<Vec2<int>> El::threeToTwo = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
-//const std::vector<Vec2<int>> El::threeToZero = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
-//const std::vector<Vec2<int>> El::zeroToThree = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
-//
-//const std::vector<Vec2<int>> SkewS::zeroToOne = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
-//const std::vector<Vec2<int>> SkewS::oneToZero = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
-//const std::vector<Vec2<int>> SkewS::oneToTwo = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
-//const std::vector<Vec2<int>> SkewS::twoToOne = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
-//const std::vector<Vec2<int>> SkewS::twoToThree = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
-//const std::vector<Vec2<int>> SkewS::threeToTwo = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
-//const std::vector<Vec2<int>> SkewS::threeToZero = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
-//const std::vector<Vec2<int>> SkewS::zeroToThree = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
-//
-//const std::vector<Vec2<int>> SkewZ::zeroToOne = { {-1, 0}, {-1, -1}, {0 , 2}, {-1, 2} };
-//const std::vector<Vec2<int>> SkewZ::oneToZero = { {1, 0}, {1, 1}, {0, -2}, {1, -2} };
-//const std::vector<Vec2<int>> SkewZ::oneToTwo = { {1, 0}, {1, 1}, {0 , -2}, {1, -2} };
-//const std::vector<Vec2<int>> SkewZ::twoToOne = { {-1, 0}, {-1, -1}, {0, 2}, {-1, 2} };
-//const std::vector<Vec2<int>> SkewZ::twoToThree = { {1, 0}, {1, -1}, {0 , 2}, {1, 2} };
-//const std::vector<Vec2<int>> SkewZ::threeToTwo = { {-1, 0}, {-1, 1}, {0, -2}, {-1, -2} };
-//const std::vector<Vec2<int>> SkewZ::threeToZero = { {-1, 0}, {-1, 1}, {0 , -2}, {-1, -2} };
-//const std::vector<Vec2<int>> SkewZ::zeroToThree = { {1, 0}, {1, -1}, {0, 2}, {1, 2} };
 
 void Tetromino::RotateClockwise()
 {
@@ -868,6 +807,21 @@ void Tetromino::SetZeroToThree(std::vector<Vec2<int>> zerToThre)
 	zeroToThree = zerToThre;
 }
 
+void Tetromino::SetCurrentPiece(int id)
+{
+	currentPieceId = id;
+}
+
+void Tetromino::SetIsAnythingSetToHeld(bool val)
+{
+	isAnythingHeld = val;
+}
+
+void Tetromino::SetRotation(Rotation rotation)
+{
+	currentRotation = rotation;
+}
+
 void Tetromino::SetFallen(bool newData)
 {
 	fallen = newData;
@@ -941,4 +895,14 @@ std::vector<Vec2<int>> Tetromino::GetZeroToThree() const
 int Tetromino::GetOverloads() const
 {
 	return overloads;
+}
+
+int Tetromino::GetCurrentPieceId() const
+{
+	return currentPieceId;
+}
+
+bool Tetromino::getIsAnythingHeld() const
+{
+	return isAnythingHeld;
 }

@@ -11,10 +11,13 @@ public:
 
 	void LoadBoard(std::string boardName, Board &board);
 	void LoadTetromino(int index, Tetromino &tetromino);
-	int GetTetrominoePreviewAmount() const;
+	int GetTetrominoPreviewAmount() const;
 	int GetTetrominoAmount() const;
+	int GetHeld() const;
+	void SetHeld(int tetrominoe);
 
 	std::vector<Tetromino> tetrominoes;
+	int held;
 private:
 	void LoadTetrominoToFile(std::string fileName, int index);
 	int tetrominoePreviewAmount;

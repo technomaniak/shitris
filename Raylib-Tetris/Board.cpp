@@ -82,7 +82,14 @@ void Board::DrawCell(Vec2<int> pos, Color color) const
 
 void Board::DrawFutureCell(Vec2<int> pos, Color color) const
 {
-	Vec2<int> topLeft = { screenPos.GetX() + 20 + (pos.GetX() * cellSize), screenPos.GetY() + 25 + (pos.GetY() * cellSize) };
+	Vec2<int> topLeft = { screenPos.GetX() - 30 + (pos.GetX() * cellSize), screenPos.GetY() + 20 + (pos.GetY() * cellSize) };
+
+	raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize } - padding, color);
+}
+
+void Board::DrawHeldCell(Vec2<int> pos, Color color) const
+{
+	Vec2<int> topLeft = { screenPos.GetX() - 50 + (pos.GetX() * cellSize) , screenPos.GetY() + (pos.GetY() * cellSize) };
 
 	raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize } - padding, color);
 }
@@ -97,23 +104,27 @@ void Board::DrawFutureBorder(Vec2<int> pos, Vec2<int> size) const
 	raycpp::DrawRectangleLinesEx(pos, size, cellSize / 2, Color{ 0, 0, 0, 106 });
 }
 
+void Board::DrawHeldBorder(Vec2<int> pos, Vec2<int> size) const
+{
+}
+
 
 void Board::DrawFutureBoardGrid(Vec2<int> pos, int amount) const
 {
 	for (int y = 1; y < 6; y++)
 	{
 		DrawLine(pos.GetX() - 2 + (y * cellSize),
-			pos.GetY() + 2 + (cellSize / 2) - 2,
+			pos.GetY() - 6 + (cellSize / 2),
 			pos.GetX() - 2 + (y * cellSize),
-			pos.GetY() - 5 + (amount * 4 * cellSize) - (cellSize / 2),
+			pos.GetY() - 11 + (amount * 4 * cellSize) - (cellSize / 2),
 			Color{ 102, 191, 255, 55 });
 	}
 	for (int x = 1; x < amount * 4; x++)
 	{
 		DrawLine(pos.GetX() + (cellSize / 2),
-			pos.GetY() - 2 + (x * cellSize),
+			pos.GetY() - 7 + (x * cellSize),
 			pos.GetX() - 5 + (5 * cellSize) + (cellSize / 2),
-			pos.GetY() - 2 + (x * cellSize),
+			pos.GetY() - 7 + (x * cellSize),
 			Color{ 102, 191, 255, 55 });
 	}
 }

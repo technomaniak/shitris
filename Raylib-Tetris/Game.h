@@ -19,6 +19,7 @@ private:
 	Board board;
 	Tetromino tetromino;
 	Tetromino futureMino;
+	Tetromino heldMino;
 	InputManager inputManager;
 
 	void Draw();

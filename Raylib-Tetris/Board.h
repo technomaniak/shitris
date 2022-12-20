@@ -29,8 +29,10 @@ public:
 	void DrawCell(Vec2<int> pos) const;
 	void DrawCell(Vec2<int> pos, Color color) const;
 	void DrawFutureCell(Vec2<int> pos, Color color) const;
+	void DrawHeldCell(Vec2<int> pos, Color color) const;
 	void DrawBorder() const;
 	void DrawFutureBorder(Vec2<int> pos, Vec2<int> size) const;
+	void DrawHeldBorder(Vec2<int> pos, Vec2<int> size) const;
 	void DrawBoardGrid() const;
 	void DrawFutureBoardGrid(Vec2<int> pos, int amount) const;
 	void DrawBoard() const;
