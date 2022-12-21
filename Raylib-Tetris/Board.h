@@ -37,7 +37,7 @@ public:
 	void DrawFutureBoardGrid(Vec2<int> pos, int amount) const;
 	void DrawBoard() const;
 	void DrawFutureBoard(Vec2<int> pos, Vec2<int> size) const;
-	void DrawTimerLine() const;
+	void DrawTimerLine(int timer) const;
 	void Draw() const;
 	void DrawLevel() const;
 	std::vector<int> CheckForLines();

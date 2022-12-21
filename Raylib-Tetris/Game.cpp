@@ -12,7 +12,7 @@ Game::Game(int width, int height, int fps, std::string title)
 	tetromino(Tetromino(board)),
 	futureMino(Tetromino(board)),
 	heldMino(Tetromino(board)),
-	counter(0),
+	counter(1),
 	counterDos(0),
 	counterTres(0),
 	holdPiece(-1),
@@ -22,10 +22,10 @@ Game::Game(int width, int height, int fps, std::string title)
 	assert(!IsWindowReady()); // if triggered game is already open.
 
 	std::cout << "Loading Board";
-	inputManager.LoadBoard("Default", board);
+	inputManager.LoadBoard("test", board);
 	std::cout << "Board Loaded";
-	tetrominoesList.resize(inputManager.GetTetrominoAmount());
-	for (int i = 0; i < inputManager.GetTetrominoAmount(); i++)
+	tetrominoesList.resize(inputManager.GetTetrominoPreviewAmount());
+	for (int i = 0; i < inputManager.GetTetrominoPreviewAmount(); i++)
 	{
 		tetrominoesList[i] = SelectRandomPiece();
 	}
@@ -98,13 +98,13 @@ void Game::Update()
 
 				if (tetromino.IsBottom())
 				{
-					counter = 0;
+					counter = 1;
 				}
 			}
 		}
 		if (tetromino.IsBottom())
 		{
-			counter = 0;
+			counter = 1;
 		}
 	}
 	if (IsKeyReleased(KEY_LEFT))
@@ -117,7 +117,7 @@ void Game::Update()
 
 		if (tetromino.IsBottom())
 		{
-			counter = 0;
+			counter = 1;
 		}
 	}
 
@@ -135,13 +135,13 @@ void Game::Update()
 
 				if (tetromino.IsBottom())
 				{
-					counter = 0;
+					counter = 1;
 				}
 			}
 		}
 		if (tetromino.IsBottom())
 		{
-			counter = 0;
+			counter = 1;
 		}
 	}
 	if (IsKeyReleased(KEY_RIGHT))
@@ -154,7 +154,7 @@ void Game::Update()
 
 		if (tetromino.IsBottom())
 		{
-			counter = 0;
+			counter = 1;
 		}
 	}
 
@@ -163,7 +163,7 @@ void Game::Update()
 		tetromino.RotateClockwise();
 		if (tetromino.IsBottom())
 		{
-			counter = 0;
+			counter = 1;
 		}
 	}
 	if (IsKeyPressed(KEY_Z))
@@ -171,7 +171,7 @@ void Game::Update()
 		tetromino.RotateCounterClockwise();
 		if (tetromino.IsBottom())
 		{
-			counter = 0;
+			counter = 1;
 		}
 	}
 	if (IsKeyPressed(KEY_W))
@@ -179,7 +179,7 @@ void Game::Update()
 		tetromino.RotateFull();
 		if (tetromino.IsBottom())
 		{
-			counter = 0;
+			counter = 1;
 		}
 	}
 	if (IsKeyDown(KEY_DOWN))
@@ -220,11 +220,12 @@ void Game::Update()
 	board.ClearLines();
 	counter += board.GetSpeed() + 1;
 	tetromino.DebugNum();
+	board.DrawTimerLine(counter);
 	
-	if (counter >= 60)
+	if (counter >= 61)
 	{
 		tetromino.Fall();
-		counter = 0;
+		counter = 1;
 	}
 }
 

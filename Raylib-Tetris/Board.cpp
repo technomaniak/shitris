@@ -159,8 +159,18 @@ void Board::DrawFutureBoard(Vec2<int> pos, Vec2<int> size) const
 	raycpp::DrawRectangle(pos, size, Color{ 0, 0, 0, 56 });
 }
 
-void Board::DrawTimerLine() const
+void Board::DrawTimerLine(int timer) const
 {
+	if (timer > 60)
+	{
+		raycpp::DrawRectangle({ screenPos.GetX() - 4 - cellSize / 2, screenPos.GetY() + 25 + (cellSize * height) },
+			{ (cellSize * width) + 2 + cellSize, 10 }, Color{ 255, 255, 255, 255 });
+	}
+	else 
+	{
+		raycpp::DrawRectangle({ screenPos.GetX() - 4 - cellSize / 2, screenPos.GetY() + 25 + (cellSize * height) },
+			{ (((cellSize * width) + 2 + cellSize) / 60) * timer, 10 }, Color{ 255, 255, 255, 255 });
+	}
 	raycpp::DrawRectangle({ screenPos.GetX() - 4 - cellSize / 2, screenPos.GetY() + 25 + (cellSize * height) }, { (cellSize * width) + 2 + cellSize, 10 }, Color{ 255, 255, 255, 55 });
 }
 
@@ -170,7 +180,6 @@ void Board::Draw() const
 	DrawBorder();
 	DrawBoardGrid();
 	DrawLevel();
-	DrawTimerLine();
 	for (int iY = 0; iY < height; iY++)
 	{
 		for (int iX = 0; iX < width; iX++)
