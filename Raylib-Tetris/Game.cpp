@@ -25,7 +25,7 @@ Game::Game(int width, int height, int fps, std::string title)
 	assert(!IsWindowReady()); // if triggered game is already open.
 
 	std::cout << "Loading Board";
-	inputManager.LoadBoard("Tspin", board);
+	inputManager.LoadBoard("Default", board);
 	std::cout << "Board Loaded";
 	tetrominoesList.resize(inputManager.GetTetrominoPreviewAmount());
 	for (int i = 0; i < inputManager.GetTetrominoPreviewAmount(); i++)
@@ -84,8 +84,11 @@ void Game::Update()
 		tetrominoesList.erase(tetrominoesList.begin());
 		tetrominoesList.push_back(SelectRandomPiece());
 		std::cout << "\nrandom piece selected ";
-		
 		tetromino.SetPos({ board.GetWidth() / 2 - tetromino.GetDimension() / 2, 0 });
+		while (!tetromino.IsBottomButTop())
+		{
+			tetromino.SetPos({ tetromino.GetPos().GetX(), tetromino.GetPos().GetY() - 1 });
+		}
 		tetromino.SetFallen(false);
 		tetromino.SetIsAnythingSetToHeld(false);
 		tetromino.SetRotation(Tetromino::Rotation::UP);

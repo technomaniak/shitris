@@ -53,6 +53,7 @@ void Tetromino::RotateClockwise()
 				if (cell)
 				{
 					if (!(boardPos.GetX() + x + 1 > 0)
+						|| !(boardPos.GetY() + y > 0) //HELP
 						|| !(boardPos.GetX() + x < board.GetWidth())
 						|| !(boardPos.GetY() + y < board.GetHeight())
 						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
@@ -83,6 +84,7 @@ void Tetromino::RotateClockwise()
 				{
 					std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
 					if (!(boardPos.GetX() + x + 1 > 0)
+						|| !(boardPos.GetY() + y > 0) //HELP
 						|| !(boardPos.GetX() + x < board.GetWidth())
 						|| !(boardPos.GetY() + y < board.GetHeight())
 						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
@@ -114,6 +116,7 @@ void Tetromino::RotateClockwise()
 					std::cout << "\nnewp" << boardPos.GetX() << " " << boardPos.GetY() << "\n";
 					std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
 					if (!(boardPos.GetX() + x + 1 > 0)
+						|| !(boardPos.GetY() + y > 0) //HELP
 						|| !(boardPos.GetX() + x < board.GetWidth())
 						|| !(boardPos.GetY() + y < board.GetHeight())
 						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
@@ -141,6 +144,7 @@ void Tetromino::RotateClockwise()
 				{
 					std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
 					if (!(boardPos.GetX() + x + 1 > 0)
+						|| !(boardPos.GetY() + y > 0) //HELP
 						|| !(boardPos.GetX() + x < board.GetWidth())
 						|| !(boardPos.GetY() + y < board.GetHeight())
 						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
@@ -283,7 +287,8 @@ void Tetromino::RotateCounterClockwise()
 				// selecting rotation
 				if (cell)
 				{
-					if (   !(boardPos.GetX() + x + 1 > 0) 
+					if (   !(boardPos.GetX() + x + 1 > 0)
+						|| !(boardPos.GetY() + y > 0) //HELP
 						|| !(boardPos.GetX() + x < board.GetWidth())
 						|| !(boardPos.GetY() + y < board.GetHeight())
 						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
@@ -313,7 +318,8 @@ void Tetromino::RotateCounterClockwise()
 				if (cell)
 				{
 					std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
-					if (   !(boardPos.GetX() + x + 1 > 0) 
+					if (   !(boardPos.GetX() + x + 1 > 0)
+						|| !(boardPos.GetY() + y > 0) //HELP
 						|| !(boardPos.GetX() + x < board.GetWidth())
 						|| !(boardPos.GetY() + y < board.GetHeight())
 						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
@@ -344,7 +350,8 @@ void Tetromino::RotateCounterClockwise()
 				{
 					std::cout << "\nnewp" << boardPos.GetX() << " " << boardPos.GetY() << "\n";
 					std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
-					if (   !(boardPos.GetX() + x + 1 > 0) 
+					if (   !(boardPos.GetX() + x + 1 > 0)
+						|| !(boardPos.GetY() + y > 0) //HELP
 						|| !(boardPos.GetX() + x < board.GetWidth())
 						|| !(boardPos.GetY() + y < board.GetHeight())
 						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
@@ -371,7 +378,8 @@ void Tetromino::RotateCounterClockwise()
 				if (cell)
 				{
 					std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
-					if (   !(boardPos.GetX() + x + 1 > 0) 
+					if (   !(boardPos.GetX() + x + 1 > 0)
+						|| !(boardPos.GetY() + y > 0) //HELP
 						|| !(boardPos.GetX() + x < board.GetWidth())
 						|| !(boardPos.GetY() + y < board.GetHeight())
 						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
@@ -694,12 +702,12 @@ bool Tetromino::IsBottomButTop()
 
 			if (cell)
 			{
-				if (boardPos.GetY() + y + 2 > settings::boardWidthHeight.GetY())
+				if (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y }))
 				{
-					isBottomButTop = true;
+					isBottomButTop = false;
 					return isBottomButTop;
 				}
-				else if (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y + 1 }))
+				if (boardPos.GetY() + y - 1 < 0)
 				{
 					isBottomButTop = true;
 					return isBottomButTop;
