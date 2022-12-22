@@ -106,5 +106,8 @@
     <None Include="test.board">
       <Filter>Pliki zasobów\Default\board</Filter>
     </None>
+    <None Include="Tspin.board">
+      <Filter>Pliki zasobów\Default\board</Filter>
+    </None>
   </ItemGroup>
 </Project>

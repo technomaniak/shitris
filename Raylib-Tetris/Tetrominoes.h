@@ -48,6 +48,7 @@ public:
 	void SetCurrentPiece(int id);
 	void SetIsAnythingSetToHeld(bool val);
 	void SetRotation(Rotation rotation);
+	void SetALias(std::string newAlias);
 
 	void SetFallen(bool newData);
 	bool GetFallen() const;
@@ -69,6 +70,7 @@ public:
 	bool getIsAnythingHeld() const;
 	int GetRotation() const;
 	Vec2<int> GetPos() const;
+	std::string GetAlias() const;
 
 private:
 	Vec2<int> boardPos;
@@ -90,4 +92,5 @@ private:
 	bool fallen;
 	int currentPieceId;
 	int isAnythingHeld;
+	std::string alias;
 };

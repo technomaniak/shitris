@@ -42,13 +42,15 @@ public:
 	void Draw() const;
 	void DrawLevel() const;
 	std::vector<int> CheckForLines();
-	void ClearLines();
+	void ClearLines(int lastPiece, int lastAction, std::string alias, Vec2<int> pos);
 	bool CellExists(Vec2<int> pos) const;
 	int GetWidth() const;
 	int GetHeight() const;
 	int GetSpeed() const;
+	int GetLevel() const;
 	Vec2<int> GetScreenPos() const;
 	int GetCellSize() const;
+	void IncreaseScore(int increase);
 
 	void SetSize(Vec2<int> widthHei);
 

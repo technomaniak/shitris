@@ -33,6 +33,7 @@ private:
 	int counterMove;
 	int counterKeepMoving;
 	int counterDrop;
+	int lastAction;
 	std::vector<int> tetrominoesList;
 	int holdPiece;
 	bool moved;

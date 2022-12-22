@@ -19,12 +19,13 @@ Game::Game(int width, int height, int fps, std::string title)
 	counterDrop(1),
 	holdPiece(-1),
 	inputManager(InputManager()),
-	moved(false)
+	moved(false),
+	lastAction(0)
 {
 	assert(!IsWindowReady()); // if triggered game is already open.
 
 	std::cout << "Loading Board";
-	inputManager.LoadBoard("test", board);
+	inputManager.LoadBoard("Tspin", board);
 	std::cout << "Board Loaded";
 	tetrominoesList.resize(inputManager.GetTetrominoPreviewAmount());
 	for (int i = 0; i < inputManager.GetTetrominoPreviewAmount(); i++)
@@ -77,6 +78,7 @@ void Game::Update()
 {
 	if (tetromino.GetFallen())
 	{
+		board.ClearLines(tetromino.GetCurrentPieceId(), lastAction, tetromino.GetAlias(), tetromino.GetPos());
 		tetromino.SetCurrentPiece(tetrominoesList[0]);
 		inputManager.LoadTetromino(tetrominoesList[0], tetromino);
 		tetrominoesList.erase(tetrominoesList.begin());
@@ -109,6 +111,7 @@ void Game::Update()
 		{
 			counterDrop = 40;
 		}
+		lastAction = 2;
 	}
 	if (IsKeyReleased(KEY_LEFT))
 	{
@@ -122,6 +125,7 @@ void Game::Update()
 		{
 			counterDrop = 40;
 		}
+		lastAction = 2;
 	}
 
 	if (IsKeyDown(KEY_RIGHT))
@@ -146,6 +150,7 @@ void Game::Update()
 		{
 			counterDrop = 40;
 		}
+		lastAction = 2;
 	}
 	if (IsKeyReleased(KEY_RIGHT))
 	{
@@ -159,6 +164,7 @@ void Game::Update()
 		{
 			counterDrop = 40;
 		}
+		lastAction = 2;
 	}
 
 	if (IsKeyPressed(KEY_X))
@@ -168,6 +174,7 @@ void Game::Update()
 		{
 			counterDrop = 40;
 		}
+		lastAction = 1;
 	}
 	if (IsKeyPressed(KEY_Z))
 	{
@@ -176,6 +183,7 @@ void Game::Update()
 		{
 			counterDrop = 40;
 		}
+		lastAction = 1;
 	}
 	if (IsKeyPressed(KEY_W))
 	{
@@ -184,6 +192,7 @@ void Game::Update()
 		{
 			counterDrop = 40;
 		}
+		lastAction = 1;
 	}
 	if (IsKeyDown(KEY_DOWN))
 	{
@@ -226,7 +235,6 @@ void Game::Update()
 		counterDrop = -1;
 	}
 
-	board.ClearLines();
 	counterFall += board.GetSpeed() + 1;
 	board.DrawTimerLine(counterDrop);
 	
@@ -246,8 +254,10 @@ void Game::Update()
 		if (counterFall >= 61)
 		{
 			tetromino.Fall();
+			board.IncreaseScore((1 + board.GetLevel()) * 1.5);
 			counterDrop = 40;
 			counterFall = 1;
+			lastAction = 0;
 		}
 	}
 }

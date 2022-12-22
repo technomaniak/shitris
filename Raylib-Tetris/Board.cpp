@@ -232,7 +232,7 @@ std::vector<int> Board::CheckForLines()
 	return output;
 }
 
-void Board::ClearLines()
+void Board::ClearLines(int lastPiece, int lastAction, std::string alias, Vec2<int> pos)
 {
 	std::vector<int> toRemove = CheckForLines();
 	for (int y = 0; y < toRemove.size(); y++)
@@ -247,22 +247,28 @@ void Board::ClearLines()
 			}
 		}
 	}
-	switch (toRemove.size())
+	if (toRemove.size() > 1)
 	{
-	case 1:
-		score.IncreaseScore(40 * (level + 1));
-		break;
-	case 2:
-		score.IncreaseScore(100 * (level + 1));
-		break;
-	case 3:
-		score.IncreaseScore(300 * (level + 1));
-		break;
-	case 4:
-		score.IncreaseScore(1200 * (level + 1));
-		break;
+		score.IncreaseScore(toRemove.size(), lastAction, lastPiece, alias, GetLevel(), pos);
 	}
-	if (score.GetScore() >  (level + 1) * (level + 1) * 1500)
+
+	//gay porn
+	//switch (toRemove.size())
+	//{
+	//case 1:
+	//	score.IncreaseScore(40 * (level + 1));
+	//	break;
+	//case 2:
+	//	score.IncreaseScore(100 * (level + 1));
+	//	break;
+	//case 3:
+	//	score.IncreaseScore(300 * (level + 1));
+	//	break;
+	//case 4:
+	//	score.IncreaseScore(1200 * (level + 1));
+	//	break;
+	//}
+	if (score.GetScore() > (level + 1) * (level + 2) * 1500)
 	{
 		speed += 1;
 		level += 1;
@@ -294,6 +300,11 @@ int Board::GetSpeed() const
 	return speed;
 }
 
+int Board::GetLevel() const
+{
+	return level;
+}
+
 Vec2<int> Board::GetScreenPos() const
 {
 	return screenPos;
@@ -302,6 +313,11 @@ Vec2<int> Board::GetScreenPos() const
 int Board::GetCellSize() const
 {
 	return cellSize;
+}
+
+void Board::IncreaseScore(int increase)
+{
+	score.IncreaseScore(increase);
 }
 
 void Board::SetSize(Vec2<int> widthHei)

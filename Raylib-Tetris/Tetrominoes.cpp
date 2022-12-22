@@ -27,7 +27,8 @@ Tetromino::Tetromino(Board& board)
 	isBottom(false),
 	currentPieceId(-1),
 	overloads(overloads),
-	isAnythingHeld(false)
+	isAnythingHeld(false),
+	alias(alias)
 {
 	std::cout << "bpos " << boardPos.GetX() << "  " << boardPos.GetY() << "\n";
 }
@@ -661,13 +662,16 @@ bool Tetromino::IsBottom()
 			}
 		}
 	}
-	std::cout << isBottom;
 	isBottom = false;
 	return isBottom;
 }
 
 void Tetromino::Draw() const
 {
+	DrawTextPro(GetFontDefault(), TextFormat("B2B %c spin", alias), 
+		{ settings::boardPosition.GetX() + ((float)boardPos.GetX() * settings::cellSize), 
+		settings::boardPosition.GetY() + ((float)boardPos.GetY() * settings::cellSize) },
+		{ (float)boardPos.GetX(), (float)boardPos.GetY() }, 69, 22, 3, Color{ 255, 255, 255, 255 });
 	for (int y = 0; y < dimension; y++)
 	{
 		for (int x = 0; x < dimension; x++) 
@@ -740,6 +744,7 @@ void Tetromino::HardDrop()
 	while (!IsBottom())
 	{
 		Fall();
+		board.IncreaseScore((2 + board.GetLevel()) * 1.5);
 	}
 }
 
@@ -829,6 +834,11 @@ void Tetromino::SetIsAnythingSetToHeld(bool val)
 void Tetromino::SetRotation(Rotation rotation)
 {
 	currentRotation = rotation;
+}
+
+void Tetromino::SetALias(std::string newAlias)
+{
+	alias = newAlias;
 }
 
 void Tetromino::SetFallen(bool newData)
@@ -924,4 +934,9 @@ int Tetromino::GetRotation() const
 Vec2<int> Tetromino::GetPos() const
 {
 	return boardPos;
+}
+
+std::string Tetromino::GetAlias() const
+{
+	return alias;
 }

@@ -73,6 +73,7 @@ void InputManager::LoadTetromino(int index, Tetromino &tetromino)
 	tetromino.SetThreeToZero(tetrominoes[index].GetThreeToZero());
 	tetromino.SetTwoToThree(tetrominoes[index].GetTwoToThree());
 	tetromino.SetThreeToTwo(tetrominoes[index].GetThreeToTwo());
+	tetromino.SetALias(tetrominoes[index].GetAlias());
 }
 
 int InputManager::GetTetrominoPreviewAmount() const
@@ -236,6 +237,12 @@ void InputManager::LoadTetrominoToFile(std::string fileName, int index)
 	tetrominoes[index].SetZeroToThree(overloadVector);
 
 	overloadVector.clear();
+
+	// get alias
+
+	std::getline(inputFile, input);
+	std::getline(inputFile, input);
+	tetrominoes[index].SetALias(input);
 
 	// end my life
 }
