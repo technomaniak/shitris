@@ -19,6 +19,7 @@ private:
 	Board board;
 	Tetromino tetromino;
 	Tetromino futureMino;
+	Tetromino drawMino;
 	Tetromino heldMino;
 	InputManager inputManager;
 
@@ -26,10 +27,12 @@ private:
 	void Update();
 	int SelectRandomPiece() const;
 	void DrawFuturePieces();
+	void DrawDrawMino();
 
-	int counter;
-	int counterDos;
-	int counterTres;
+	int counterFall;
+	int counterMove;
+	int counterKeepMoving;
+	int counterDrop;
 	std::vector<int> tetrominoesList;
 	int holdPiece;
 	bool moved;

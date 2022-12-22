@@ -28,6 +28,7 @@ public:
 	void MoveCell(Vec2<int> posOld, Vec2<int> posNew);
 	void DrawCell(Vec2<int> pos) const;
 	void DrawCell(Vec2<int> pos, Color color) const;
+	void DrawCell(Vec2<int> pos, Color color, int style) const;
 	void DrawFutureCell(Vec2<int> pos, Color color) const;
 	void DrawHeldCell(Vec2<int> pos, Color color) const;
 	void DrawBorder() const;

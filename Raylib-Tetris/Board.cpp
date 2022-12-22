@@ -80,6 +80,25 @@ void Board::DrawCell(Vec2<int> pos, Color color) const
 	raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize } - padding, color);
 }
 
+void Board::DrawCell(Vec2<int> pos, Color color, int style) const
+{
+	switch (style)
+	{
+	case 1:
+		Vec2<int> topLeft = screenPos + (pos * cellSize);
+		raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize - ((cellSize / 10) * 9), cellSize } - padding, color);
+
+		raycpp::DrawRectangle({ topLeft.GetX() + ((cellSize / 10) * 9), topLeft.GetY() },
+			Vec2<int>{ cellSize - ((cellSize / 10) * 9), cellSize } - padding, color);
+
+		raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize - ((cellSize / 10) * 9) } - padding, color);
+
+		raycpp::DrawRectangle({ topLeft.GetX(), topLeft.GetY() + ((cellSize / 10) * 9) },
+			Vec2<int>{ cellSize, cellSize - ((cellSize / 10) * 9)} - padding, color);
+		break;
+	}
+}
+
 void Board::DrawFutureCell(Vec2<int> pos, Color color) const
 {
 	Vec2<int> topLeft = { screenPos.GetX() - 30 + (pos.GetX() * cellSize), screenPos.GetY() + 20 + (pos.GetY() * cellSize) };
@@ -161,17 +180,9 @@ void Board::DrawFutureBoard(Vec2<int> pos, Vec2<int> size) const
 
 void Board::DrawTimerLine(int timer) const
 {
-	if (timer > 60)
-	{
-		raycpp::DrawRectangle({ screenPos.GetX() - 4 - cellSize / 2, screenPos.GetY() + 25 + (cellSize * height) },
-			{ (cellSize * width) + 2 + cellSize, 10 }, Color{ 255, 255, 255, 255 });
-	}
-	else 
-	{
-		raycpp::DrawRectangle({ screenPos.GetX() - 4 - cellSize / 2, screenPos.GetY() + 25 + (cellSize * height) },
-			{ (((cellSize * width) + 2 + cellSize) / 60) * timer, 10 }, Color{ 255, 255, 255, 255 });
-	}
 	raycpp::DrawRectangle({ screenPos.GetX() - 4 - cellSize / 2, screenPos.GetY() + 25 + (cellSize * height) }, { (cellSize * width) + 2 + cellSize, 10 }, Color{ 255, 255, 255, 55 });
+	raycpp::DrawRectangle({ screenPos.GetX() - 4 - cellSize / 2, screenPos.GetY() + 25 + (cellSize * height) },
+		{ (((cellSize * width) + 2 + cellSize) * timer) / 40, 10 }, RAYWHITE);
 }
 
 void Board::Draw() const

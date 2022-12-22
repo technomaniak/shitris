@@ -12,9 +12,11 @@ Game::Game(int width, int height, int fps, std::string title)
 	tetromino(Tetromino(board)),
 	futureMino(Tetromino(board)),
 	heldMino(Tetromino(board)),
-	counter(1),
-	counterDos(0),
-	counterTres(0),
+	drawMino(Tetromino(board)),
+	counterFall(1),
+	counterMove(0),
+	counterKeepMoving(0),
+	counterDrop(1),
 	holdPiece(-1),
 	inputManager(InputManager()),
 	moved(false)
@@ -63,6 +65,7 @@ void Game::Draw()
 	DrawRectangleGradientV((settings::screenWidth / 5) * 3, 0, settings::screenWidth, settings::screenHeight, Color{ 33,1,0,255 }, Color{ 14,42,1,255 });
 	board.Draw();
 	tetromino.Draw();
+	DrawDrawMino();
 	if (inputManager.GetTetrominoPreviewAmount() != 0)
 	{
 		DrawFuturePieces();
@@ -87,29 +90,29 @@ void Game::Update()
 
 	if (IsKeyDown(KEY_LEFT))
 	{
-		counterDos++;
-		if (counterDos > 10)
+		counterMove++;
+		if (counterMove > 10)
 		{
-			counterTres++;
-			if (counterTres > 1)
+			counterKeepMoving++;
+			if (counterKeepMoving > 1)
 			{
 				tetromino.MoveLeft();
-				counterTres = 0;
+				counterKeepMoving = 0;
 
 				if (tetromino.IsBottom())
 				{
-					counter = 1;
+					counterDrop = 40;
 				}
 			}
 		}
 		if (tetromino.IsBottom())
 		{
-			counter = 1;
+			counterDrop = 40;
 		}
 	}
 	if (IsKeyReleased(KEY_LEFT))
 	{
-		counterDos = 0, counterTres = 0;
+		counterMove = 0, counterKeepMoving = 0;
 	}
 	if (IsKeyPressed(KEY_LEFT))
 	{
@@ -117,36 +120,36 @@ void Game::Update()
 
 		if (tetromino.IsBottom())
 		{
-			counter = 1;
+			counterDrop = 40;
 		}
 	}
 
 	if (IsKeyDown(KEY_RIGHT))
 	{
-		counterDos++;
+		counterMove++;
 
-		if (counterDos > 10)
+		if (counterMove > 10)
 		{
-			counterTres++;
-			if (counterTres > 1)
+			counterKeepMoving++;
+			if (counterKeepMoving > 1)
 			{
 				tetromino.MoveRight();
-				counterTres = 0;
+				counterKeepMoving = 0;
 
 				if (tetromino.IsBottom())
 				{
-					counter = 1;
+					counterDrop = 40;
 				}
 			}
 		}
 		if (tetromino.IsBottom())
 		{
-			counter = 1;
+			counterDrop = 40;
 		}
 	}
 	if (IsKeyReleased(KEY_RIGHT))
 	{
-		counterDos = 0, counterTres = 0;
+		counterMove = 0, counterKeepMoving = 0;
 	}
 	if (IsKeyPressed(KEY_RIGHT))
 	{
@@ -154,7 +157,7 @@ void Game::Update()
 
 		if (tetromino.IsBottom())
 		{
-			counter = 1;
+			counterDrop = 40;
 		}
 	}
 
@@ -163,7 +166,7 @@ void Game::Update()
 		tetromino.RotateClockwise();
 		if (tetromino.IsBottom())
 		{
-			counter = 1;
+			counterDrop = 40;
 		}
 	}
 	if (IsKeyPressed(KEY_Z))
@@ -171,7 +174,7 @@ void Game::Update()
 		tetromino.RotateCounterClockwise();
 		if (tetromino.IsBottom())
 		{
-			counter = 1;
+			counterDrop = 40;
 		}
 	}
 	if (IsKeyPressed(KEY_W))
@@ -179,19 +182,19 @@ void Game::Update()
 		tetromino.RotateFull();
 		if (tetromino.IsBottom())
 		{
-			counter = 1;
+			counterDrop = 40;
 		}
 	}
 	if (IsKeyDown(KEY_DOWN))
 	{
 		if (!tetromino.IsBottom())
 		{
-			counter += 15 + board.GetSpeed();
+			counterFall += 15 + board.GetSpeed();
 		}
-		counter += 5 + board.GetSpeed();
+		counterFall += 5 + board.GetSpeed();
 	}
 
-	if (IsKeyDown(KEY_C))
+	if (IsKeyPressed(KEY_C))
 	{
 		if (!tetromino.getIsAnythingHeld())
 		{
@@ -217,15 +220,35 @@ void Game::Update()
 		}
 	}
 
-	board.ClearLines();
-	counter += board.GetSpeed() + 1;
-	tetromino.DebugNum();
-	board.DrawTimerLine(counter);
-	
-	if (counter >= 61)
+	if (IsKeyPressed(KEY_SPACE))
 	{
-		tetromino.Fall();
-		counter = 1;
+		tetromino.HardDrop();
+		counterDrop = -1;
+	}
+
+	board.ClearLines();
+	counterFall += board.GetSpeed() + 1;
+	board.DrawTimerLine(counterDrop);
+	
+	if (tetromino.IsBottom())
+	{
+		counterDrop--;
+		if (counterDrop <= 0)
+		{
+			tetromino.PlaceTetromino();
+			counterDrop = 40;
+			counterFall = 1;
+		}
+	}
+	else
+	{
+		counterDrop = 40;
+		if (counterFall >= 61)
+		{
+			tetromino.Fall();
+			counterDrop = 40;
+			counterFall = 1;
+		}
 	}
 }
 
@@ -293,4 +316,10 @@ void Game::DrawFuturePieces()
 	board.DrawFutureBorder({ ((settings::boardWidthHeight.GetX() + 8) * board.GetCellSize()), board.GetScreenPos().GetY() - 26 },
 		{ (5 * board.GetCellSize()) + board.GetCellSize() - 6, (inputManager.GetTetrominoPreviewAmount() * board.GetCellSize() * 4) - 5 });
 	board.DrawFutureBoardGrid({ ((settings::boardWidthHeight.GetX() + 8) * board.GetCellSize()), board.GetScreenPos().GetY() - 20 }, inputManager.GetTetrominoPreviewAmount());
+}
+
+void Game::DrawDrawMino()
+{
+	drawMino.AlignPos(tetromino);
+	drawMino.Draw(1);
 }

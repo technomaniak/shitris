@@ -29,7 +29,9 @@ public:
 	void MoveLeft();
 	bool IsBottom();
 	void Draw() const;
-	void DebugNum();
+	void Draw(int style) const;
+	void HardDrop();
+	void AlignPos(Tetromino tetromino);
 
 	void SetColor(Color c);
 	void SetShape(std::vector<bool> shp);
@@ -65,9 +67,10 @@ public:
 	int GetOverloads() const;
 	int GetCurrentPieceId() const;
 	bool getIsAnythingHeld() const;
+	int GetRotation() const;
+	Vec2<int> GetPos() const;
 
 private:
-
 	Vec2<int> boardPos;
 	bool isBottom;
 	Rotation currentRotation;

@@ -11,7 +11,6 @@ Tetromino::Tetromino(Board& board)
 	:
 	shape(shape),
 	dimension(dimension),
-	overloads(overloads),
 	zeroToOne(zeroToOne),
 	oneToZero(oneToZero),
 	oneToTwo(oneToTwo),
@@ -27,6 +26,7 @@ Tetromino::Tetromino(Board& board)
 	currentRotation(Rotation::UP),
 	isBottom(false),
 	currentPieceId(-1),
+	overloads(overloads),
 	isAnythingHeld(false)
 {
 	std::cout << "bpos " << boardPos.GetX() << "  " << boardPos.GetY() << "\n";
@@ -500,48 +500,7 @@ void Tetromino::RotateFull()
 
 void Tetromino::Fall()
 {
-	bool found = false;
-	for (int y = dimension-1; y >= 0; y--)
-	{
-		for (int x = 0; x < dimension; x++)
-		{
-			bool cell = false;
-
-			switch (currentRotation)
-			{
-			case Tetromino::Rotation::UP:
-				cell = shape[y * dimension + x];
-				break;
-			case Tetromino::Rotation::RIGHT:
-				cell = shape[dimension * (dimension - 1) - dimension * x + y];
-				break;
-			case Tetromino::Rotation::DOWN:
-				cell = shape[(dimension * dimension - 1) - dimension * y - x];
-				break;
-			case Tetromino::Rotation::LEFT:
-				cell = shape[(dimension - 1) + dimension * x - y];
-				break;
-			default:
-				break;
-			}
-
-			if (cell)
-			{
-				if (boardPos.GetY() + y + 2 > settings::boardWidthHeight.GetY())
-				{
-					PlaceTetromino();
-					return;
-				}
-				else if (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y + 1 }))
-				{
-					PlaceTetromino();
-					return;
-				}
-			}
-		}
-	}
-	boardPos.SetY(boardPos.GetY() + 1);
-	
+	boardPos.SetY(boardPos.GetY() + 1);	
 }
 
 void Tetromino::PlaceTetromino()
@@ -741,10 +700,60 @@ void Tetromino::Draw() const
 	}
 }
 
-void Tetromino::DebugNum()
+void Tetromino::Draw(int style) const
 {
-	DrawText(std::to_string(boardPos.GetX()).c_str(), 150, 0, 13, RED);
-	DrawText(std::to_string(boardPos.GetY()).c_str(), 160, 0, 13, RED);
+	for (int y = 0; y < dimension; y++)
+	{
+		for (int x = 0; x < dimension; x++)
+		{
+			bool cell = false;
+
+			switch (currentRotation)
+			{
+			case Tetromino::Rotation::UP:
+				cell = shape[y * dimension + x];
+				break;
+			case Tetromino::Rotation::RIGHT:
+				cell = shape[dimension * (dimension - 1) - dimension * x + y];
+				break;
+			case Tetromino::Rotation::DOWN:
+				cell = shape[(dimension * dimension - 1) - dimension * y - x];
+				break;
+			case Tetromino::Rotation::LEFT:
+				cell = shape[(dimension - 1) + dimension * x - y];
+				break;
+			default:
+				break;
+			}
+
+			if (cell)
+			{
+				board.DrawCell(boardPos + Vec2<int>{x, y}, color, style);
+			}
+		}
+		
+	}
+}
+
+void Tetromino::HardDrop()
+{
+	while (!IsBottom())
+	{
+		Fall();
+	}
+}
+
+void Tetromino::AlignPos(Tetromino tetromino)
+{
+	dimension = tetromino.GetDimension();
+	shape = tetromino.GetShape();
+	boardPos = tetromino.GetPos();
+	color = tetromino.GetColor();
+	currentRotation = (Rotation)tetromino.GetRotation();
+	while (!IsBottom())
+	{
+		Fall();
+	}
 }
 
 void Tetromino::SetColor(Color c)
@@ -905,4 +914,14 @@ int Tetromino::GetCurrentPieceId() const
 bool Tetromino::getIsAnythingHeld() const
 {
 	return isAnythingHeld;
+}
+
+int Tetromino::GetRotation() const
+{
+	return (int)currentRotation;
+}
+
+Vec2<int> Tetromino::GetPos() const
+{
+	return boardPos;
 }
