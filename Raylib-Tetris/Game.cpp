@@ -102,13 +102,13 @@ void Game::Update()
 				tetromino.MoveLeft();
 				counterKeepMoving = 0;
 
-				if (tetromino.IsAgi())
+				if (tetromino.IsBottom())
 				{
 					counterDrop = 40;
 				}
 			}
 		}
-		if (tetromino.IsAgi())
+		if (tetromino.IsBottom())
 		{
 			counterDrop = 40;
 		}
@@ -122,7 +122,7 @@ void Game::Update()
 	{
 		tetromino.MoveLeft();
 
-		if (tetromino.IsAgi())
+		if (tetromino.IsBottom())
 		{
 			counterDrop = 40;
 		}
@@ -141,13 +141,13 @@ void Game::Update()
 				tetromino.MoveRight();
 				counterKeepMoving = 0;
 
-				if (tetromino.IsAgi())
+				if (tetromino.IsBottom())
 				{
 					counterDrop = 40;
 				}
 			}
 		}
-		if (tetromino.IsAgi())
+		if (tetromino.IsBottom())
 		{
 			counterDrop = 40;
 		}
@@ -161,7 +161,7 @@ void Game::Update()
 	{
 		tetromino.MoveRight();
 
-		if (tetromino.IsAgi())
+		if (tetromino.IsBottom())
 		{
 			counterDrop = 40;
 		}
@@ -171,7 +171,7 @@ void Game::Update()
 	if (IsKeyPressed(KEY_X))
 	{
 		tetromino.RotateClockwise();
-		if (tetromino.IsAgi())
+		if (tetromino.IsBottom())
 		{
 			counterDrop = 40;
 		}
@@ -180,7 +180,7 @@ void Game::Update()
 	if (IsKeyPressed(KEY_Z))
 	{
 		tetromino.RotateCounterClockwise();
-		if (tetromino.IsAgi())
+		if (tetromino.IsBottom())
 		{
 			counterDrop = 40;
 		}
@@ -189,7 +189,7 @@ void Game::Update()
 	if (IsKeyPressed(KEY_W))
 	{
 		tetromino.RotateFull();
-		if (tetromino.IsAgi())
+		if (tetromino.IsBottom())
 		{
 			counterDrop = 40;
 		}
@@ -197,7 +197,7 @@ void Game::Update()
 	}
 	if (IsKeyDown(KEY_DOWN))
 	{
-		if (!tetromino.IsAgi())
+		if (!tetromino.IsBottom())
 		{
 			counterFall += 15 + board.GetSpeed();
 		}
@@ -239,7 +239,7 @@ void Game::Update()
 	counterFall += board.GetSpeed() + 1;
 	board.DrawTimerLine(counterDrop);
 	
-	if (tetromino.IsAgi())
+	if (tetromino.IsBottom())
 	{
 		counterDrop--;
 		if (counterDrop <= 0)

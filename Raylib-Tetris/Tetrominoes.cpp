@@ -24,7 +24,7 @@ Tetromino::Tetromino(Board& board)
 	board(board),
 	boardPos(board.GetWidth() / 2 - dimension / 2, 0),
 	currentRotation(Rotation::UP),
-	isAgi(false),
+	isBottom(false),
 	currentPieceId(-1),
 	overloads(overloads),
 	isAnythingHeld(false),
@@ -621,7 +621,7 @@ void Tetromino::MoveLeft()
 	boardPos.SetX(boardPos.GetX() - 1);
 }
 
-bool Tetromino::IsAgi()
+bool Tetromino::IsBottom()
 {
 	for (int y = dimension - 1; y >= 0; y--)
 	{
@@ -651,19 +651,19 @@ bool Tetromino::IsAgi()
 			{
 				if (boardPos.GetY() + y + 2 > settings::boardWidthHeight.GetY())
 				{
-					isAgi = true;
-					return isAgi;
+					isBottom = true;
+					return isBottom;
 				}
 				else if (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y + 1 }))
 				{
-					isAgi = true;
-					return isAgi;
+					isBottom = true;
+					return isBottom;
 				}
 			}
 		}
 	}
-	isAgi = false;
-	return isAgi;
+	isBottom = false;
+	return isBottom;
 }
 
 bool Tetromino::IsBottomButTop()
@@ -782,7 +782,7 @@ void Tetromino::Draw(int style) const
 
 void Tetromino::HardDrop()
 {
-	while (!IsAgi())
+	while (!IsBottom())
 	{
 		Fall();
 		board.IncreaseScore((2 + board.GetLevel()) * 1.5);
@@ -796,7 +796,7 @@ void Tetromino::AlignPos(Tetromino tetromino)
 	boardPos = tetromino.GetPos();
 	color = tetromino.GetColor();
 	currentRotation = (Rotation)tetromino.GetRotation();
-	while (!IsAgi())
+	while (!IsBottom())
 	{
 		Fall();
 	}

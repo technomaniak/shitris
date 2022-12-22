@@ -27,7 +27,7 @@ public:
 	void PlaceTetromino();
 	void MoveRight();
 	void MoveLeft();
-	bool IsAgi();
+	bool IsBottom();
 	bool IsBottomButTop();
 	void Draw() const;
 	void Draw(int style) const;
@@ -75,7 +75,7 @@ public:
 
 private:
 	Vec2<int> boardPos;
-	bool isAgi;
+	bool isBottom;
 	bool isBottomButTop;
 	Rotation currentRotation;
 	std::vector<bool> shape;
