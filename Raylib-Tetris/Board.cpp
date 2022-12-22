@@ -42,7 +42,8 @@ Board::Board(Vec2<int> screenPos, int cellSize_in, int padding)
 	height(settings::boardWidthHeight.GetY()),
 	padding(padding),
 	speed(0),
-	level(0)
+	level(0),
+	foundExtraLines(false)
 {
 	std::cout << "doing board";
 	assert(width > 0 && height > 0); // checking if the width and height are larger than 0;
@@ -62,6 +63,7 @@ void Board::MoveCell(Vec2<int> posOld, Vec2<int> posNew)
 {
 	if (CellExists(posOld))
 	{
+		foundExtraLines = true;
 		SetCell(posNew, cells[posOld.GetX() + (posOld.GetY() * GetWidth())].GetColor());
 		cells[posOld.GetX() + (posOld.GetY() * GetWidth())].Remove();
 	}
@@ -241,15 +243,28 @@ void Board::ClearLines(int lastPiece, int lastAction, std::string alias, Vec2<in
 		{
 			cells[ x + (toRemove[y] * GetWidth()) ].Remove();
 
-			for (int yDos = toRemove[y]; yDos > 0; yDos--)
+			for (int yDos = toRemove[y]; yDos >= 0; yDos--)
 			{
 				MoveCell({ x, yDos }, { x, yDos + 1 });
 			}
 		}
 	}
+
+	for (int x = 0; x <= width; x++) // removing cells loop
+	{
+		for (int y = height; y >= 0; y--)
+		{
+			if (CellExists({ x, y }))
+			{
+				foundExtraLines = true;
+			}
+		}
+	}
+
 	if (toRemove.size() > 1)
 	{
-		score.IncreaseScore(toRemove.size(), lastAction, lastPiece, alias, GetLevel(), pos);
+		score.IncreaseScore(toRemove.size(), lastAction, lastPiece, alias, GetLevel(), pos, foundExtraLines);
+		foundExtraLines = false;
 	}
 
 	//gay porn

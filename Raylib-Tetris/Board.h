@@ -63,6 +63,7 @@ private:
 	Vec2<int> screenPos;
 	int speed;
 	int level;
+	bool foundExtraLines;
 
 	ScoreManagement score;
 }; 

@@ -24,7 +24,7 @@ Tetromino::Tetromino(Board& board)
 	board(board),
 	boardPos(board.GetWidth() / 2 - dimension / 2, 0),
 	currentRotation(Rotation::UP),
-	isBottom(false),
+	isAgi(false),
 	currentPieceId(-1),
 	overloads(overloads),
 	isAnythingHeld(false),
@@ -621,7 +621,7 @@ void Tetromino::MoveLeft()
 	boardPos.SetX(boardPos.GetX() - 1);
 }
 
-bool Tetromino::IsBottom()
+bool Tetromino::IsAgi()
 {
 	for (int y = dimension - 1; y >= 0; y--)
 	{
@@ -651,27 +651,68 @@ bool Tetromino::IsBottom()
 			{
 				if (boardPos.GetY() + y + 2 > settings::boardWidthHeight.GetY())
 				{
-					isBottom = true;
-					return isBottom;
+					isAgi = true;
+					return isAgi;
 				}
 				else if (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y + 1 }))
 				{
-					isBottom = true;
-					return isBottom;
+					isAgi = true;
+					return isAgi;
 				}
 			}
 		}
 	}
-	isBottom = false;
-	return isBottom;
+	isAgi = false;
+	return isAgi;
+}
+
+bool Tetromino::IsBottomButTop()
+{
+	for (int y = dimension - 1; y >= 0; y--)
+	{
+		for (int x = dimension - 1; x >= 0; x--)
+		{
+			bool cell = false;
+
+			switch (currentRotation)
+			{
+			case Tetromino::Rotation::UP:
+				cell = shape[y * dimension + x];
+				break;
+			case Tetromino::Rotation::RIGHT:
+				cell = shape[dimension * (dimension - 1) - dimension * x + y];
+				break;
+			case Tetromino::Rotation::DOWN:
+				cell = shape[(dimension * dimension - 1) - dimension * y - x];
+				break;
+			case Tetromino::Rotation::LEFT:
+				cell = shape[(dimension - 1) + dimension * x - y];
+				break;
+			default:
+				break;
+			}
+
+			if (cell)
+			{
+				if (boardPos.GetY() + y + 2 > settings::boardWidthHeight.GetY())
+				{
+					isBottomButTop = true;
+					return isBottomButTop;
+				}
+				else if (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y + 1 }))
+				{
+					isBottomButTop = true;
+					return isBottomButTop;
+				}
+			}
+		}
+	}
+	isBottomButTop = false;
+	return isBottomButTop;
 }
 
 void Tetromino::Draw() const
 {
-	DrawTextPro(GetFontDefault(), TextFormat("B2B %c spin", alias), 
-		{ settings::boardPosition.GetX() + ((float)boardPos.GetX() * settings::cellSize), 
-		settings::boardPosition.GetY() + ((float)boardPos.GetY() * settings::cellSize) },
-		{ (float)boardPos.GetX(), (float)boardPos.GetY() }, 69, 22, 3, Color{ 255, 255, 255, 255 });
 	for (int y = 0; y < dimension; y++)
 	{
 		for (int x = 0; x < dimension; x++) 
@@ -741,7 +782,7 @@ void Tetromino::Draw(int style) const
 
 void Tetromino::HardDrop()
 {
-	while (!IsBottom())
+	while (!IsAgi())
 	{
 		Fall();
 		board.IncreaseScore((2 + board.GetLevel()) * 1.5);
@@ -755,7 +796,7 @@ void Tetromino::AlignPos(Tetromino tetromino)
 	boardPos = tetromino.GetPos();
 	color = tetromino.GetColor();
 	currentRotation = (Rotation)tetromino.GetRotation();
-	while (!IsBottom())
+	while (!IsAgi())
 	{
 		Fall();
 	}

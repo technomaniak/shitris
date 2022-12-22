@@ -10,7 +10,7 @@ ScoreManagement::ScoreManagement():
 {
 }
 
-void ScoreManagement::IncreaseScore(int lines, int lastAction, int lastPiece, std::string alias, int level, Vec2<int> pos)
+void ScoreManagement::IncreaseScore(int lines, int lastAction, int lastPiece, std::string alias, int level, Vec2<int> pos, bool foundExtraLines)
 {
 	switch (lines)
 	{
@@ -34,6 +34,11 @@ void ScoreManagement::IncreaseScore(int lines, int lastAction, int lastPiece, st
 		{
 			score += ((level + 1) * 100);
 		}
+		if (foundExtraLines = false)
+		{
+			std::cout << "ALL CLEAR";
+			score += ((level + 1) * 800);
+		}
 		break;
 
 	case 2:
@@ -42,8 +47,10 @@ void ScoreManagement::IncreaseScore(int lines, int lastAction, int lastPiece, st
 			if (lastClear[1] == lastAction && lastClear[2] == lastPiece)
 			{
 				score += ((level + 1) * 1200 * 1.5);
-				DrawTextPro(GetFontDefault(), TextFormat("B2B ", alias, " spin"), { (float)pos.GetX(), (float)pos.GetY() },
-					{ (float)pos.GetX(), (float)pos.GetY() }, 255, 22, 3, Color{ 255, 255, 255, 255 });
+				DrawTextPro(GetFontDefault(), TextFormat("B2B %c spin", alias),
+						   { settings::boardPosition.GetX() + ((float)pos.GetX() * settings::cellSize),
+						   settings::boardPosition.GetY() + ((float)pos.GetY() * settings::cellSize) },
+						   { (float)pos.GetX(), (float)pos.GetY() }, 69, 22, 3, Color{ 255, 255, 255, 255 });
 			}
 			else
 			{
@@ -54,6 +61,11 @@ void ScoreManagement::IncreaseScore(int lines, int lastAction, int lastPiece, st
 		else
 		{
 			score += ((level + 1) * 300);
+		}
+		if (foundExtraLines = false)
+		{
+			std::cout << "ALL CLEAR";
+			score += ((level + 1) * 1200);
 		}
 		break;
 
@@ -75,7 +87,13 @@ void ScoreManagement::IncreaseScore(int lines, int lastAction, int lastPiece, st
 		{
 			score += ((level + 1) * 500);
 		}
+		if (foundExtraLines = false)
+		{
+			std::cout << "ALL CLEAR";
+			score += ((level + 1) * 1800);
+		}
 		break;
+
 	case 4:
 		if (lastAction == 1)
 		{
@@ -95,7 +113,13 @@ void ScoreManagement::IncreaseScore(int lines, int lastAction, int lastPiece, st
 		{
 			score += ((level + 1) * 800);
 		}
+		if (foundExtraLines = false)
+		{
+			std::cout << "ALL CLEAR";
+			score += ((level + 1) * 2000);
+		}
 		break;
+
 	case 5:
 		if (lastAction == 1)
 		{
@@ -114,7 +138,13 @@ void ScoreManagement::IncreaseScore(int lines, int lastAction, int lastPiece, st
 		{
 			score += ((level + 1) * 1500);
 		}
+		if (foundExtraLines = false)
+		{
+			std::cout << "ALL CLEAR";
+			score += ((level + 1) * 2200);
+		}
 		break;
+
 	case 6:
 		if (lastAction == 1)
 		{
@@ -132,6 +162,11 @@ void ScoreManagement::IncreaseScore(int lines, int lastAction, int lastPiece, st
 		{
 			score += ((level + 1) * 2100);
 			std::cout << "Mega " + alias + " spin";
+		}
+		if (foundExtraLines = false)
+		{
+			std::cout << "ALL CLEAR";
+			score += ((level + 1) * 2400);
 		}
 		break;
 	}

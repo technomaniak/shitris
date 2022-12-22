@@ -84,6 +84,7 @@ void Game::Update()
 		tetrominoesList.erase(tetrominoesList.begin());
 		tetrominoesList.push_back(SelectRandomPiece());
 		std::cout << "\nrandom piece selected ";
+		
 		tetromino.SetPos({ board.GetWidth() / 2 - tetromino.GetDimension() / 2, 0 });
 		tetromino.SetFallen(false);
 		tetromino.SetIsAnythingSetToHeld(false);
@@ -101,13 +102,13 @@ void Game::Update()
 				tetromino.MoveLeft();
 				counterKeepMoving = 0;
 
-				if (tetromino.IsBottom())
+				if (tetromino.IsAgi())
 				{
 					counterDrop = 40;
 				}
 			}
 		}
-		if (tetromino.IsBottom())
+		if (tetromino.IsAgi())
 		{
 			counterDrop = 40;
 		}
@@ -121,7 +122,7 @@ void Game::Update()
 	{
 		tetromino.MoveLeft();
 
-		if (tetromino.IsBottom())
+		if (tetromino.IsAgi())
 		{
 			counterDrop = 40;
 		}
@@ -140,13 +141,13 @@ void Game::Update()
 				tetromino.MoveRight();
 				counterKeepMoving = 0;
 
-				if (tetromino.IsBottom())
+				if (tetromino.IsAgi())
 				{
 					counterDrop = 40;
 				}
 			}
 		}
-		if (tetromino.IsBottom())
+		if (tetromino.IsAgi())
 		{
 			counterDrop = 40;
 		}
@@ -160,7 +161,7 @@ void Game::Update()
 	{
 		tetromino.MoveRight();
 
-		if (tetromino.IsBottom())
+		if (tetromino.IsAgi())
 		{
 			counterDrop = 40;
 		}
@@ -170,7 +171,7 @@ void Game::Update()
 	if (IsKeyPressed(KEY_X))
 	{
 		tetromino.RotateClockwise();
-		if (tetromino.IsBottom())
+		if (tetromino.IsAgi())
 		{
 			counterDrop = 40;
 		}
@@ -179,7 +180,7 @@ void Game::Update()
 	if (IsKeyPressed(KEY_Z))
 	{
 		tetromino.RotateCounterClockwise();
-		if (tetromino.IsBottom())
+		if (tetromino.IsAgi())
 		{
 			counterDrop = 40;
 		}
@@ -188,7 +189,7 @@ void Game::Update()
 	if (IsKeyPressed(KEY_W))
 	{
 		tetromino.RotateFull();
-		if (tetromino.IsBottom())
+		if (tetromino.IsAgi())
 		{
 			counterDrop = 40;
 		}
@@ -196,7 +197,7 @@ void Game::Update()
 	}
 	if (IsKeyDown(KEY_DOWN))
 	{
-		if (!tetromino.IsBottom())
+		if (!tetromino.IsAgi())
 		{
 			counterFall += 15 + board.GetSpeed();
 		}
@@ -238,7 +239,7 @@ void Game::Update()
 	counterFall += board.GetSpeed() + 1;
 	board.DrawTimerLine(counterDrop);
 	
-	if (tetromino.IsBottom())
+	if (tetromino.IsAgi())
 	{
 		counterDrop--;
 		if (counterDrop <= 0)
