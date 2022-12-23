@@ -23,7 +23,7 @@ Game::Game(int width, int height, int fps, std::string title)
 	lastAction(0)
 {
 	assert(!IsWindowReady()); // if triggered game is already open.
-
+	InitAudioDevice();
 	std::cout << "Loading Board";
 	inputManager.LoadBoard("Default", board);
 	std::cout << "Board Loaded";
@@ -43,6 +43,7 @@ Game::Game(int width, int height, int fps, std::string title)
 Game::~Game() noexcept 
 {
 	assert(GetWindowHandle()); // if triggered game window isn't open 
+	CloseAudioDevice();
 	CloseWindow();
 }
 

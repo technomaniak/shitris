@@ -13,14 +13,17 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms;tetromino</Extensions>
     </Filter>
-    <Filter Include="Pliki zasobów\Default">
+    <Filter Include="Pliki zasobów\presets">
       <UniqueIdentifier>{3996516d-853b-4f2e-a277-60ed36d98453}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Pliki zasobów\Default\tetrominoes">
+    <Filter Include="Pliki zasobów\presets\tetrominoes">
       <UniqueIdentifier>{ea2bc007-1e7c-4dac-8a55-bd1a812457c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Pliki zasobów\Default\board">
+    <Filter Include="Pliki zasobów\presets\board">
       <UniqueIdentifier>{359cc0c7-5bd3-4d1d-993c-32b5b1737159}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki zasobów\sounds">
+      <UniqueIdentifier>{03921d90-be37-4e20-ab40-1cfb9ca7ae1e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -74,40 +77,45 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="El.tetromino">
-      <Filter>Pliki zasobów\Default\tetrominoes</Filter>
+      <Filter>Pliki zasobów\presets\tetrominoes</Filter>
     </None>
     <None Include="Jay.tetromino">
-      <Filter>Pliki zasobów\Default\tetrominoes</Filter>
+      <Filter>Pliki zasobów\presets\tetrominoes</Filter>
     </None>
     <None Include="SkewS.tetromino">
-      <Filter>Pliki zasobów\Default\tetrominoes</Filter>
+      <Filter>Pliki zasobów\presets\tetrominoes</Filter>
     </None>
     <None Include="SkewZ.tetromino">
-      <Filter>Pliki zasobów\Default\tetrominoes</Filter>
+      <Filter>Pliki zasobów\presets\tetrominoes</Filter>
     </None>
     <None Include="Square.tetromino">
-      <Filter>Pliki zasobów\Default\tetrominoes</Filter>
+      <Filter>Pliki zasobów\presets\tetrominoes</Filter>
     </None>
     <None Include="Straight.tetromino">
-      <Filter>Pliki zasobów\Default\tetrominoes</Filter>
+      <Filter>Pliki zasobów\presets\tetrominoes</Filter>
     </None>
     <None Include="Tee.tetromino">
-      <Filter>Pliki zasobów\Default\tetrominoes</Filter>
+      <Filter>Pliki zasobów\presets\tetrominoes</Filter>
     </None>
     <None Include="Default.board">
-      <Filter>Pliki zasobów\Default\board</Filter>
+      <Filter>Pliki zasobów\presets\board</Filter>
     </None>
     <None Include="squomino.board">
-      <Filter>Pliki zasobów\Default\board</Filter>
+      <Filter>Pliki zasobów\presets\board</Filter>
     </None>
     <None Include="cock.board">
-      <Filter>Pliki zasobów\Default\board</Filter>
+      <Filter>Pliki zasobów\presets\board</Filter>
     </None>
     <None Include="test.board">
-      <Filter>Pliki zasobów\Default\board</Filter>
+      <Filter>Pliki zasobów\presets\board</Filter>
     </None>
     <None Include="Tspin.board">
-      <Filter>Pliki zasobów\Default\board</Filter>
+      <Filter>Pliki zasobów\presets\board</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\..\..\..\Documents\Gry\place.wav">
+      <Filter>Pliki zasobów\sounds</Filter>
+    </Media>
   </ItemGroup>
 </Project>

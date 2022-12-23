@@ -28,7 +28,9 @@ Tetromino::Tetromino(Board& board)
 	currentPieceId(-1),
 	overloads(overloads),
 	isAnythingHeld(false),
-	alias(alias)
+	alias(alias),
+	isBottomButTop(false),
+	placeSound(LoadSound("place.wav"))
 {
 	std::cout << "bpos " << boardPos.GetX() << "  " << boardPos.GetY() << "\n";
 }
@@ -546,6 +548,7 @@ void Tetromino::PlaceTetromino()
 		}
 	}
 	fallen = true;
+	PlaySound(placeSound);
 	return;
 }
 
