@@ -55,7 +55,6 @@ void Tetromino::RotateClockwise()
 				if (cell)
 				{
 					if (!(boardPos.GetX() + x + 1 > 0)
-						|| !(boardPos.GetY() + y > 0) //HELP
 						|| !(boardPos.GetX() + x < board.GetWidth())
 						|| !(boardPos.GetY() + y < board.GetHeight())
 						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
@@ -86,7 +85,6 @@ void Tetromino::RotateClockwise()
 				{
 					std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
 					if (!(boardPos.GetX() + x + 1 > 0)
-						|| !(boardPos.GetY() + y > 0) //HELP
 						|| !(boardPos.GetX() + x < board.GetWidth())
 						|| !(boardPos.GetY() + y < board.GetHeight())
 						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
@@ -118,7 +116,6 @@ void Tetromino::RotateClockwise()
 					std::cout << "\nnewp" << boardPos.GetX() << " " << boardPos.GetY() << "\n";
 					std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
 					if (!(boardPos.GetX() + x + 1 > 0)
-						|| !(boardPos.GetY() + y > 0) //HELP
 						|| !(boardPos.GetX() + x < board.GetWidth())
 						|| !(boardPos.GetY() + y < board.GetHeight())
 						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
@@ -140,13 +137,12 @@ void Tetromino::RotateClockwise()
 				}
 				break;
 			case 3:
-				cell = shape[dimension - 1 * dimension + dimension * x + y];
+				cell = shape[(dimension - 1) + dimension * x - y];
 				// selecting rotation
 				if (cell)
 				{
 					std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
 					if (!(boardPos.GetX() + x + 1 > 0)
-						|| !(boardPos.GetY() + y > 0) //HELP
 						|| !(boardPos.GetX() + x < board.GetWidth())
 						|| !(boardPos.GetY() + y < board.GetHeight())
 						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
@@ -290,7 +286,6 @@ void Tetromino::RotateCounterClockwise()
 				if (cell)
 				{
 					if (   !(boardPos.GetX() + x + 1 > 0)
-						|| !(boardPos.GetY() + y > 0) //HELP
 						|| !(boardPos.GetX() + x < board.GetWidth())
 						|| !(boardPos.GetY() + y < board.GetHeight())
 						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
@@ -321,7 +316,6 @@ void Tetromino::RotateCounterClockwise()
 				{
 					std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
 					if (   !(boardPos.GetX() + x + 1 > 0)
-						|| !(boardPos.GetY() + y > 0) //HELP
 						|| !(boardPos.GetX() + x < board.GetWidth())
 						|| !(boardPos.GetY() + y < board.GetHeight())
 						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
@@ -353,7 +347,6 @@ void Tetromino::RotateCounterClockwise()
 					std::cout << "\nnewp" << boardPos.GetX() << " " << boardPos.GetY() << "\n";
 					std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
 					if (   !(boardPos.GetX() + x + 1 > 0)
-						|| !(boardPos.GetY() + y > 0) //HELP
 						|| !(boardPos.GetX() + x < board.GetWidth())
 						|| !(boardPos.GetY() + y < board.GetHeight())
 						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
@@ -375,13 +368,12 @@ void Tetromino::RotateCounterClockwise()
 				}
 				break;
 			case 3:
-				cell = shape[dimension - 1 * dimension + dimension * x + y];
+				cell = shape[(dimension - 1) + dimension * x - y];
 				// selecting rotation
 				if (cell)
 				{
 					std::cout << "\n" << boardPos.GetX() + x + 1 << " r \n";
 					if (   !(boardPos.GetX() + x + 1 > 0)
-						|| !(boardPos.GetY() + y > 0) //HELP
 						|| !(boardPos.GetX() + x < board.GetWidth())
 						|| !(boardPos.GetY() + y < board.GetHeight())
 						|| (board.CellExists({ boardPos.GetX() + x, boardPos.GetY() + y })))
@@ -586,7 +578,7 @@ void Tetromino::MoveRight()
 				cell = shape[(dimension * dimension - 1) - dimension * y - x];
 				break;
 			case Tetromino::Rotation::LEFT:
-				cell = shape[dimension - 1 * dimension + dimension * x + y];
+				cell = shape[(dimension - 1) + dimension * x - y];
 				break;
 			default:
 				break;
