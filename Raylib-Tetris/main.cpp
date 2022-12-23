@@ -5,7 +5,8 @@ int main(void)
 {
     // Initialization
     //--------------------------------------------------------------------------------------
-       
+
+    InitAudioDevice();
     Game game{ settings::screenWidth, settings::screenHeight, settings::fps, "Tetris Raylib" };
 
     while (!game.GameShouldClose())

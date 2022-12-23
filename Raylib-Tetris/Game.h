@@ -28,6 +28,7 @@ private:
 	int SelectRandomPiece() const;
 	void DrawFuturePieces();
 	void DrawDrawMino();
+	void GameOver();
 
 	int counterFall;
 	int counterMove;
@@ -37,5 +38,6 @@ private:
 	std::vector<int> tetrominoesList;
 	int holdPiece;
 	bool moved;
+	bool gameShouldEnd;
 
 };

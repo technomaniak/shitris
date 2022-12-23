@@ -20,10 +20,10 @@ Game::Game(int width, int height, int fps, std::string title)
 	holdPiece(-1),
 	inputManager(InputManager()),
 	moved(false),
-	lastAction(0)
+	lastAction(0),
+	gameShouldEnd(false)
 {
 	assert(!IsWindowReady()); // if triggered game is already open.
-	InitAudioDevice();
 	std::cout << "Loading Board";
 	inputManager.LoadBoard("Default", board);
 	std::cout << "Board Loaded";
@@ -55,8 +55,15 @@ bool Game::GameShouldClose() const
 void Game::Tick()
 {
 	BeginDrawing();
-	Update();
-	Draw();
+	if (gameShouldEnd)
+	{
+		GameOver();
+	}
+	else
+	{
+		Update();
+		Draw();
+	}
 	EndDrawing();
 }
 
@@ -93,6 +100,34 @@ void Game::Update()
 		tetromino.SetFallen(false);
 		tetromino.SetIsAnythingSetToHeld(false);
 		tetromino.SetRotation(Tetromino::Rotation::UP);
+	}
+
+	if (IsKeyPressed(KEY_X))
+	{
+		tetromino.RotateClockwise();
+		if (tetromino.IsBottom())
+		{
+			counterDrop = 40;
+		}
+		lastAction = 1;
+	}
+	if (IsKeyPressed(KEY_Z))
+	{
+		tetromino.RotateCounterClockwise();
+		if (tetromino.IsBottom())
+		{
+			counterDrop = 40;
+		}
+		lastAction = 1;
+	}
+	if (IsKeyPressed(KEY_W))
+	{
+		tetromino.RotateFull();
+		if (tetromino.IsBottom())
+		{
+			counterDrop = 40;
+		}
+		lastAction = 1;
 	}
 
 	if (IsKeyDown(KEY_LEFT))
@@ -172,33 +207,6 @@ void Game::Update()
 		lastAction = 2;
 	}
 
-	if (IsKeyPressed(KEY_X))
-	{
-		tetromino.RotateClockwise();
-		if (tetromino.IsBottom())
-		{
-			counterDrop = 40;
-		}
-		lastAction = 1;
-	}
-	if (IsKeyPressed(KEY_Z))
-	{
-		tetromino.RotateCounterClockwise();
-		if (tetromino.IsBottom())
-		{
-			counterDrop = 40;
-		}
-		lastAction = 1;
-	}
-	if (IsKeyPressed(KEY_W))
-	{
-		tetromino.RotateFull();
-		if (tetromino.IsBottom())
-		{
-			counterDrop = 40;
-		}
-		lastAction = 1;
-	}
 	if (IsKeyDown(KEY_DOWN))
 	{
 		if (!tetromino.IsBottom())
@@ -242,13 +250,13 @@ void Game::Update()
 
 	counterFall += board.GetSpeed() + 1;
 	board.DrawTimerLine(counterDrop);
-	
+
 	if (tetromino.IsBottom())
 	{
 		counterDrop--;
 		if (counterDrop <= 0)
 		{
-			tetromino.PlaceTetromino();
+			tetromino.PlaceTetromino(gameShouldEnd);
 			counterDrop = 40;
 			counterFall = 1;
 		}
@@ -337,4 +345,12 @@ void Game::DrawDrawMino()
 {
 	drawMino.AlignPos(tetromino);
 	drawMino.Draw(1);
+}
+
+void Game::GameOver()
+{
+	board.Draw();
+	tetromino.Draw();
+	raycpp::DrawRectangle({ 0, 0 }, { settings::screenWidth, settings::screenHeight }, Color{ 0, 0, 0, 30 });
+	DrawText("Game Over", settings::levelCounterPosition.GetX(), settings::levelCounterPosition.GetY() + 250, settings::scoreCounterSize, Color{186, 25, 13, 30});
 }

@@ -53,7 +53,7 @@ Board::Board(Vec2<int> screenPos, int cellSize_in, int padding)
 
 void Board::SetCell(Vec2<int> pos, Color c)
 {
-	assert(pos.GetX() >= 0 && pos.GetY() >= 0);
+	//assert(pos.GetX() >= 0 && pos.GetY() >= 0);
 	assert(pos.GetX() < width && pos.GetY() < height);
 
 	cells[pos.GetY() * width + pos.GetX()].SetColor(c);

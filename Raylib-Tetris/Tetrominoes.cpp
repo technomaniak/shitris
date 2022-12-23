@@ -514,9 +514,8 @@ void Tetromino::Fall()
 	boardPos.SetY(boardPos.GetY() + 1);	
 }
 
-void Tetromino::PlaceTetromino()
+void Tetromino::PlaceTetromino(bool &shouldEnd)
 {
-
 	for (int y = 0; y < dimension; y++)
 	{
 		for (int x = 0; x < dimension; x++)
@@ -543,11 +542,26 @@ void Tetromino::PlaceTetromino()
 
 			if (cell)
 			{
-				board.SetCell({ boardPos.GetX() + x,  boardPos.GetY() + y }, color);
+				if (boardPos.GetY() + y < 0)
+				{
+					shouldEnd = true;
+				}
+				if (!shouldEnd)
+				{
+					board.SetCell({ boardPos.GetX() + x,  boardPos.GetY() + y }, color);
+				}
 			}
 		}
 	}
 	fallen = true;
+	if (!shouldEnd)
+	{
+		PlaySound(placeSound);
+	}
+	else
+	{
+		// insert play_end_sound
+	}
 	PlaySound(placeSound);
 	return;
 }
