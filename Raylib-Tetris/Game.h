@@ -3,6 +3,7 @@
 #include "Board.h"
 #include "Tetrominoes.h"
 #include "InputManager.h"
+#include "SoundManager.h"
 
 class Game
 {
@@ -22,6 +23,7 @@ private:
 	Tetromino drawMino;
 	Tetromino heldMino;
 	InputManager inputManager;
+	SoundManager soundManager;
 
 	void Draw();
 	void Update();

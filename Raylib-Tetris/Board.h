@@ -2,7 +2,7 @@
 #include "raylibCpp.h"
 #include <vector>
 #include "Vec2.h"
-#include "ScoreManagement.h"
+#include "ScoreManager.h"
 
 class Board
 {
@@ -65,5 +65,5 @@ private:
 	int level;
 	bool foundExtraLines;
 
-	ScoreManagement score;
+	ScoreManager score;
 }; 

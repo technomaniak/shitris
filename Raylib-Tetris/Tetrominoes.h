@@ -95,6 +95,4 @@ private:
 	int currentPieceId;
 	int isAnythingHeld;
 	std::string alias;
-
-	Sound placeSound;
 };

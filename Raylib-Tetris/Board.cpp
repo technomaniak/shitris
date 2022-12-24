@@ -3,7 +3,7 @@
 #include <iostream>
 #include "Game.h"
 #include "Settings.h"
-#include "ScoreManagement.h"
+#include "ScoreManager.h"
 
 Board::Cell::Cell()
 	:

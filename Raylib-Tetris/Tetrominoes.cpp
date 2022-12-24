@@ -29,8 +29,7 @@ Tetromino::Tetromino(Board& board)
 	overloads(overloads),
 	isAnythingHeld(false),
 	alias(alias),
-	isBottomButTop(false),
-	placeSound(LoadSound("place.wav"))
+	isBottomButTop(false)
 {
 	std::cout << "bpos " << boardPos.GetX() << "  " << boardPos.GetY() << "\n";
 }
@@ -548,13 +547,12 @@ void Tetromino::PlaceTetromino(bool &shouldEnd)
 	fallen = true;
 	if (!shouldEnd)
 	{
-		PlaySound(placeSound);
+
 	}
 	else
 	{
 		// insert play_end_sound
 	}
-	PlaySound(placeSound);
 	return;
 }
 

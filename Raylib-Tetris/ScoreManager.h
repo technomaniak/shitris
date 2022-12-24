@@ -3,10 +3,10 @@
 #include <string>
 #include <vector>
 
-class ScoreManagement
+class ScoreManager
 {
 public:
-	ScoreManagement();
+	ScoreManager();
 	void IncreaseScore(int lines, int lastAction, int lastPiece, std::string alias, int level, Vec2<int> pos, bool foundExtraLines);
 	void IncreaseScore(int increase);
 	void DrawScore() const;

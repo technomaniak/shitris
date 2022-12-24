@@ -21,11 +21,12 @@ Game::Game(int width, int height, int fps, std::string title)
 	inputManager(InputManager()),
 	moved(false),
 	lastAction(0),
-	gameShouldEnd(false)
+	gameShouldEnd(false),
+	soundManager(SoundManager())
 {
 	assert(!IsWindowReady()); // if triggered game is already open.
 	std::cout << "Loading Board";
-	inputManager.LoadBoard("Default", board);
+	inputManager.LoadBoard("squomino", board);
 	std::cout << "Board Loaded";
 	tetrominoesList.resize(inputManager.GetTetrominoPreviewAmount());
 	for (int i = 0; i < inputManager.GetTetrominoPreviewAmount(); i++)
@@ -44,6 +45,7 @@ Game::~Game() noexcept
 {
 	assert(GetWindowHandle()); // if triggered game window isn't open 
 	CloseAudioDevice();
+	// CLOSE AUDIO
 	CloseWindow();
 }
 
@@ -84,6 +86,11 @@ void Game::Draw()
 
 void Game::Update()
 {
+	if (!soundManager.CheckMusicPlaying())
+	{
+		soundManager.LoadMusic();
+	}
+
 	if (tetromino.GetFallen())
 	{
 		board.ClearLines(tetromino.GetCurrentPieceId(), lastAction, tetromino.GetAlias(), tetromino.GetPos());
@@ -108,6 +115,7 @@ void Game::Update()
 		if (tetromino.IsBottom())
 		{
 			counterDrop = 40;
+			counterFall = 1;
 		}
 		lastAction = 1;
 	}
@@ -117,6 +125,7 @@ void Game::Update()
 		if (tetromino.IsBottom())
 		{
 			counterDrop = 40;
+			counterFall = 1;
 		}
 		lastAction = 1;
 	}
@@ -126,6 +135,7 @@ void Game::Update()
 		if (tetromino.IsBottom())
 		{
 			counterDrop = 40;
+			counterFall = 1;
 		}
 		lastAction = 1;
 	}
@@ -144,12 +154,14 @@ void Game::Update()
 				if (tetromino.IsBottom())
 				{
 					counterDrop = 40;
+					counterFall = 1;
 				}
 			}
 		}
 		if (tetromino.IsBottom())
 		{
 			counterDrop = 40;
+			counterFall = 1;
 		}
 		lastAction = 2;
 	}
@@ -164,6 +176,7 @@ void Game::Update()
 		if (tetromino.IsBottom())
 		{
 			counterDrop = 40;
+			counterFall = 1;
 		}
 		lastAction = 2;
 	}
@@ -183,12 +196,14 @@ void Game::Update()
 				if (tetromino.IsBottom())
 				{
 					counterDrop = 40;
+					counterFall = 1;
 				}
 			}
 		}
 		if (tetromino.IsBottom())
 		{
 			counterDrop = 40;
+			counterFall = 1;
 		}
 		lastAction = 2;
 	}
@@ -203,6 +218,7 @@ void Game::Update()
 		if (tetromino.IsBottom())
 		{
 			counterDrop = 40;
+			counterFall = 1;
 		}
 		lastAction = 2;
 	}
@@ -226,6 +242,10 @@ void Game::Update()
 				inputManager.LoadTetromino(inputManager.GetHeld(), tetromino);
 				inputManager.SetHeld(current);
 				tetromino.SetPos({ board.GetWidth() / 2 - tetromino.GetDimension() / 2, 0 });
+				while (!tetromino.IsBottomButTop())
+				{
+					tetromino.SetPos({ tetromino.GetPos().GetX(), tetromino.GetPos().GetY() - 1 });
+				}
 				tetromino.SetRotation(Tetromino::Rotation::UP);
 			}
 			else
@@ -257,6 +277,10 @@ void Game::Update()
 		if (counterDrop <= 0)
 		{
 			tetromino.PlaceTetromino(gameShouldEnd);
+			if (!gameShouldEnd)
+			{
+				soundManager.PlaySoundFromName("placeSound");
+			}
 			counterDrop = 40;
 			counterFall = 1;
 		}

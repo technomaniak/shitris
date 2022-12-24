@@ -42,10 +42,13 @@
     <ClCompile Include="Tetrominoes.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="ScoreManagement.cpp">
+    <ClCompile Include="ScoreManager.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,10 +71,13 @@
     <ClInclude Include="Tetrominoes.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="ScoreManagement.h">
+    <ClInclude Include="ScoreManager.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>
@@ -115,6 +121,9 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="..\..\..\..\Documents\Gry\place.wav">
+      <Filter>Pliki zasobów\sounds</Filter>
+    </Media>
+    <Media Include="music_1.mp3">
       <Filter>Pliki zasobów\sounds</Filter>
     </Media>
   </ItemGroup>

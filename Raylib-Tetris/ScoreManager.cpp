@@ -1,16 +1,16 @@
-#include "ScoreManagement.h"
+#include "ScoreManager.h"
 #include "raylibCpp.h"
 #include "Settings.h"
 #include <string>
 #include <iostream>
 
-ScoreManagement::ScoreManagement():
+ScoreManager::ScoreManager():
 	score(0),
 	lastClear({0, 0, 0}) //lines action piece
 {
 }
 
-void ScoreManagement::IncreaseScore(int lines, int lastAction, int lastPiece, std::string alias, int level, Vec2<int> pos, bool foundExtraLines)
+void ScoreManager::IncreaseScore(int lines, int lastAction, int lastPiece, std::string alias, int level, Vec2<int> pos, bool foundExtraLines)
 {
 	switch (lines)
 	{
@@ -173,17 +173,17 @@ void ScoreManagement::IncreaseScore(int lines, int lastAction, int lastPiece, st
 	lastClear = { lines, lastAction, lastPiece };
 }
 
-void ScoreManagement::IncreaseScore(int increase)
+void ScoreManager::IncreaseScore(int increase)
 {
 	score += increase;
 }
 
-void ScoreManagement::DrawScore() const
+void ScoreManager::DrawScore() const
 {
 	DrawText(TextFormat("Score: \n%08i", score), settings::scoreCounterPosition.GetX(), settings::scoreCounterPosition.GetY(), settings::scoreCounterSize, VIOLET);
 }
 
-int ScoreManagement::GetScore() const
+int ScoreManager::GetScore() const
 {
 	return score;
 }
