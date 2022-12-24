@@ -4,8 +4,10 @@
 SoundManager::SoundManager():
 	music({ LoadMusicStream("music_1.mp3") }),
 	music_amount(music.size()),
-	placeSound(LoadSound("place.wav"))
+	placeSound(LoadSound("place.wav")),
+	musicPlayingId(0)
 {
+	SetSoundVolume(placeSound, 0.2f);
 }
 
 void SoundManager::PlaySoundFromName(std::string name)
@@ -27,18 +29,25 @@ bool SoundManager::CheckMusicPlaying() const
 	{
 		if (IsMusicStreamPlaying(music[i]))
 		{
-			std::cout << "\nMusic is playing for " << GetMusicTimePlayed(music[i]) << " now";
+			std::cout << "\nMusic is playing for " << GetMusicTimePlayed(music[i]) << " seconds now";
 			return true;
 		}
 	}
 	return false;
 }
 
-void SoundManager::LoadMusic()
+void SoundManager::PlayRandomMusic()
 {
 	int toPlay = rand() % music_amount;
+	SetMusicVolume(music[toPlay], 0.1f);
 	PlayMusicStream(music[toPlay]);
+	musicPlayingId = toPlay;
 	std::cout << "\nPlay music " << GetMusicTimeLength(music[toPlay]);
+}
+
+void SoundManager::UpdateCurrentMusic()
+{
+	UpdateMusicStream(music[musicPlayingId]);
 }
 
 SoundManager::Options SoundManager::ResolveOptions(std::string input)

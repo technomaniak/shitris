@@ -25,16 +25,16 @@ Game::Game(int width, int height, int fps, std::string title)
 	soundManager(SoundManager())
 {
 	assert(!IsWindowReady()); // if triggered game is already open.
-	std::cout << "Loading Board";
+	std::cout << "\nLoading Board " << sizeof(int);
 	inputManager.LoadBoard("squomino", board);
-	std::cout << "Board Loaded";
+	std::cout << "\nBoard Loaded";
 	tetrominoesList.resize(inputManager.GetTetrominoPreviewAmount());
 	for (int i = 0; i < inputManager.GetTetrominoPreviewAmount(); i++)
 	{
 		tetrominoesList[i] = SelectRandomPiece();
 	}
-	std::cout << "Tetromino Loaded";
-	srand(time(NULL));
+	std::cout << "\nTetromino Loaded";
+	srand((int)time(NULL));
 
 	//SetConfigFlags(FLAG_FULLSCREEN_MODE);
 	InitWindow(width, height, title.c_str());
@@ -88,7 +88,11 @@ void Game::Update()
 {
 	if (!soundManager.CheckMusicPlaying())
 	{
-		soundManager.LoadMusic();
+		soundManager.PlayRandomMusic();
+	}
+	else
+	{
+		soundManager.UpdateCurrentMusic();
 	}
 
 	if (tetromino.GetFallen())
@@ -291,7 +295,7 @@ void Game::Update()
 		if (counterFall >= 61)
 		{
 			tetromino.Fall();
-			board.IncreaseScore((1 + board.GetLevel()) * 1.5);
+			board.IncreaseScore((int)((1 + board.GetLevel()) * 1.5));
 			counterDrop = 40;
 			counterFall = 1;
 			lastAction = 0;

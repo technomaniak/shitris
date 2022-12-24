@@ -19,7 +19,7 @@ void ScoreManager::IncreaseScore(int lines, int lastAction, int lastPiece, std::
 		{
 			if (lastClear[1] == lastAction && lastClear[2] == lastPiece)
 			{
-				score += ((level + 1) * 200 * 1.5);
+				score += ((level + 1) * (int)(200 * 1.5));
 				DrawTextPro(GetFontDefault(), TextFormat("B2B ", alias, " spin"), 
 					{ settings::boardPosition.GetX() + ((float)pos.GetX() * settings::cellSize), (float)pos.GetY() + ((float)pos.GetY() * settings::cellSize) },
 					{ (float)pos.GetX(), (float)pos.GetY() }, 255, 22, 3, Color{ 255, 255, 255, 255 });
@@ -46,7 +46,7 @@ void ScoreManager::IncreaseScore(int lines, int lastAction, int lastPiece, std::
 		{
 			if (lastClear[1] == lastAction && lastClear[2] == lastPiece)
 			{
-				score += ((level + 1) * 1200 * 1.5);
+				score += ((level + 1) * (int)(1200 * 1.5));
 				DrawTextPro(GetFontDefault(), TextFormat("B2B %c spin", alias),
 						   { settings::boardPosition.GetX() + ((float)pos.GetX() * settings::cellSize),
 						   settings::boardPosition.GetY() + ((float)pos.GetY() * settings::cellSize) },
@@ -74,7 +74,7 @@ void ScoreManager::IncreaseScore(int lines, int lastAction, int lastPiece, std::
 		{
 			if (lastClear[1] == lastAction && lastClear[2] == lastPiece)
 			{
-				score += ((level + 1) * 1600 * 1.5);
+				score += ((level + 1) * (int)(1600 * 1.5));
 				std::cout << "B2B " + alias + " spin";
 			}
 			else
@@ -100,7 +100,7 @@ void ScoreManager::IncreaseScore(int lines, int lastAction, int lastPiece, std::
 			std::cout << "Quad " + alias + " spin";
 			if (lastClear[1] == lastAction && lastClear[2] == lastPiece)
 			{
-				score += ((level + 1) * 2000 * 1.5);
+				score += ((level + 1) * (int)(2000 * 1.5));
 				std::cout << "B2B " + alias + " spin";
 			}
 			else
@@ -125,7 +125,7 @@ void ScoreManager::IncreaseScore(int lines, int lastAction, int lastPiece, std::
 		{
 			if (lastClear[1] == lastAction && lastClear[2] == lastPiece)
 			{
-				score += ((level + 1) * 3000 * 1.5);
+				score += ((level + 1) * (int)(3000 * 1.5));
 				std::cout << "B2B " + alias + " spin";
 			}
 			else
@@ -150,7 +150,7 @@ void ScoreManager::IncreaseScore(int lines, int lastAction, int lastPiece, std::
 		{
 			if (lastClear[1] == lastAction && lastClear[2] == lastPiece)
 			{
-				score += ((level + 1) * 4500 * 1.5);
+				score += ((level + 1) * (int)(4500 * 1.5));
 				std::cout << "B2B " + alias + " spin";
 			}
 			else

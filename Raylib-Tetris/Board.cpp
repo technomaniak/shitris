@@ -237,7 +237,7 @@ std::vector<int> Board::CheckForLines()
 void Board::ClearLines(int lastPiece, int lastAction, std::string alias, Vec2<int> pos)
 {
 	std::vector<int> toRemove = CheckForLines();
-	for (int y = 0; y < toRemove.size(); y++)
+	for (size_t y = 0; y < toRemove.size(); y++)
 	{
 		for (int x = 0; x < width; x++) // removing cells loop
 		{

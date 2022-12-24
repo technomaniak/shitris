@@ -800,7 +800,7 @@ void Tetromino::HardDrop()
 	while (!IsBottom())
 	{
 		Fall();
-		board.IncreaseScore((2 + board.GetLevel()) * 1.5);
+		board.IncreaseScore((int)((2 + board.GetLevel()) * 1.5));
 	}
 }
 

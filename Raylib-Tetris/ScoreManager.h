@@ -13,6 +13,6 @@ public:
 	int GetScore() const;
 
 private:
-	long long int score;
+	int score;
 	std::vector<int> lastClear; //lines action piece
 };

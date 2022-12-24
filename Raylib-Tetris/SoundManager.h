@@ -16,12 +16,14 @@ public:
 
 	void PlaySoundFromName(std::string name);
 	bool CheckMusicPlaying() const;
-	void LoadMusic();
+	void PlayRandomMusic();
+	void UpdateCurrentMusic();
 private:
 
-	std::vector<Music> music;
-	Sound placeSound;
+	const std::vector<Music> music;
+	const Sound placeSound;
 	const int music_amount;
+	int musicPlayingId;
 
 	Options ResolveOptions(std::string input);
 };
