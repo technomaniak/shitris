@@ -18,8 +18,9 @@ public:
 	bool CheckMusicPlaying() const;
 	void PlayRandomMusic();
 	void UpdateCurrentMusic();
-private:
+	void CloseSound();
 
+private:
 	const std::vector<Music> music;
 	const Sound placeSound;
 	const int music_amount;

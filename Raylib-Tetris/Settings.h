@@ -20,4 +20,6 @@ namespace settings
     inline constexpr int scoreCounterSize = 92;
     inline constexpr Vec2<int> levelCounterPosition{ 1220, 375 };
     inline constexpr int levelCounterSize = 80;
+    inline constexpr Vec2<int> linesCounterPosition{ 1220, 625 };
+    inline constexpr int linesCounterSize = 80;
 }

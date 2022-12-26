@@ -35,7 +35,7 @@ public:
 	void DrawFutureBorder(Vec2<int> pos, Vec2<int> size) const;
 	void DrawHeldBorder(Vec2<int> pos, Vec2<int> size) const;
 	void DrawBoardGrid() const;
-	void DrawFutureBoardGrid(Vec2<int> pos, int amount) const;
+	void DrawFutureBoardGrid(Vec2<int> pos, int amount, int maxDimension) const;
 	void DrawBoard() const;
 	void DrawFutureBoard(Vec2<int> pos, Vec2<int> size) const;
 	void DrawTimerLine(int timer) const;
@@ -53,6 +53,8 @@ public:
 	void IncreaseScore(int increase);
 
 	void SetSize(Vec2<int> widthHei);
+	void SaveScore(std::string boardName);
+	void SetHighScore(int hS);
 
 private:
 	std::vector<Cell> cells;
@@ -64,6 +66,7 @@ private:
 	int speed;
 	int level;
 	bool foundExtraLines;
+	bool scoreSaved;
 
 	ScoreManager score;
 }; 

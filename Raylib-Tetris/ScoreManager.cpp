@@ -3,10 +3,13 @@
 #include "Settings.h"
 #include <string>
 #include <iostream>
+#include <fstream>
 
 ScoreManager::ScoreManager():
 	score(0),
-	lastClear({0, 0, 0}) //lines action piece
+	lastClear({0, 0, 0}),  //lines action piece
+	lines(0),
+	highScore(0)
 {
 }
 
@@ -20,7 +23,7 @@ void ScoreManager::IncreaseScore(int lines, int lastAction, int lastPiece, std::
 			if (lastClear[1] == lastAction && lastClear[2] == lastPiece)
 			{
 				score += ((level + 1) * (int)(200 * 1.5));
-				DrawTextPro(GetFontDefault(), TextFormat("B2B ", alias, " spin"), 
+				DrawTextPro(GetFontDefault(), TextFormat("B2B c spin", alias), 
 					{ settings::boardPosition.GetX() + ((float)pos.GetX() * settings::cellSize), (float)pos.GetY() + ((float)pos.GetY() * settings::cellSize) },
 					{ (float)pos.GetX(), (float)pos.GetY() }, 255, 22, 3, Color{ 255, 255, 255, 255 });
 			}
@@ -178,12 +181,75 @@ void ScoreManager::IncreaseScore(int increase)
 	score += increase;
 }
 
+void ScoreManager::IncreaseLines(int nLines)
+{
+	lines += nLines;
+}
+
+void ScoreManager::Draw() const
+{
+	DrawScore();
+	DrawLines();
+	DrawHighScore();
+}
+
 void ScoreManager::DrawScore() const
 {
 	DrawText(TextFormat("Score: \n%08i", score), settings::scoreCounterPosition.GetX(), settings::scoreCounterPosition.GetY(), settings::scoreCounterSize, VIOLET);
 }
 
+void ScoreManager::DrawHighScore() const
+{
+	DrawText(TextFormat("HI: %08i", highScore), settings::scoreCounterPosition.GetX(), settings::scoreCounterPosition.GetY() + 238, 20, DARKBLUE);
+}
+
+void ScoreManager::DrawLines() const
+{
+	DrawText(TextFormat("Lines Cleared: \n%04i", lines), settings::linesCounterPosition.GetX(), settings::linesCounterPosition.GetY(), settings::linesCounterSize, VIOLET);
+}
+
 int ScoreManager::GetScore() const
 {
 	return score;
+}
+
+int ScoreManager::GetLines() const
+{
+	return lines;
+}
+
+void ScoreManager::SaveBestScore(std::string file) const
+{
+	std::ifstream dataSave(file + ".HS");
+	std::string input;
+	std::getline(dataSave, input);
+	if (dataSave.fail())
+	{
+		std::ofstream dataSaveOut(file + ".HS");
+		dataSaveOut << score << "\n";
+		dataSaveOut << lines;
+	}
+	else
+	{
+		if (input == "")
+		{
+			std::ofstream dataSaveOut(file + ".HS");
+			dataSaveOut << score << "\n";
+			dataSaveOut << lines;
+		}
+		else
+		{
+			if (std::stoi(input) < score)
+			{
+				std::ofstream dataSaveOut(file + ".HS");
+				dataSaveOut << score << "\n";
+				dataSaveOut << lines;
+			}
+		}
+	}
+}
+
+void ScoreManager::SetHighScore(int highScoreNew)
+{
+	highScore = highScoreNew;
 }

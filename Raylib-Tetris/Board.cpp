@@ -43,7 +43,9 @@ Board::Board(Vec2<int> screenPos, int cellSize_in, int padding)
 	padding(padding),
 	speed(0),
 	level(0),
-	foundExtraLines(false)
+	foundExtraLines(false),
+	score(ScoreManager()),
+	scoreSaved(false)
 {
 	std::cout << "doing board";
 	assert(width > 0 && height > 0); // checking if the width and height are larger than 0;
@@ -130,23 +132,45 @@ void Board::DrawHeldBorder(Vec2<int> pos, Vec2<int> size) const
 }
 
 
-void Board::DrawFutureBoardGrid(Vec2<int> pos, int amount) const
+void Board::DrawFutureBoardGrid(Vec2<int> pos, int amount, int maxDimension) const
 {
-	for (int y = 1; y < 6; y++)
+	for (int y = 1; y < (maxDimension + 2); y++)
 	{
-		DrawLine(pos.GetX() - 2 + (y * cellSize),
-			pos.GetY() - 6 + (cellSize / 2),
-			pos.GetX() - 2 + (y * cellSize),
-			pos.GetY() - 11 + (amount * 4 * cellSize) - (cellSize / 2),
-			Color{ 102, 191, 255, 55 });
+		if (y != 1 && y != (maxDimension + 1))
+		{
+			DrawLine(pos.GetX() - 2 + (y * cellSize),
+				pos.GetY() - 6 + (cellSize / 2),
+				pos.GetX() - 2 + (y * cellSize),
+				pos.GetY() - 9 + (amount * maxDimension * cellSize) + (cellSize / 2 * 3),
+				Color{ 102, 191, 255, 55 });
+		}
+		else
+		{
+			DrawLine(pos.GetX() - 2 + (y * cellSize),
+				pos.GetY() - 6 + (cellSize / 2),
+				pos.GetX() - 2 + (y * cellSize),
+				pos.GetY() - 9 + (amount * maxDimension * cellSize) + (cellSize / 2 * 3),
+				Color{ 102, 191, 100, 155 });
+		}
 	}
-	for (int x = 1; x < amount * 4; x++)
+	for (int x = 1; x < amount * maxDimension + 2; x++)
 	{
-		DrawLine(pos.GetX() + (cellSize / 2),
-			pos.GetY() - 7 + (x * cellSize),
-			pos.GetX() - 5 + (5 * cellSize) + (cellSize / 2),
-			pos.GetY() - 7 + (x * cellSize),
-			Color{ 102, 191, 255, 55 });
+		if ((x - 1) % maxDimension == 0)
+		{
+			DrawLine(pos.GetX() + (cellSize / 2),
+				pos.GetY() - 7 + (x * cellSize),
+				pos.GetX() - 5 + ((maxDimension + 1) * cellSize) + (cellSize / 2),
+				pos.GetY() - 7 + (x * cellSize),
+				Color{ 102, 191, 100, 155 });
+		}
+		else
+		{
+			DrawLine(pos.GetX() + (cellSize / 2),
+				pos.GetY() - 7 + (x * cellSize),
+				pos.GetX() - 5 + ((maxDimension + 1) * cellSize) + (cellSize / 2),
+				pos.GetY() - 7 + (x * cellSize),
+				Color{ 102, 191, 255, 55 });
+		}
 	}
 }
 
@@ -203,7 +227,7 @@ void Board::Draw() const
 			}
 		}
 	}
-	score.DrawScore();
+	score.Draw();
 }
 
 void Board::DrawLevel() const
@@ -237,6 +261,7 @@ std::vector<int> Board::CheckForLines()
 void Board::ClearLines(int lastPiece, int lastAction, std::string alias, Vec2<int> pos)
 {
 	std::vector<int> toRemove = CheckForLines();
+	score.IncreaseLines(toRemove.size());
 	for (size_t y = 0; y < toRemove.size(); y++)
 	{
 		for (int x = 0; x < width; x++) // removing cells loop
@@ -267,23 +292,12 @@ void Board::ClearLines(int lastPiece, int lastAction, std::string alias, Vec2<in
 		foundExtraLines = false;
 	}
 
-	//gay porn
-	//switch (toRemove.size())
-	//{
-	//case 1:
-	//	score.IncreaseScore(40 * (level + 1));
-	//	break;
-	//case 2:
-	//	score.IncreaseScore(100 * (level + 1));
-	//	break;
-	//case 3:
-	//	score.IncreaseScore(300 * (level + 1));
-	//	break;
-	//case 4:
-	//	score.IncreaseScore(1200 * (level + 1));
-	//	break;
-	//}
-	if (score.GetScore() > (level + 1) * (level + 2) * 1500)
+	int linesToIncrease = 0;
+	for (int i = 0; i <= level; i++)
+	{
+		linesToIncrease += (i + 1) * 10 + level;
+	}
+	if (score.GetLines() >= linesToIncrease)
 	{
 		speed += 1;
 		level += 1;
@@ -339,4 +353,19 @@ void Board::SetSize(Vec2<int> widthHei)
 {
 	width = widthHei.GetX();
 	height = widthHei.GetY();
+}
+
+void Board::SaveScore(std::string boardName)
+{
+	if (!scoreSaved)
+	{
+		score.SaveBestScore(boardName);
+		scoreSaved = true;
+	}
+	return;
+}
+
+void Board::SetHighScore(int hS)
+{
+	score.SetHighScore(hS);
 }

@@ -151,6 +151,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="raylibCpp.cpp" />
     <ClCompile Include="ScoreManager.cpp" />
     <ClCompile Include="SoundManager.cpp" />
@@ -159,6 +160,7 @@
   <ItemGroup>
     <ClInclude Include="Board.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="ScoreManager.h" />
@@ -170,6 +172,7 @@
   <ItemGroup>
     <None Include="cock.board" />
     <None Include="Default.board" />
+    <None Include="Default.HS" />
     <None Include="El.tetromino" />
     <None Include="Jay.tetromino" />
     <None Include="SkewS.tetromino" />
@@ -184,6 +187,7 @@
   <ItemGroup>
     <Media Include="..\..\..\..\Documents\Gry\place.wav" />
     <Media Include="music_1.mp3" />
+    <Media Include="music_2.mp3" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

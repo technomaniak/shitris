@@ -4,6 +4,7 @@
 #include "Tetrominoes.h"
 #include "InputManager.h"
 #include "SoundManager.h"
+#include "MainMenu.h"
 
 class Game
 {
@@ -24,6 +25,7 @@ private:
 	Tetromino heldMino;
 	InputManager inputManager;
 	SoundManager soundManager;
+	MainMenu mainMenu;
 
 	void Draw();
 	void Update();
@@ -41,5 +43,6 @@ private:
 	int holdPiece;
 	bool moved;
 	bool gameShouldEnd;
+	std::string boardName;
 
 };

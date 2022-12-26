@@ -22,11 +22,13 @@ Game::Game(int width, int height, int fps, std::string title)
 	moved(false),
 	lastAction(0),
 	gameShouldEnd(false),
-	soundManager(SoundManager())
+	soundManager(SoundManager()),
+	mainMenu(MainMenu()),
+	boardName("Default")
 {
 	assert(!IsWindowReady()); // if triggered game is already open.
 	std::cout << "\nLoading Board " << sizeof(int);
-	inputManager.LoadBoard("squomino", board);
+	inputManager.LoadBoard(boardName, board);
 	std::cout << "\nBoard Loaded";
 	tetrominoesList.resize(inputManager.GetTetrominoPreviewAmount());
 	for (int i = 0; i < inputManager.GetTetrominoPreviewAmount(); i++)
@@ -44,8 +46,8 @@ Game::Game(int width, int height, int fps, std::string title)
 Game::~Game() noexcept 
 {
 	assert(GetWindowHandle()); // if triggered game window isn't open 
+	soundManager.CloseSound();
 	CloseAudioDevice();
-	// CLOSE AUDIO
 	CloseWindow();
 }
 
@@ -57,14 +59,28 @@ bool Game::GameShouldClose() const
 void Game::Tick()
 {
 	BeginDrawing();
-	if (gameShouldEnd)
+	if (mainMenu.GetGameRunning())
 	{
-		GameOver();
+		if (gameShouldEnd)
+		{
+			GameOver();
+		}
+		else
+		{
+			Update();
+			Draw();
+		}
 	}
 	else
 	{
-		Update();
-		Draw();
+		if (!mainMenu.GetMenuLoaded())
+		{
+			mainMenu.LoadMenu();
+		}
+		else
+		{
+			mainMenu.Tick();
+		}
 	}
 	EndDrawing();
 }
@@ -314,7 +330,7 @@ void Game::DrawFuturePieces()
 	{
 		inputManager.LoadTetromino(tetrominoesList[z], futureMino);
 		std::vector<bool> shape(futureMino.GetDimension() * futureMino.GetDimension());
-		Vec2<int> pos = { settings::boardWidthHeight.GetX() + 3, (z * 4) };
+		Vec2<int> pos = { settings::boardWidthHeight.GetX() + 3, (z * (inputManager.GetMaxDimension())) };
 		for (int y = 0; y < futureMino.GetDimension(); y++)
 		{
 			for (int x = 0; x < futureMino.GetDimension(); x++)
@@ -326,7 +342,15 @@ void Game::DrawFuturePieces()
 
 				if (cell)
 				{
-					board.DrawFutureCell(pos + Vec2<int>{x, y}, futureMino.GetColor());
+					if (futureMino.GetDimension() < inputManager.GetMaxDimension())
+					{
+						board.DrawFutureCell(pos + Vec2<int>{x - ((futureMino.GetDimension() - inputManager.GetMaxDimension()) / 2),
+							y - ((futureMino.GetDimension() - inputManager.GetMaxDimension()) / 2)}, futureMino.GetColor());
+					}
+					else
+					{
+						board.DrawFutureCell(pos + Vec2<int>{x, y}, futureMino.GetColor());
+					}
 				}
 			}
 		}
@@ -363,10 +387,10 @@ void Game::DrawFuturePieces()
 	}
 
 	board.DrawFutureBoard({ ((settings::boardWidthHeight.GetX() + 8) * board.GetCellSize()), board.GetScreenPos().GetY() - 26 },
-		{ (5 * board.GetCellSize()) + board.GetCellSize() - 6, (inputManager.GetTetrominoPreviewAmount() * board.GetCellSize() * 4) - 5 });
+		{ (5 * board.GetCellSize()) + board.GetCellSize() - 6, (inputManager.GetTetrominoPreviewAmount() * board.GetCellSize() * inputManager.GetMaxDimension()) - 5 + (board.GetCellSize()) * 2 });
 	board.DrawFutureBorder({ ((settings::boardWidthHeight.GetX() + 8) * board.GetCellSize()), board.GetScreenPos().GetY() - 26 },
-		{ (5 * board.GetCellSize()) + board.GetCellSize() - 6, (inputManager.GetTetrominoPreviewAmount() * board.GetCellSize() * 4) - 5 });
-	board.DrawFutureBoardGrid({ ((settings::boardWidthHeight.GetX() + 8) * board.GetCellSize()), board.GetScreenPos().GetY() - 20 }, inputManager.GetTetrominoPreviewAmount());
+		{ (5 * board.GetCellSize()) + board.GetCellSize() - 6, (inputManager.GetTetrominoPreviewAmount() * board.GetCellSize() * inputManager.GetMaxDimension()) - 5 + (board.GetCellSize() * 2) });
+	board.DrawFutureBoardGrid({ ((settings::boardWidthHeight.GetX() + 8) * board.GetCellSize()), board.GetScreenPos().GetY() - 20 }, inputManager.GetTetrominoPreviewAmount(), inputManager.GetMaxDimension());
 }
 
 void Game::DrawDrawMino()
@@ -379,6 +403,7 @@ void Game::GameOver()
 {
 	board.Draw();
 	tetromino.Draw();
+	board.SaveScore(boardName);
 	raycpp::DrawRectangle({ 0, 0 }, { settings::screenWidth, settings::screenHeight }, Color{ 0, 0, 0, 30 });
-	DrawText("Game Over", settings::levelCounterPosition.GetX(), settings::levelCounterPosition.GetY() + 250, settings::scoreCounterSize, Color{186, 25, 13, 30});
+	DrawText("GAME\nOVER", settings::levelCounterPosition.GetX() - 400, 300, settings::scoreCounterSize, Color{186, 25, 13, 30});
 }

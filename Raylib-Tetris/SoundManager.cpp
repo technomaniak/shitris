@@ -2,7 +2,7 @@
 #include <iostream>
 
 SoundManager::SoundManager():
-	music({ LoadMusicStream("music_1.mp3") }),
+	music({ LoadMusicStream("music_1.mp3"), LoadMusicStream("music_2.mp3") }),
 	music_amount(music.size()),
 	placeSound(LoadSound("place.wav")),
 	musicPlayingId(0)
@@ -38,6 +38,7 @@ bool SoundManager::CheckMusicPlaying() const
 
 void SoundManager::PlayRandomMusic()
 {
+	srand((int)time(NULL));
 	int toPlay = rand() % music_amount;
 	SetMusicVolume(music[toPlay], 0.1f);
 	PlayMusicStream(music[toPlay]);
@@ -48,6 +49,15 @@ void SoundManager::PlayRandomMusic()
 void SoundManager::UpdateCurrentMusic()
 {
 	UpdateMusicStream(music[musicPlayingId]);
+}
+
+void SoundManager::CloseSound()
+{
+	for (int i = 0; i < music_amount; i++)
+	{
+		UnloadMusicStream(music[i]);
+	}
+	UnloadSound(placeSound);
 }
 
 SoundManager::Options SoundManager::ResolveOptions(std::string input)

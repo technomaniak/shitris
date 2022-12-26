@@ -4,11 +4,12 @@
 #include "Settings.h"
 #include "Board.h"
 
-InputManager::InputManager():
+InputManager::InputManager() :
 	tetrominoes(),
 	tetrominoePreviewAmount(),
 	tetrominoeAmount(),
-	held(-1)
+	held(-1),
+	maxDimension(0)
 {
 
 }
@@ -18,6 +19,8 @@ void InputManager::LoadBoard(std::string boardName, Board &board)
 	std::ifstream inputFile(boardName + ".board");
 	std::string input;
 	
+	board.SetHighScore(LoadHighScore(boardName));
+
 	// getting board size
 
 	std::getline (inputFile, input, ' ');
@@ -76,6 +79,21 @@ void InputManager::LoadTetromino(int index, Tetromino &tetromino)
 	tetromino.SetALias(tetrominoes[index].GetAlias());
 }
 
+int InputManager::LoadHighScore(std::string boardName)
+{
+	std::ifstream inputFile(boardName + ".HS");
+	std::string input;
+	if (!inputFile.fail())
+	{
+		std::getline(inputFile, input);
+		if (input != "")
+		{
+			return std::stoi(input);
+		}
+	}
+	return 0;
+}
+
 int InputManager::GetTetrominoPreviewAmount() const
 {
 	return tetrominoePreviewAmount;
@@ -96,6 +114,11 @@ void InputManager::SetHeld(int tetrominoe)
 	held = tetrominoe;
 }
 
+int InputManager::GetMaxDimension() const
+{
+	return maxDimension;
+}
+
 void InputManager::LoadTetrominoToFile(std::string fileName, int index)
 {
 	std::ifstream inputFile(fileName);
@@ -105,6 +128,10 @@ void InputManager::LoadTetrominoToFile(std::string fileName, int index)
 
 	std::getline(inputFile, input);
 	tetrominoes[index].SetDimension(std::stoi(input));
+	if (std::stoi(input) > maxDimension)
+	{
+		maxDimension = std::stoi(input);
+	}
 	std::vector<bool> shape(std::stoi(input) * std::stoi(input), false);
 
 	// get shape
