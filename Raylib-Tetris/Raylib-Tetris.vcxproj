@@ -182,6 +182,7 @@
     <None Include="Straight.tetromino" />
     <None Include="Tee.tetromino" />
     <None Include="test.board" />
+    <None Include="test.HS" />
     <None Include="Tspin.board" />
   </ItemGroup>
   <ItemGroup>

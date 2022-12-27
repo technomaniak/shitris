@@ -9,16 +9,26 @@ public:
 
 	void LoadMenu();
 	void Tick();
-	void PlayButton();
-	void VolumeSettings();
 	bool GetGameRunning() const;
 	bool GetMenuLoaded() const;
+	void Draw() const;
 private:
 	void StartGame();
+	void MainText();
+	void PlayButton();
+	void VolumeSettings();
+	void SetAnimationValueMainText();
 	bool GameRunning;
 	bool menuLoaded;
+
 	bool mouseOverPlayButton;
-	int counter;
+	int playButtonCounter;
+
+	int mainMenuTextZoomCounter;
+	int menuTextAnimationSymbol;
+	int menuTextRotation;
+	int mainTextAnimationSpeed;
+
 	float volume;
 	SoundManager sounds;
 };

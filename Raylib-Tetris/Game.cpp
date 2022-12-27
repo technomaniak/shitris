@@ -24,7 +24,7 @@ Game::Game(int width, int height, int fps, std::string title)
 	gameShouldEnd(false),
 	soundManager(SoundManager()),
 	mainMenu(MainMenu(soundManager)),
-	boardName("Default"),
+	boardName("test"),
 	newBest(false)
 {
 	assert(!IsWindowReady()); // if triggered game is already open.
@@ -74,8 +74,14 @@ void Game::Tick()
 	}
 	else
 	{
-		mainMenu.LoadMenu();
-		mainMenu.Tick();
+		if (mainMenu.GetMenuLoaded())
+		{
+			mainMenu.Tick();
+		}
+		else
+		{
+			mainMenu.LoadMenu();
+		}
 	}
 	EndDrawing();
 }

@@ -133,6 +133,9 @@
     <None Include="Default.HS">
       <Filter>Pliki zasobów\PlayerData</Filter>
     </None>
+    <None Include="test.HS">
+      <Filter>Pliki zasobów\PlayerData</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Media Include="..\..\..\..\Documents\Gry\placeSound.wav">

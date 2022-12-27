@@ -6,10 +6,11 @@ SoundManager::SoundManager():
 	music_amount(music.size()),
 	placeSound(LoadSound("placeSound.wav")),
 	menuSound(LoadSound("menuSound.wav")),
-	musicPlayingId(0)
+	musicVolume(0.2f),
+	currentlyPlaying(0)
 {
-	SetSoundVolume(placeSound, 0.2f);
-	SetSoundVolume(menuSound, 0.2f);
+	SetSoundVolume(placeSound, musicVolume);
+	SetSoundVolume(menuSound, musicVolume);
 }
 
 void SoundManager::PlaySoundFromName(std::string name)
@@ -44,16 +45,15 @@ bool SoundManager::CheckMusicPlaying() const
 void SoundManager::PlayRandomMusic()
 {
 	srand((int)time(NULL));
-	int toPlay = rand() % music_amount;
-	SetMusicVolume(music[toPlay], 0.1f);
-	PlayMusicStream(music[toPlay]);
-	musicPlayingId = toPlay;
-	std::cout << "\nPlay music " << GetMusicTimeLength(music[toPlay]);
+	currentlyPlaying = rand() % music_amount;
+	SetMusicVolume(music[currentlyPlaying], musicVolume);
+	PlayMusicStream(music[currentlyPlaying]);
+	std::cout << "\nPlay music " << GetMusicTimeLength(music[currentlyPlaying]);
 }
 
 void SoundManager::UpdateCurrentMusic()
 {
-	UpdateMusicStream(music[musicPlayingId]);
+	UpdateMusicStream(music[currentlyPlaying]);
 }
 
 void SoundManager::CloseSound()
@@ -63,6 +63,17 @@ void SoundManager::CloseSound()
 		UnloadMusicStream(music[i]);
 	}
 	UnloadSound(placeSound);
+}
+
+void SoundManager::SetAllMusicVolume(float volume)
+{
+	musicVolume = volume;
+	SetMusicVolume(music[currentlyPlaying], musicVolume);
+}
+
+float SoundManager::GetMusicVolume() const
+{
+	return musicVolume;
 }
 
 SoundManager::Options SoundManager::ResolveOptions(std::string input)

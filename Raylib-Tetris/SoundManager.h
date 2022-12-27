@@ -20,13 +20,16 @@ public:
 	void PlayRandomMusic();
 	void UpdateCurrentMusic();
 	void CloseSound();
+	void SetAllMusicVolume(float volume);
+	float GetMusicVolume() const;
 
 private:
 	const std::vector<Music> music;
 	const Sound placeSound;
 	const Sound menuSound;
 	const int music_amount;
-	int musicPlayingId;
+	float musicVolume;
+	int currentlyPlaying;
 
 	Options ResolveOptions(std::string input);
 };
