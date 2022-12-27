@@ -14,3 +14,13 @@ void raycpp::DrawRectangleLinesEx(Vec2<int> pos, Vec2<int> widthHeight, int line
 
 	DrawRectangleLinesEx({ (float)pos.GetX(), (float)pos.GetY(), (float)widthHeight.GetX(), (float)widthHeight.GetY() }, (float)lineThick, color);
 }
+
+void raycpp::DrawText(const char* text, Vec2<int> pos, int fontSize, Color color)
+{
+	DrawText(text, pos.GetX(), pos.GetY(), fontSize, color);
+}
+
+Vec2<int> raycpp::GetMousePos()
+{
+	return { GetMouseX(), GetMouseY() };
+}

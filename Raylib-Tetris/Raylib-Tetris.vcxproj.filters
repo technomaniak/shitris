@@ -28,6 +28,9 @@
     <Filter Include="Pliki zasobów\PlayerData">
       <UniqueIdentifier>{1e269dd4-4cbc-420d-b808-ee2941b54c1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki zasobów\Music">
+      <UniqueIdentifier>{78cdc3e6-df9b-497e-9449-8929ed28b1f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -132,14 +135,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="..\..\..\..\Documents\Gry\place.wav">
+    <Media Include="..\..\..\..\Documents\Gry\placeSound.wav">
       <Filter>Pliki zasobów\sounds</Filter>
     </Media>
-    <Media Include="music_1.mp3">
+    <Media Include="menuSound.wav">
       <Filter>Pliki zasobów\sounds</Filter>
     </Media>
     <Media Include="music_2.mp3">
-      <Filter>Pliki zasobów\sounds</Filter>
+      <Filter>Pliki zasobów\Music</Filter>
+    </Media>
+    <Media Include="music_1.mp3">
+      <Filter>Pliki zasobów\Music</Filter>
     </Media>
   </ItemGroup>
 </Project>

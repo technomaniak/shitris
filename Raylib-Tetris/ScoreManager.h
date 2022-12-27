@@ -16,7 +16,7 @@ public:
 	void DrawLines() const;
 	int GetScore() const;
 	int GetLines() const;
-	void SaveBestScore(std::string file) const;
+	void SaveBestScore(std::string file, bool &newBest);
 
 	void SetHighScore(int highScoreNew);
 

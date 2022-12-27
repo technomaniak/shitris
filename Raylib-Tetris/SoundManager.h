@@ -9,6 +9,7 @@ private:
 
 	enum class Options {
 		placeSound,
+		menuSound,
 		invalidSound
 	};
 public:
@@ -23,6 +24,7 @@ public:
 private:
 	const std::vector<Music> music;
 	const Sound placeSound;
+	const Sound menuSound;
 	const int music_amount;
 	int musicPlayingId;
 

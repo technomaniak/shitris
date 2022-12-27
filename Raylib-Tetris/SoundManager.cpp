@@ -4,10 +4,12 @@
 SoundManager::SoundManager():
 	music({ LoadMusicStream("music_1.mp3"), LoadMusicStream("music_2.mp3") }),
 	music_amount(music.size()),
-	placeSound(LoadSound("place.wav")),
+	placeSound(LoadSound("placeSound.wav")),
+	menuSound(LoadSound("menuSound.wav")),
 	musicPlayingId(0)
 {
 	SetSoundVolume(placeSound, 0.2f);
+	SetSoundVolume(menuSound, 0.2f);
 }
 
 void SoundManager::PlaySoundFromName(std::string name)
@@ -16,6 +18,9 @@ void SoundManager::PlaySoundFromName(std::string name)
 	{
 	case Options::placeSound:
 		PlaySound(placeSound);
+		return;
+	case Options::menuSound:
+		PlaySound(menuSound);
 		return;
 	case Options::invalidSound:
 		std::cout << "\n WRONG SOUND FILE\n";
@@ -63,5 +68,6 @@ void SoundManager::CloseSound()
 SoundManager::Options SoundManager::ResolveOptions(std::string input)
 {
 	if (input == "placeSound") return Options::placeSound;
+	if (input == "menuSound") return Options::menuSound;
 	return Options::invalidSound;
 }

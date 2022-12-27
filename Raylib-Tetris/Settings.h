@@ -22,4 +22,16 @@ namespace settings
     inline constexpr int levelCounterSize = 80;
     inline constexpr Vec2<int> linesCounterPosition{ 1220, 625 };
     inline constexpr int linesCounterSize = 80;
+
+    // Main Menu 
+
+    // Play Button
+    inline constexpr Vec2<int> playButtonSize{ 500, 150 };
+    inline constexpr int minPlayButtonTextSize = 80;
+    inline constexpr int maxPlayButtonTextSize = 100;
+    inline int playButtonTextSize = 100;
+    inline constexpr Vec2<int> playButtonPos{ (screenWidth / 2) - (playButtonSize.GetX() / 2), ((screenHeight / 3) * 2) };
+    inline Vec2<int> playButtonTextPos{ playButtonPos.GetX(), playButtonPos.GetY() };
+
+    // Volume Slider
 }

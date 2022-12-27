@@ -185,7 +185,8 @@
     <None Include="Tspin.board" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="..\..\..\..\Documents\Gry\place.wav" />
+    <Media Include="..\..\..\..\Documents\Gry\placeSound.wav" />
+    <Media Include="menuSound.wav" />
     <Media Include="music_1.mp3" />
     <Media Include="music_2.mp3" />
   </ItemGroup>

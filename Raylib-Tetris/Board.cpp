@@ -261,7 +261,7 @@ std::vector<int> Board::CheckForLines()
 void Board::ClearLines(int lastPiece, int lastAction, std::string alias, Vec2<int> pos)
 {
 	std::vector<int> toRemove = CheckForLines();
-	score.IncreaseLines(toRemove.size());
+	score.IncreaseLines((int)toRemove.size());
 	for (size_t y = 0; y < toRemove.size(); y++)
 	{
 		for (int x = 0; x < width; x++) // removing cells loop
@@ -288,7 +288,7 @@ void Board::ClearLines(int lastPiece, int lastAction, std::string alias, Vec2<in
 
 	if (toRemove.size() > 1)
 	{
-		score.IncreaseScore(toRemove.size(), lastAction, lastPiece, alias, GetLevel(), pos, foundExtraLines);
+		score.IncreaseScore((int)toRemove.size(), lastAction, lastPiece, alias, GetLevel(), pos, foundExtraLines);
 		foundExtraLines = false;
 	}
 
@@ -355,11 +355,11 @@ void Board::SetSize(Vec2<int> widthHei)
 	height = widthHei.GetY();
 }
 
-void Board::SaveScore(std::string boardName)
+void Board::SaveScore(std::string boardName, bool &newBest)
 {
 	if (!scoreSaved)
 	{
-		score.SaveBestScore(boardName);
+		score.SaveBestScore(boardName, newBest);
 		scoreSaved = true;
 	}
 	return;

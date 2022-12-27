@@ -53,7 +53,7 @@ public:
 	void IncreaseScore(int increase);
 
 	void SetSize(Vec2<int> widthHei);
-	void SaveScore(std::string boardName);
+	void SaveScore(std::string boardName, bool &newBest);
 	void SetHighScore(int hS);
 
 private:

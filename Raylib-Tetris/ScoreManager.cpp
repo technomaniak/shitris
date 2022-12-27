@@ -218,7 +218,7 @@ int ScoreManager::GetLines() const
 	return lines;
 }
 
-void ScoreManager::SaveBestScore(std::string file) const
+void ScoreManager::SaveBestScore(std::string file, bool &newBest)
 {
 	std::ifstream dataSave(file + ".HS");
 	std::string input;
@@ -228,6 +228,7 @@ void ScoreManager::SaveBestScore(std::string file) const
 		std::ofstream dataSaveOut(file + ".HS");
 		dataSaveOut << score << "\n";
 		dataSaveOut << lines;
+		newBest = true;
 	}
 	else
 	{
@@ -236,6 +237,7 @@ void ScoreManager::SaveBestScore(std::string file) const
 			std::ofstream dataSaveOut(file + ".HS");
 			dataSaveOut << score << "\n";
 			dataSaveOut << lines;
+			newBest = true;
 		}
 		else
 		{
@@ -244,6 +246,7 @@ void ScoreManager::SaveBestScore(std::string file) const
 				std::ofstream dataSaveOut(file + ".HS");
 				dataSaveOut << score << "\n";
 				dataSaveOut << lines;
+				newBest = true;
 			}
 		}
 	}

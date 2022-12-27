@@ -43,6 +43,7 @@ private:
 	int holdPiece;
 	bool moved;
 	bool gameShouldEnd;
+	bool newBest;
 	std::string boardName;
 
 };

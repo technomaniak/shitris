@@ -23,8 +23,9 @@ Game::Game(int width, int height, int fps, std::string title)
 	lastAction(0),
 	gameShouldEnd(false),
 	soundManager(SoundManager()),
-	mainMenu(MainMenu()),
-	boardName("Default")
+	mainMenu(MainMenu(soundManager)),
+	boardName("Default"),
+	newBest(false)
 {
 	assert(!IsWindowReady()); // if triggered game is already open.
 	std::cout << "\nLoading Board " << sizeof(int);
@@ -73,14 +74,8 @@ void Game::Tick()
 	}
 	else
 	{
-		if (!mainMenu.GetMenuLoaded())
-		{
-			mainMenu.LoadMenu();
-		}
-		else
-		{
-			mainMenu.Tick();
-		}
+		mainMenu.LoadMenu();
+		mainMenu.Tick();
 	}
 	EndDrawing();
 }
@@ -403,7 +398,16 @@ void Game::GameOver()
 {
 	board.Draw();
 	tetromino.Draw();
-	board.SaveScore(boardName);
+	board.SaveScore(boardName, newBest);
 	raycpp::DrawRectangle({ 0, 0 }, { settings::screenWidth, settings::screenHeight }, Color{ 0, 0, 0, 30 });
-	DrawText("GAME\nOVER", settings::levelCounterPosition.GetX() - 400, 300, settings::scoreCounterSize, Color{186, 25, 13, 30});
+
+	if (newBest)
+	{
+		DrawText("GAME\nOVER", settings::levelCounterPosition.GetX() - 400, 300, settings::scoreCounterSize, Color{ 255, 0, 0, 100 });
+		DrawText("NEW BEST", settings::levelCounterPosition.GetX() - 400, 600, settings::scoreCounterSize - 20, Color{ 255, 69, 0, 100 });
+	}
+	else
+	{
+		DrawText("GAME\nOVER", settings::levelCounterPosition.GetX() - 400, 300, settings::scoreCounterSize, Color{ 255, 25, 13, 100 });
+	}
 }
