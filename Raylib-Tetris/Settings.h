@@ -34,7 +34,7 @@ namespace settings
     inline Vec2<int> playButtonTextPos{ playButtonPos.GetX(), playButtonPos.GetY() };
 
     // Volume Slider
-    inline constexpr Vec2<int> volumeSliderBorderSize{ 25, 250 };
+    inline constexpr Vec2<int> volumeSliderBorderSize{ 25, 306 };
     inline constexpr Vec2<int> volumeSliderBorderPos{ screenWidth - volumeSliderBorderSize.GetX() * 5, screenHeight - (int)(volumeSliderBorderSize.GetY() * 1.3) };
     inline Vec2<int> volumeSliderSize = volumeSliderBorderSize - 6;
     inline constexpr Vec2<int> volumeSliderPos = volumeSliderBorderPos + 3;

@@ -29,13 +29,13 @@ void SoundManager::PlaySoundFromName(std::string name)
 	}
 }
 
-bool SoundManager::CheckMusicPlaying() const
+bool SoundManager::CheckMusicPlaying()
 {
 	for (int i = 0; i < music_amount; i++)
 	{
 		if (IsMusicStreamPlaying(music[i]))
 		{
-			std::cout << "\nMusic is playing for " << GetMusicTimePlayed(music[i]) << " seconds now";
+			currentlyPlaying = i;
 			return true;
 		}
 	}
@@ -69,6 +69,8 @@ void SoundManager::SetAllMusicVolume(float volume)
 {
 	musicVolume = volume;
 	SetMusicVolume(music[currentlyPlaying], musicVolume);
+	SetSoundVolume(placeSound, musicVolume);
+	SetSoundVolume(menuSound, musicVolume);
 }
 
 float SoundManager::GetMusicVolume() const

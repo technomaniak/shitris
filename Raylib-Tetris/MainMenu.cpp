@@ -8,11 +8,14 @@ MainMenu::MainMenu(SoundManager sounds):
 	playButtonCounter(0),
 	sounds(sounds),
 	mouseOverPlayButton(false),
+	mouseOverMusicVolumeSlider(false),
+	mouseClickedMusicVolumeSlider(false),
 	volume(0.0f),
 	menuTextRotation(-1),
 	menuTextAnimationSymbol(-1),
 	mainTextAnimationSpeed(1),
-	mainMenuTextZoomCounter(0)
+	mainMenuTextZoomCounter(0),
+	volumeSliderTint(Color{ 0, 0, 0, 255 })
 {
 }
 
@@ -80,6 +83,51 @@ void MainMenu::PlayButton()
 
 void MainMenu::VolumeSettings()
 {
+	if (raycpp::GetMousePos() > settings::volumeSliderBorderPos - Vec2<int>{ 0, 25 }
+	&& raycpp::GetMousePos() < settings::volumeSliderBorderPos - Vec2<int>{ 0, 15 } + settings::volumeSliderBorderSize)
+	{
+		if (mouseOverMusicVolumeSlider != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			mouseOverMusicVolumeSlider = true;
+		}
+	}
+	else
+	{
+		if (!mouseClickedMusicVolumeSlider)
+		{
+			mouseOverMusicVolumeSlider = false;
+		}
+	}
+
+	if (mouseOverMusicVolumeSlider)
+	{
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			mouseClickedMusicVolumeSlider = true;
+		}
+		if (mouseClickedMusicVolumeSlider && IsMouseButtonDown(MOUSE_BUTTON_LEFT))
+		{
+			float mouseVolumePosForFucksSake = ((((float)settings::volumeSliderPos.GetY() + settings::volumeSliderSize.GetY()) - raycpp::GetMousePos().GetY() - 20) / settings::volumeSliderSize.GetY());
+
+			if (mouseVolumePosForFucksSake < 0)
+			{
+				sounds.SetAllMusicVolume(0.0f);
+			}
+			else if (mouseVolumePosForFucksSake > 1)
+			{
+				sounds.SetAllMusicVolume(1.0f);
+			}
+			else
+			{
+				sounds.SetAllMusicVolume(mouseVolumePosForFucksSake);
+			}
+		}
+		if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
+		{
+			mouseClickedMusicVolumeSlider = false;
+		}
+	}
 }
 
 void MainMenu::SetAnimationValueMainText()
@@ -137,8 +185,9 @@ void MainMenu::Draw() const
 
 	// Volume
 	raycpp::DrawRectangleLinesEx(settings::volumeSliderBorderPos, settings::volumeSliderBorderSize, 2, RAYWHITE);
-	raycpp::DrawRectangle({ settings::volumeSliderPos.GetX(), settings::volumeSliderPos.GetY() + (100 - (int)(sounds.GetMusicVolume() * 100)) },
+	raycpp::DrawRectangle({ settings::volumeSliderPos.GetX(), settings::volumeSliderPos.GetY() + (settings::volumeSliderSize.GetY() / 100 * (100 - (int)(sounds.GetMusicVolume() * 100))) },
 		{ settings::volumeSliderSize.GetX(), (settings::volumeSliderSize.GetY() / 100) * (int)(sounds.GetMusicVolume() * 100) }, RAYWHITE);
+	raycpp::DrawText(TextFormat(" V\n O\n L\n U\n M\n E\n%i", (int)(sounds.GetMusicVolume() * 100)), settings::volumeSliderBorderPos - Vec2<int>{ 50, -3 }, 30, RAYWHITE);
 }
 
 void MainMenu::MainText()
@@ -157,7 +206,7 @@ void MainMenu::MainText()
 	}
 
 	DrawTextPro(GetFontDefault(), "SHITRIS", { settings::screenWidth / 2, settings::screenHeight / 2 }, { (float)MeasureText("SHITRIS", settings::mainTextSize) / 2 - 25, 
-											   MeasureTextEx(GetFontDefault(), "SHITRIS", settings::mainTextSize, 5).y }, menuTextRotation, settings::mainTextSize, 5, RAYWHITE);
+											   MeasureTextEx(GetFontDefault(), "SHITRIS", (float)settings::mainTextSize, 5).y }, (float)menuTextRotation, (float)settings::mainTextSize, 5, RAYWHITE);
 
 	SetAnimationValueMainText();
 

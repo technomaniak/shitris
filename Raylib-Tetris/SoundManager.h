@@ -16,7 +16,7 @@ public:
 	SoundManager();
 
 	void PlaySoundFromName(std::string name);
-	bool CheckMusicPlaying() const;
+	bool CheckMusicPlaying();
 	void PlayRandomMusic();
 	void UpdateCurrentMusic();
 	void CloseSound();

@@ -22,6 +22,8 @@ private:
 	bool menuLoaded;
 
 	bool mouseOverPlayButton;
+	bool mouseOverMusicVolumeSlider;
+	bool mouseClickedMusicVolumeSlider;
 	int playButtonCounter;
 
 	int mainMenuTextZoomCounter;
@@ -31,4 +33,5 @@ private:
 
 	float volume;
 	SoundManager sounds;
+	Color volumeSliderTint;
 };
