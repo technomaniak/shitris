@@ -286,7 +286,7 @@ void Board::ClearLines(int lastPiece, int lastAction, std::string alias, Vec2<in
 		}
 	}
 
-	if (toRemove.size() > 1)
+	if (toRemove.size() >= 1)
 	{
 		score.IncreaseScore((int)toRemove.size(), lastAction, lastPiece, alias, GetLevel(), pos, foundExtraLines);
 		foundExtraLines = false;

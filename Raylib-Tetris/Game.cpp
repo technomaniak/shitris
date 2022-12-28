@@ -409,11 +409,26 @@ void Game::GameOver()
 
 	if (newBest)
 	{
-		DrawText("GAME\nOVER", settings::levelCounterPosition.GetX() - 400, 300, settings::scoreCounterSize, Color{ 255, 0, 0, 100 });
-		DrawText("NEW BEST", settings::levelCounterPosition.GetX() - 400, 600, settings::scoreCounterSize - 20, Color{ 255, 69, 0, 100 });
+		raycpp::DrawText("GAME\nOVER", settings::gameOverTextPosition, settings::gameOverAllRegularTextsSize, Color{ 255, 0, 0, 100 });
+		raycpp::DrawText("NEW BEST", settings::newBestTextPosition, settings::gameOverAllRegularTextsSize - 20, Color{ 255, 69, 0, 100 });
 	}
 	else
 	{
-		DrawText("GAME\nOVER", settings::levelCounterPosition.GetX() - 400, 300, settings::scoreCounterSize, Color{ 255, 25, 13, 100 });
+		raycpp::DrawText("GAME\nOVER", settings::gameOverTextPosition, settings::gameOverAllRegularTextsSize, Color{ 255, 25, 13, 100 });
+	}
+
+	RestartButton(newBest);
+
+}
+
+void Game::RestartButton(bool isNewBest)
+{
+	if (isNewBest)
+	{
+
+	}
+	else
+	{
+		raycpp::DrawRectangleLinesEx(settings::restartButtonPos, settings::restartButtonSize, 5, BLUE);
 	}
 }

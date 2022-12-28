@@ -33,6 +33,7 @@ private:
 	void DrawFuturePieces();
 	void DrawDrawMino();
 	void GameOver();
+	void RestartButton(bool isNewBest);
 
 	int counterFall;
 	int counterMove;
