@@ -4,16 +4,22 @@
 
 namespace settings
 {
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
     // Window settings
     inline constexpr int screenWidth = 1920;
     inline constexpr int screenHeight = 1080;
     inline constexpr int fps = 60;
+
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
     // Board settings
     inline constexpr int cellSize = 45;
     inline constexpr int padding = 5;
     inline constexpr Vec2<int> boardPosition { 300, 100 };  // 250 70
     inline Vec2<int> boardWidthHeight { 10, 20 };
+
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
     // Score/Level settings
     inline constexpr Vec2<int> scoreCounterPosition{ 1220, 100 };
@@ -23,8 +29,9 @@ namespace settings
     inline constexpr Vec2<int> linesCounterPosition{ 1220, 625 };
     inline constexpr int linesCounterSize = 80;
 
-    // Main Menu 
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
+    // Main Menu 
     // Play Button
     inline constexpr Vec2<int> playButtonSize{ 500, 150 };
     inline constexpr int minPlayButtonTextSize = 80;
@@ -41,4 +48,6 @@ namespace settings
 
     // Main Text
     inline int mainTextSize = 300;
+
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 }
