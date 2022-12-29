@@ -49,7 +49,9 @@ private:
 	bool gameShouldEnd;
 	bool newBest;
 	bool mouseOverRestartButton;
+	bool mouseOverMainMenuButton;
 	int restartButtonCounter;
+	int mainMenuButtonCounter;
 	std::string boardName;
 
 };

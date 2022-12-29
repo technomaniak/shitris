@@ -167,9 +167,19 @@ bool MainMenu::GetGameRunning() const
 	return GameRunning;
 }
 
+void MainMenu::SetGameRunning(bool val)
+{
+	GameRunning = val;
+}
+
 bool MainMenu::GetMenuLoaded() const
 {
 	return menuLoaded;
+}
+
+void MainMenu::SetMenuLoaded(bool val)
+{
+	menuLoaded = val;
 }
 
 void MainMenu::Draw() const

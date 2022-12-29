@@ -26,7 +26,10 @@ Game::Game(int width, int height, int fps, std::string title)
 	mainMenu(MainMenu(soundManager)),
 	boardName("test"),
 	newBest(false),
-	mouseOverRestartButton(false)
+	mouseOverRestartButton(false),
+	mouseOverMainMenuButton(false),
+	restartButtonCounter(0),
+	mainMenuButtonCounter(0)
 {
 	assert(!IsWindowReady()); // if triggered game is already open.
 	std::cout << "\nLoading Board " << sizeof(int);
@@ -418,16 +421,89 @@ void Game::GameOver()
 	}
 
 	RestartButton(newBest);
-
+	MainMenuButton(newBest);
 }
 
 void Game::MainMenuButton(bool isNewBest)
 {
+	if (raycpp::GetMousePos() - Vec2<int>{ 0, -20 } > settings::mainMenuButtonPos
+		&& raycpp::GetMousePos() < settings::mainMenuButtonPos + settings::mainMenuButtonSize - Vec2<int>{ 0, 20 })
+	{
+		if (mouseOverMainMenuButton != true)
+		{
+			soundManager.PlaySoundFromName("menuSound");
+			mouseOverMainMenuButton = true;
+		}
+	}
+	else
+	{
+		if (settings::mainMenuButtonTextSize <= settings::maxMainMenuButtonTextSize)
+		{
+			mainMenuButtonCounter++;
+			if (mainMenuButtonCounter > 0)
+			{
+				settings::mainMenuButtonTextSize += 1;
+				mainMenuButtonCounter = 0;
+			}
+		}
+		mouseOverMainMenuButton = false;
+	}
+	if (mouseOverMainMenuButton)
+	{
+		if (settings::mainMenuButtonTextSize >= settings::minMainMenuButtonTextSize)
+		{
+			mainMenuButtonCounter++;
+			if (mainMenuButtonCounter > 0)
+			{
+				settings::mainMenuButtonTextSize -= 1;
+				restartButtonCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			gameShouldEnd = false;
+			inputManager.LoadBoard(boardName, board);
+			tetromino.SetCurrentPiece(tetrominoesList[0]);
+			inputManager.LoadTetromino(tetrominoesList[0], tetromino);
+			tetrominoesList.erase(tetrominoesList.begin());
+			tetrominoesList.push_back(SelectRandomPiece());
+			std::cout << "\nrandom piece selected ";
+			tetromino.SetPos({ board.GetWidth() / 2 - tetromino.GetDimension() / 2, 0 });
+			while (!tetromino.IsBottomButTop())
+			{
+				tetromino.SetPos({ tetromino.GetPos().GetX(), tetromino.GetPos().GetY() - 1 });
+			}
+			tetromino.SetFallen(false);
+			tetromino.SetIsAnythingSetToHeld(false);
+			tetromino.SetRotation(Tetromino::Rotation::UP);
+			holdPiece = -1;
+			inputManager.SetHeld(-1);
+			board.EraseBoard();
+			mainMenu.SetGameRunning(false);
+			mainMenu.SetMenuLoaded(false);
+		}
+	}
+	DrawRestartButton(isNewBest);
 	DrawMainMenuButton(isNewBest);
 }
 
 void Game::DrawMainMenuButton(bool isNewBest)
 {
+	if (isNewBest)
+	{
+		Vec2<int> extraOffset{ 0, 150 };
+		raycpp::DrawRectangleLinesEx(settings::mainMenuButtonPos + extraOffset, settings::mainMenuButtonSize, 5, BLUE);
+		Vec2<int> textOffset = { (settings::mainMenuButtonSize.GetX() - ((int)MeasureText("MAIN MENU", settings::mainMenuButtonTextSize))) / 2,
+			((settings::mainMenuButtonSize.GetY() - ((int)MeasureTextEx(GetFontDefault(), "MAIN MENU", settings::mainMenuButtonTextSize, 10).y)) / 2) };
+		raycpp::DrawText("MAIN MENU", settings::mainMenuButtonPos + textOffset + extraOffset, settings::mainMenuButtonTextSize, DARKBLUE);
+	}
+	else
+	{
+		raycpp::DrawRectangleLinesEx(settings::mainMenuButtonPos, settings::mainMenuButtonSize, 5, BLUE);
+		Vec2<int> textOffset = { (settings::mainMenuButtonSize.GetX() - ((int)MeasureText("MAIN MENU", settings::mainMenuButtonTextSize))) / 2,
+			((settings::mainMenuButtonSize.GetY() - ((int)MeasureTextEx(GetFontDefault(), "MAIN MENU", settings::mainMenuButtonTextSize, 10).y)) / 2) };
+		raycpp::DrawText("MAIN MENU", settings::mainMenuButtonPos + textOffset, settings::mainMenuButtonTextSize, DARKBLUE);
+	}
 }
 
 void Game::RestartButton(bool isNewBest)

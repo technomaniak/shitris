@@ -10,7 +10,9 @@ public:
 	void LoadMenu();
 	void Tick();
 	bool GetGameRunning() const;
+	void SetGameRunning(bool val);
 	bool GetMenuLoaded() const;
+	void SetMenuLoaded(bool val);
 	void Draw() const;
 private:
 	void StartGame();

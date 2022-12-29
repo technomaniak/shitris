@@ -67,10 +67,10 @@ namespace settings
     inline int restartButtonTextSize = 35;
 
     // Main Menu Button
-    inline constexpr Vec2<int> mainMenuButtonPos = restartButtonPos + Vec2<int>{ 0, 250 };
+    inline constexpr Vec2<int> mainMenuButtonPos = restartButtonPos + Vec2<int>{ 0, 100 };
     inline constexpr Vec2<int> mainMenuButtonSize{ 257, 75 };
-    inline constexpr int minmainMenuButtonTextSize = 30;
-    inline constexpr int maxmainMenuButtonTextSize = 35;
+    inline constexpr int minMainMenuButtonTextSize = 30;
+    inline constexpr int maxMainMenuButtonTextSize = 35;
     inline int mainMenuButtonTextSize = 35;
 
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
