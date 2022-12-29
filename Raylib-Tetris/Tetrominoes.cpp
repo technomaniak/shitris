@@ -683,6 +683,7 @@ bool Tetromino::IsBottom()
 
 bool Tetromino::IsBottomButTop()
 {
+	bool found = false;
 	for (int y = dimension - 1; y >= 0; y--)
 	{
 		for (int x = dimension - 1; x >= 0; x--)
@@ -716,10 +717,15 @@ bool Tetromino::IsBottomButTop()
 				}
 				if (boardPos.GetY() + y - 1 < 0)
 				{
+					found = true;
 					isBottomButTop = true;
 				}
 			}
 		}
+	}
+	if (!found)
+	{
+		return false;
 	}
 	return isBottomButTop;
 }

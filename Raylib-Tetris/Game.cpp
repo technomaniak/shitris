@@ -266,11 +266,11 @@ void Game::Update()
 				inputManager.LoadTetromino(inputManager.GetHeld(), tetromino);
 				inputManager.SetHeld(current);
 				tetromino.SetPos({ board.GetWidth() / 2 - tetromino.GetDimension() / 2, 0 });
+				tetromino.SetRotation(Tetromino::Rotation::UP);
 				while (!tetromino.IsBottomButTop())
 				{
 					tetromino.SetPos({ tetromino.GetPos().GetX(), tetromino.GetPos().GetY() - 1 });
 				}
-				tetromino.SetRotation(Tetromino::Rotation::UP);
 			}
 			else
 			{
@@ -283,6 +283,8 @@ void Game::Update()
 				tetromino.SetRotation(Tetromino::Rotation::UP);
 			}
 			tetromino.SetIsAnythingSetToHeld(true);
+			counterDrop = 40;
+			counterFall = 1;
 		}
 	}
 
