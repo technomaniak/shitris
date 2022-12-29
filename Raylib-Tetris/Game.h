@@ -27,12 +27,16 @@ private:
 	SoundManager soundManager;
 	MainMenu mainMenu;
 
+	Texture2D darkOverlay;
+
 	void Draw();
 	void Update();
+	void UpdateMusic();
 	int SelectRandomPiece() const;
 	void DrawFuturePieces();
 	void DrawDrawMino();
 	void GameOver();
+	void PauseMenu();
 	void MainMenuButton(bool isNewBest);
 	void DrawMainMenuButton(bool isNewBest);
 	void RestartButton(bool isNewBest);
@@ -48,8 +52,10 @@ private:
 	bool moved;
 	bool gameShouldEnd;
 	bool newBest;
+	bool gamePaused;
 	bool mouseOverRestartButton;
 	bool mouseOverMainMenuButton;
+	bool overlayLoaded;
 	int restartButtonCounter;
 	int mainMenuButtonCounter;
 	std::string boardName;

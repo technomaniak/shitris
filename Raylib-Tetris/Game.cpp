@@ -29,7 +29,9 @@ Game::Game(int width, int height, int fps, std::string title)
 	mouseOverRestartButton(false),
 	mouseOverMainMenuButton(false),
 	restartButtonCounter(0),
-	mainMenuButtonCounter(0)
+	mainMenuButtonCounter(0),
+	gamePaused(false),
+	overlayLoaded(false)
 {
 	assert(!IsWindowReady()); // if triggered game is already open.
 	std::cout << "\nLoading Board " << sizeof(int);
@@ -64,16 +66,28 @@ bool Game::GameShouldClose() const
 void Game::Tick()
 {
 	BeginDrawing();
+	UpdateMusic();
 	if (mainMenu.GetGameRunning())
 	{
-		if (gameShouldEnd)
+		if (gamePaused)
 		{
-			GameOver();
+			PauseMenu();
+			if (IsKeyPressed(KEY_ESCAPE))
+			{
+				gamePaused = !gamePaused;
+			}
 		}
 		else
 		{
-			Update();
-			Draw();
+			if (gameShouldEnd)
+			{
+				GameOver();
+			}
+			else
+			{
+				Update();
+				Draw();
+			}
 		}
 	}
 	else
@@ -107,14 +121,6 @@ void Game::Draw()
 
 void Game::Update()
 {
-	if (!soundManager.CheckMusicPlaying())
-	{
-		soundManager.PlayRandomMusic();
-	}
-	else
-	{
-		soundManager.UpdateCurrentMusic();
-	}
 
 	if (tetromino.GetFallen())
 	{
@@ -323,6 +329,23 @@ void Game::Update()
 			lastAction = 0;
 		}
 	}
+
+	if (IsKeyPressed(KEY_ESCAPE)) 
+	{
+		gamePaused = !gamePaused;
+	}
+}
+
+void Game::UpdateMusic()
+{
+	if (!soundManager.CheckMusicPlaying())
+	{
+		soundManager.PlayRandomMusic();
+	}
+	else
+	{
+		soundManager.UpdateCurrentMusic();
+	}
 }
 
 int Game::SelectRandomPiece() const
@@ -426,6 +449,15 @@ void Game::GameOver()
 	MainMenuButton(newBest);
 }
 
+void Game::PauseMenu()
+{
+	if (!overlayLoaded)
+	{
+		darkOverlay = LoadTextureFromImage(GenImageColor(settings::screenWidth, settings::screenHeight, Color{ 0, 0, 0, 30 }));
+		DrawTexture(darkOverlay, 0, 0, WHITE);
+	}
+}
+
 void Game::MainMenuButton(bool isNewBest)
 {
 	if (raycpp::GetMousePos() - Vec2<int>{ 0, -20 } > settings::mainMenuButtonPos
@@ -496,14 +528,14 @@ void Game::DrawMainMenuButton(bool isNewBest)
 		Vec2<int> extraOffset{ 0, 150 };
 		raycpp::DrawRectangleLinesEx(settings::mainMenuButtonPos + extraOffset, settings::mainMenuButtonSize, 5, BLUE);
 		Vec2<int> textOffset = { (settings::mainMenuButtonSize.GetX() - ((int)MeasureText("MAIN MENU", settings::mainMenuButtonTextSize))) / 2,
-			((settings::mainMenuButtonSize.GetY() - ((int)MeasureTextEx(GetFontDefault(), "MAIN MENU", settings::mainMenuButtonTextSize, 10).y)) / 2) };
+			((settings::mainMenuButtonSize.GetY() - ((int)MeasureTextEx(GetFontDefault(), "MAIN MENU", (float)settings::mainMenuButtonTextSize, 10).y)) / 2) };
 		raycpp::DrawText("MAIN MENU", settings::mainMenuButtonPos + textOffset + extraOffset, settings::mainMenuButtonTextSize, DARKBLUE);
 	}
 	else
 	{
 		raycpp::DrawRectangleLinesEx(settings::mainMenuButtonPos, settings::mainMenuButtonSize, 5, BLUE);
 		Vec2<int> textOffset = { (settings::mainMenuButtonSize.GetX() - ((int)MeasureText("MAIN MENU", settings::mainMenuButtonTextSize))) / 2,
-			((settings::mainMenuButtonSize.GetY() - ((int)MeasureTextEx(GetFontDefault(), "MAIN MENU", settings::mainMenuButtonTextSize, 10).y)) / 2) };
+			((settings::mainMenuButtonSize.GetY() - ((int)MeasureTextEx(GetFontDefault(), "MAIN MENU", (float)settings::mainMenuButtonTextSize, 10).y)) / 2) };
 		raycpp::DrawText("MAIN MENU", settings::mainMenuButtonPos + textOffset, settings::mainMenuButtonTextSize, DARKBLUE);
 	}
 }
@@ -575,14 +607,14 @@ void Game::DrawRestartButton(bool isNewBest)
 		Vec2<int> extraOffset{ 0, 150 };
 		raycpp::DrawRectangleLinesEx(settings::restartButtonPos + extraOffset, settings::restartButtonSize, 5, BLUE);
 		Vec2<int> textOffset = { (settings::restartButtonSize.GetX() - ((int)MeasureText("PLAY AGAIN", settings::restartButtonTextSize))) / 2,
-			((settings::restartButtonSize.GetY() - ((int)MeasureTextEx(GetFontDefault(), "PLAY AGAIN", settings::restartButtonTextSize, 10).y)) / 2) };
+			((settings::restartButtonSize.GetY() - ((int)MeasureTextEx(GetFontDefault(), "PLAY AGAIN", (float)settings::restartButtonTextSize, 10).y)) / 2) };
 		raycpp::DrawText("PLAY AGAIN", settings::restartButtonPos + textOffset + extraOffset, settings::restartButtonTextSize, DARKBLUE);
 	}
 	else
 	{
 		raycpp::DrawRectangleLinesEx(settings::restartButtonPos, settings::restartButtonSize, 5, BLUE);
 		Vec2<int> textOffset = { (settings::restartButtonSize.GetX() - ((int)MeasureText("PLAY AGAIN", settings::restartButtonTextSize))) / 2,
-			((settings::restartButtonSize.GetY() - ((int)MeasureTextEx(GetFontDefault(), "PLAY AGAIN", settings::restartButtonTextSize, 10).y)) / 2) };
+			((settings::restartButtonSize.GetY() - ((int)MeasureTextEx(GetFontDefault(), "PLAY AGAIN", (float)settings::restartButtonTextSize, 10).y)) / 2) };
 		raycpp::DrawText("PLAY AGAIN", settings::restartButtonPos + textOffset, settings::restartButtonTextSize, DARKBLUE);
 	}
 }

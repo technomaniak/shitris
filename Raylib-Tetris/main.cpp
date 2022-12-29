@@ -8,7 +8,7 @@ int main(void)
 
     InitAudioDevice();
     Game game{ settings::screenWidth, settings::screenHeight, settings::fps, "Tetris Raylib" };
-
+    SetExitKey(KEY_F1);
     while (!game.GameShouldClose())
     {
         game.Tick();

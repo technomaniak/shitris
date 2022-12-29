@@ -32,11 +32,6 @@ void MainMenu::Tick()
 	PlayButton();
 	VolumeSettings();
 	MainText();
-	sounds.UpdateCurrentMusic();
-	if (!sounds.CheckMusicPlaying())
-	{
-		sounds.PlayRandomMusic();
-	}
 }
 
 void MainMenu::PlayButton()
