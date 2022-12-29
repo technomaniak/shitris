@@ -33,7 +33,7 @@ private:
 	void DrawFuturePieces();
 	void DrawDrawMino();
 	void GameOver();
-	void MainMenuRestartButton(bool isNewBest);
+	void MainMenuButton(bool isNewBest);
 	void DrawMainMenuButton(bool isNewBest);
 	void RestartButton(bool isNewBest);
 	void DrawRestartButton(bool isNewBest);

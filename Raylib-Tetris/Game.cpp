@@ -421,7 +421,7 @@ void Game::GameOver()
 
 }
 
-void Game::MainMenuRestartButton(bool isNewBest)
+void Game::MainMenuButton(bool isNewBest)
 {
 	DrawMainMenuButton(isNewBest);
 }
