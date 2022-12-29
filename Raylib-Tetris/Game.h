@@ -33,7 +33,10 @@ private:
 	void DrawFuturePieces();
 	void DrawDrawMino();
 	void GameOver();
+	void MainMenuRestartButton(bool isNewBest);
+	void DrawMainMenuButton(bool isNewBest);
 	void RestartButton(bool isNewBest);
+	void DrawRestartButton(bool isNewBest);
 
 	int counterFall;
 	int counterMove;
@@ -45,6 +48,8 @@ private:
 	bool moved;
 	bool gameShouldEnd;
 	bool newBest;
+	bool mouseOverRestartButton;
+	int restartButtonCounter;
 	std::string boardName;
 
 };

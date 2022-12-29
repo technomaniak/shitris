@@ -56,12 +56,22 @@ namespace settings
     
     // Text
     inline constexpr Vec2<int> gameOverTextPosition{ levelCounterPosition.GetX() - 400, 300 };
-    inline constexpr Vec2<int> newBestTextPosition = gameOverTextPosition - Vec2<int>{ 0, 300 };
+    inline constexpr Vec2<int> newBestTextPosition = gameOverTextPosition - Vec2<int>{ 0, -300 };
     inline constexpr int gameOverAllRegularTextsSize = 92;
     
     // Game Over Button
-    inline constexpr Vec2<int> restartButtonPos = gameOverTextPosition + Vec2<int>{ 0, 400 };
-    inline constexpr Vec2<int> restartButtonSize{ 333, 70 };
+    inline constexpr Vec2<int> restartButtonPos = gameOverTextPosition + Vec2<int>{ 0, 250 };
+    inline constexpr Vec2<int> restartButtonSize{ 257, 75 };
+    inline constexpr int minRestartButtonTextSize = 30;
+    inline constexpr int maxRestartButtonTextSize = 35;
+    inline int restartButtonTextSize = 35;
+
+    // Main Menu Button
+    inline constexpr Vec2<int> mainMenuButtonPos = restartButtonPos + Vec2<int>{ 0, 250 };
+    inline constexpr Vec2<int> mainMenuButtonSize{ 257, 75 };
+    inline constexpr int minmainMenuButtonTextSize = 30;
+    inline constexpr int maxmainMenuButtonTextSize = 35;
+    inline int mainMenuButtonTextSize = 35;
 
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 }

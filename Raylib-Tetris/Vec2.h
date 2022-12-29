@@ -63,6 +63,10 @@ public:
 	{
 		*this = *this * rhs;
 	}
+	constexpr Vec2 operator/(const int rhs) const
+	{
+		return {x / rhs, y / rhs };
+	}
 	constexpr bool operator<(const Vec2& rhs) const
 	{
 		if (x < rhs.x && y < rhs.y)

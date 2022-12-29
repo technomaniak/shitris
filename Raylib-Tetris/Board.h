@@ -25,6 +25,7 @@ private:
 public:
 	Board(Vec2<int> screenPos, int cellSize_in, int padding);
 	void SetCell(Vec2<int> pos, Color c);
+	void EraseBoard();
 	void MoveCell(Vec2<int> posOld, Vec2<int> posNew);
 	void DrawCell(Vec2<int> pos) const;
 	void DrawCell(Vec2<int> pos, Color color) const;

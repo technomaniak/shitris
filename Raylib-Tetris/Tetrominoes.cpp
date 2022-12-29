@@ -10,7 +10,7 @@
 Tetromino::Tetromino(Board& board)
 	:
 	shape(shape),
-	dimension(dimension),
+	dimension(0),
 	zeroToOne(zeroToOne),
 	oneToZero(oneToZero),
 	oneToTwo(oneToTwo),
@@ -26,9 +26,9 @@ Tetromino::Tetromino(Board& board)
 	currentRotation(Rotation::UP),
 	isBottom(false),
 	currentPieceId(-1),
-	overloads(overloads),
+	overloads(0),
 	isAnythingHeld(false),
-	alias(alias),
+	alias(""),
 	isBottomButTop(false)
 {
 	std::cout << "bpos " << boardPos.GetX() << "  " << boardPos.GetY() << "\n";
@@ -717,12 +717,10 @@ bool Tetromino::IsBottomButTop()
 				if (boardPos.GetY() + y - 1 < 0)
 				{
 					isBottomButTop = true;
-					return isBottomButTop;
 				}
 			}
 		}
 	}
-	isBottomButTop = false;
 	return isBottomButTop;
 }
 

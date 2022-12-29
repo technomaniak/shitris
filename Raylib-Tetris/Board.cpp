@@ -61,6 +61,14 @@ void Board::SetCell(Vec2<int> pos, Color c)
 	cells[pos.GetY() * width + pos.GetX()].SetColor(c);
 }
 
+void Board::EraseBoard()
+{
+	for (int i = 0; i < cells.size(); i++)
+	{
+		cells[i].Remove();
+	}
+}
+
 void Board::MoveCell(Vec2<int> posOld, Vec2<int> posNew)
 {
 	if (CellExists(posOld))
