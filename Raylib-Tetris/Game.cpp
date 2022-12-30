@@ -31,7 +31,9 @@ Game::Game(int width, int height, int fps, std::string title)
 	restartButtonCounter(0),
 	mainMenuButtonCounter(0),
 	gamePaused(false),
-	overlayLoaded(false)
+	overlayLoaded(false),
+	darkOverlayImage(GenImageColor(settings::screenWidth, settings::screenHeight, Color{ 0, 0, 0, 100 })),
+	darkOverlay(LoadTextureFromImage(darkOverlayImage))
 {
 	assert(!IsWindowReady()); // if triggered game is already open.
 	std::cout << "\nLoading Board " << sizeof(int);
@@ -67,14 +69,21 @@ void Game::Tick()
 {
 	BeginDrawing();
 	UpdateMusic();
+	if (!texturesLoaded)
+	{
+		texturesLoaded = true;
+		LoadTextures();
+	}
 	if (mainMenu.GetGameRunning())
 	{
 		if (gamePaused)
 		{
+			Draw(255);
 			PauseMenu();
 			if (IsKeyPressed(KEY_ESCAPE))
 			{
 				gamePaused = !gamePaused;
+				overlayLoaded = false;
 			}
 		}
 		else
@@ -105,13 +114,19 @@ void Game::Tick()
 }
 
 void Game::Draw()
-{	//Texture2D texture = LoadTextureFromImage(GenImageGradientV(settings::screenWidth, settings::screenHeight, Color{ 33,1,0,255 }, Color{ 14,42,1,255 }));
+{	
+	Draw(105);
+}
+
+void Game::Draw(int power)
+{//Texture2D texture = LoadTextureFromImage(GenImageGradientV(settings::screenWidth, settings::screenHeight, Color{ 33,1,0,255 }, Color{ 14,42,1,255 }));
 	//DrawTexture(texture, 0, 0, WHITE);
-	DrawRectangleGradientV(0, 0, (settings::screenWidth / 5) * 3, settings::screenHeight, Color{ 33,1,0,255 }, Color{ 14,42,1,105 });
-	DrawRectangleGradientV((settings::screenWidth / 5) * 3, 0, settings::screenWidth, settings::screenHeight, Color{ 33,1,0,255 }, Color{ 14,42,1,255 });
+	DrawRectangleGradientV(0, 0, (settings::screenWidth / 5) * 3, settings::screenHeight, Color{ 33,1,0,255 }, Color{ 14,42,1,static_cast<unsigned char>(power) });
+	DrawRectangleGradientV((settings::screenWidth / 5) * 3, 0, settings::screenWidth, settings::screenHeight, Color{ 33,1,0,255 }, Color{ 14,42,1, 255 });
 	board.Draw();
 	tetromino.Draw();
 	DrawDrawMino();
+	board.DrawTimerLine(counterDrop);
 	if (inputManager.GetTetrominoPreviewAmount() != 0)
 	{
 		DrawFuturePieces();
@@ -301,7 +316,6 @@ void Game::Update()
 	}
 
 	counterFall += board.GetSpeed() + 1;
-	board.DrawTimerLine(counterDrop);
 
 	if (tetromino.IsBottom())
 	{
@@ -346,6 +360,11 @@ void Game::UpdateMusic()
 	{
 		soundManager.UpdateCurrentMusic();
 	}
+}
+
+void Game::LoadTextures()
+{
+	darkOverlay = LoadTextureFromImage(darkOverlayImage);
 }
 
 int Game::SelectRandomPiece() const
@@ -451,11 +470,9 @@ void Game::GameOver()
 
 void Game::PauseMenu()
 {
-	if (!overlayLoaded)
-	{
-		darkOverlay = LoadTextureFromImage(GenImageColor(settings::screenWidth, settings::screenHeight, Color{ 0, 0, 0, 30 }));
-		DrawTexture(darkOverlay, 0, 0, WHITE);
-	}
+	DrawTextureV(darkOverlay, { 0, 0 }, WHITE);
+	overlayLoaded = true;
+	
 }
 
 void Game::MainMenuButton(bool isNewBest)

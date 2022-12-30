@@ -28,10 +28,13 @@ private:
 	MainMenu mainMenu;
 
 	Texture2D darkOverlay;
+	Image darkOverlayImage;
 
 	void Draw();
+	void Draw(int power);
 	void Update();
 	void UpdateMusic();
+	void LoadTextures();
 	int SelectRandomPiece() const;
 	void DrawFuturePieces();
 	void DrawDrawMino();
@@ -56,6 +59,7 @@ private:
 	bool mouseOverRestartButton;
 	bool mouseOverMainMenuButton;
 	bool overlayLoaded;
+	bool texturesLoaded;
 	int restartButtonCounter;
 	int mainMenuButtonCounter;
 	std::string boardName;
