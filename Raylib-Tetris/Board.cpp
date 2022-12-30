@@ -219,6 +219,25 @@ void Board::DrawTimerLine(int timer) const
 		{ (((cellSize * width) + 2 + cellSize) * timer) / 40, 10 }, RAYWHITE);
 }
 
+void Board::DrawRestartLine(int timer) const
+{
+	if (timer > 50 || (timer > 20 && timer <= 30))
+	{
+		raycpp::DrawText("Resetting...", { settings::screenWidth / 2 - (((cellSize * width) + 2 + cellSize) / 2), settings::screenHeight / 2 - 75 }, 50, Color{ 235, 0, 0, 255 });
+	}
+	else if ((timer > 40 && timer <= 50) || (timer > 10 && timer <= 20))
+	{
+		raycpp::DrawText("Resetting..", { settings::screenWidth / 2 - (((cellSize * width) + 2 + cellSize) / 2), settings::screenHeight / 2 - 75 }, 50, Color{ 215, 0, 0, 255 });
+	}
+	else if ((timer > 30 && timer <= 40) || (timer > 1 && timer <= 10))
+	{
+		raycpp::DrawText("Resetting.", { settings::screenWidth / 2 - (((cellSize * width) + 2 + cellSize) / 2), settings::screenHeight / 2 - 75 }, 50, Color{ 255, 0, 0, 255 });
+	}
+	raycpp::DrawRectangle({ settings::screenWidth / 2 - (((cellSize * width) + 2 + cellSize) / 2), settings::screenHeight / 2 - 15 }, { (cellSize * width) + 2 + cellSize, 30 }, Color{ 155, 0, 0, 255 });
+	raycpp::DrawRectangle({ settings::screenWidth / 2 - (((cellSize * width) + 2 + cellSize) / 2), settings::screenHeight / 2 - 15 },
+		{ (((cellSize * width) + 2 + cellSize) * timer) / 61, 30 }, RED);
+}
+
 void Board::Draw() const
 {
 	DrawBoard();

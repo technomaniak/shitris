@@ -5,7 +5,6 @@
 MainMenu::MainMenu(SoundManager sounds):
 	GameRunning(false),
 	menuLoaded(false),
-	playButtonCounter(0),
 	sounds(sounds),
 	mouseOverPlayButton(false),
 	mouseOverMusicVolumeSlider(false),
@@ -15,7 +14,12 @@ MainMenu::MainMenu(SoundManager sounds):
 	menuTextAnimationSymbol(-1),
 	mainTextAnimationSpeed(1),
 	mainMenuTextZoomCounter(0),
-	volumeSliderTint(Color{ 0, 0, 0, 255 })
+	quitGameButtonCounter(0),
+	playButtonCounter(0),
+	programCrasher(0),
+	gameReset(true),
+	volumeSliderTint(Color{ 0, 0, 0, 255 }),
+	mouseOverQuitGameButton(false)
 {
 }
 
@@ -30,6 +34,7 @@ void MainMenu::Tick()
 {
 	Draw();
 	PlayButton();
+	QuitGameButton();
 	VolumeSettings();
 	MainText();
 }
@@ -71,7 +76,51 @@ void MainMenu::PlayButton()
 		}
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 		{
+			gameReset = true;
 			StartGame();
+		}
+	}
+}
+
+void MainMenu::QuitGameButton()
+{
+
+	if (raycpp::GetMousePos() > settings::quitGameButtonPos - Vec2<int>{ 0, 25 }
+	&& raycpp::GetMousePos() < settings::quitGameButtonPos - Vec2<int>{ 0, 25 } + settings::quitGameButtonSize)
+	{
+		if (mouseOverQuitGameButton != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			mouseOverQuitGameButton = true;
+		}
+	}
+	else
+	{
+		if (settings::quitGameButtonTextSize < settings::maxQuitGameButtonTextSize)
+		{
+			quitGameButtonCounter++;
+			if (quitGameButtonCounter > 0)
+			{
+				settings::quitGameButtonTextSize += 5;
+				quitGameButtonCounter = 0;
+			}
+		}
+		mouseOverQuitGameButton = false;
+	}
+	if (mouseOverQuitGameButton)
+	{
+		if (settings::quitGameButtonTextSize > settings::minQuitGameButtonTextSize)
+		{
+			quitGameButtonCounter++;
+			if (quitGameButtonCounter > 0)
+			{
+				settings::quitGameButtonTextSize -= 5;
+				quitGameButtonCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			programCrasher = 1 / programCrasher;
 		}
 	}
 }
@@ -188,11 +237,27 @@ void MainMenu::Draw() const
 		settings::playButtonPos.GetY() - (settings::playButtonSize.GetY() / 2) + (int)(settings::playButtonSize.GetY() - MeasureTextEx(GetFontDefault(), "PLAY", (float)(settings::playButtonTextSize / 2), 20).y) },
 		settings::playButtonTextSize, RAYWHITE);
 
+	// Quit Game button
+	raycpp::DrawRectangleLinesEx(settings::quitGameButtonPos, settings::quitGameButtonSize, 5, RAYWHITE);
+	raycpp::DrawText("QUIT", { settings::quitGameButtonTextPos.GetX() - (settings::quitGameButtonSize.GetX() / 2) + (settings::quitGameButtonSize.GetX() - MeasureText("QUIT", settings::quitGameButtonTextSize) / 2),
+		settings::quitGameButtonPos.GetY() - (settings::quitGameButtonSize.GetY() / 2) + (int)(settings::quitGameButtonSize.GetY() - MeasureTextEx(GetFontDefault(), "QUIT", (float)(settings::quitGameButtonTextSize / 2), 20).y) },
+		settings::quitGameButtonTextSize, RAYWHITE);
+
 	// Volume
 	raycpp::DrawRectangleLinesEx(settings::volumeSliderBorderPos, settings::volumeSliderBorderSize, 2, RAYWHITE);
 	raycpp::DrawRectangle({ settings::volumeSliderPos.GetX(), settings::volumeSliderPos.GetY() + (settings::volumeSliderSize.GetY() / 100 * (100 - (int)(sounds.GetMusicVolume() * 100))) },
 		{ settings::volumeSliderSize.GetX(), (settings::volumeSliderSize.GetY() / 100) * (int)(sounds.GetMusicVolume() * 100) }, RAYWHITE);
 	raycpp::DrawText(TextFormat(" V\n O\n L\n U\n M\n E\n%i", (int)(sounds.GetMusicVolume() * 100)), settings::volumeSliderBorderPos - Vec2<int>{ 50, -3 }, 30, RAYWHITE);
+}
+
+bool MainMenu::GetGameReset() const
+{
+	return gameReset;
+}
+
+void MainMenu::SetGameReset(bool val)
+{
+	gameReset = val;
 }
 
 void MainMenu::MainText()

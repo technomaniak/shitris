@@ -38,7 +38,7 @@ namespace settings
     inline constexpr int minPlayButtonTextSize = 80;
     inline constexpr int maxPlayButtonTextSize = 100;
     inline int playButtonTextSize = 100;
-    inline constexpr Vec2<int> playButtonPos{ (screenWidth / 2) - (playButtonSize.GetX() / 2), ((screenHeight / 3) * 2) };
+    inline constexpr Vec2<int> playButtonPos{ (screenWidth / 2) - (playButtonSize.GetX() / 2), ((screenHeight / 5) * 3) };
     inline Vec2<int> playButtonTextPos{ playButtonPos.GetX(), playButtonPos.GetY() };
 
     // Volume Slider
@@ -50,6 +50,14 @@ namespace settings
     // Main Text
     inline int mainTextSize = 300;
 
+    // Quit Game Button
+    inline constexpr Vec2<int> quitGameButtonSize{ 500, 150 };
+    inline constexpr int minQuitGameButtonTextSize = 80;
+    inline constexpr int maxQuitGameButtonTextSize = 100;
+    inline int quitGameButtonTextSize = 100;
+    inline constexpr Vec2<int> quitGameButtonPos = playButtonPos + Vec2<int>{ 0, 200 };
+    inline Vec2<int> quitGameButtonTextPos{ quitGameButtonPos.GetX(), quitGameButtonPos.GetY() };
+
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
     // Game Over Screen
@@ -59,7 +67,7 @@ namespace settings
     inline constexpr Vec2<int> newBestTextPosition = gameOverTextPosition - Vec2<int>{ 0, -300 };
     inline constexpr int gameOverAllRegularTextsSize = 92;
     
-    // Game Over Button
+    // Restart Button
     inline constexpr Vec2<int> restartButtonPos = gameOverTextPosition + Vec2<int>{ 0, 250 };
     inline constexpr Vec2<int> restartButtonSize{ 257, 75 };
     inline constexpr int minRestartButtonTextSize = 30;
@@ -72,6 +80,14 @@ namespace settings
     inline constexpr int minMainMenuButtonTextSize = 30;
     inline constexpr int maxMainMenuButtonTextSize = 35;
     inline int mainMenuButtonTextSize = 35;
+
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+    // In Game Pause Menu
+
+    // Reuses Restart Button and Main Menu Button
+
+    inline constexpr Vec2<int> optionsButtonPos {};
 
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 }

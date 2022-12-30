@@ -44,6 +44,7 @@ private:
 	void DrawMainMenuButton(bool isNewBest);
 	void RestartButton(bool isNewBest);
 	void DrawRestartButton(bool isNewBest);
+	void ResetGame();
 
 	int counterFall;
 	int counterMove;
@@ -58,10 +59,12 @@ private:
 	bool gamePaused;
 	bool mouseOverRestartButton;
 	bool mouseOverMainMenuButton;
-	bool overlayLoaded;
 	bool texturesLoaded;
+	int resetTimer;
 	int restartButtonCounter;
 	int mainMenuButtonCounter;
+	int gameOverCounter;
 	std::string boardName;
 
 };
+

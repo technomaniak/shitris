@@ -40,6 +40,7 @@ public:
 	void DrawBoard() const;
 	void DrawFutureBoard(Vec2<int> pos, Vec2<int> size) const;
 	void DrawTimerLine(int timer) const;
+	void DrawRestartLine(int timer) const;
 	void Draw() const;
 	void DrawLevel() const;
 	std::vector<int> CheckForLines();

@@ -14,19 +14,28 @@ public:
 	bool GetMenuLoaded() const;
 	void SetMenuLoaded(bool val);
 	void Draw() const;
+	bool GetGameReset() const;
+	void SetGameReset(bool val);
 private:
 	void StartGame();
 	void MainText();
 	void PlayButton();
+	void QuitGameButton();
 	void VolumeSettings();
 	void SetAnimationValueMainText();
+
 	bool GameRunning;
 	bool menuLoaded;
+	bool gameReset;
 
-	bool mouseOverPlayButton;
 	bool mouseOverMusicVolumeSlider;
 	bool mouseClickedMusicVolumeSlider;
+
 	int playButtonCounter;
+	bool mouseOverPlayButton;
+
+	int quitGameButtonCounter;
+	bool mouseOverQuitGameButton;
 
 	int mainMenuTextZoomCounter;
 	int menuTextAnimationSymbol;
@@ -36,4 +45,6 @@ private:
 	float volume;
 	SoundManager sounds;
 	Color volumeSliderTint;
+
+	int programCrasher;
 };

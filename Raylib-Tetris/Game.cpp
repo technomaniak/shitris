@@ -24,16 +24,18 @@ Game::Game(int width, int height, int fps, std::string title)
 	gameShouldEnd(false),
 	soundManager(SoundManager()),
 	mainMenu(MainMenu(soundManager)),
-	boardName("test"),
+	boardName("Default"),
 	newBest(false),
 	mouseOverRestartButton(false),
 	mouseOverMainMenuButton(false),
 	restartButtonCounter(0),
 	mainMenuButtonCounter(0),
+	gameOverCounter(0),
 	gamePaused(false),
-	overlayLoaded(false),
+	texturesLoaded(false),
 	darkOverlayImage(GenImageColor(settings::screenWidth, settings::screenHeight, Color{ 0, 0, 0, 100 })),
-	darkOverlay(LoadTextureFromImage(darkOverlayImage))
+	darkOverlay(LoadTextureFromImage(darkOverlayImage)),
+	resetTimer(1)
 {
 	assert(!IsWindowReady()); // if triggered game is already open.
 	std::cout << "\nLoading Board " << sizeof(int);
@@ -76,26 +78,34 @@ void Game::Tick()
 	}
 	if (mainMenu.GetGameRunning())
 	{
-		if (gamePaused)
+		if (mainMenu.GetGameReset())
 		{
-			Draw(255);
-			PauseMenu();
-			if (IsKeyPressed(KEY_ESCAPE))
-			{
-				gamePaused = !gamePaused;
-				overlayLoaded = false;
-			}
+			ResetGame();
+			gamePaused = false;
+			mainMenu.SetGameReset(false);
 		}
 		else
-		{
-			if (gameShouldEnd)
 			{
-				GameOver();
+			if (gamePaused)
+			{
+				Draw(255);
+				PauseMenu();
+				if (IsKeyPressed(KEY_ESCAPE))
+				{
+					gamePaused = !gamePaused;
+				}
 			}
 			else
 			{
-				Update();
-				Draw();
+				if (gameShouldEnd)
+				{
+					GameOver();
+				}
+				else
+				{
+					Update();
+					Draw();
+				}
 			}
 		}
 	}
@@ -119,8 +129,7 @@ void Game::Draw()
 }
 
 void Game::Draw(int power)
-{//Texture2D texture = LoadTextureFromImage(GenImageGradientV(settings::screenWidth, settings::screenHeight, Color{ 33,1,0,255 }, Color{ 14,42,1,255 }));
-	//DrawTexture(texture, 0, 0, WHITE);
+{
 	DrawRectangleGradientV(0, 0, (settings::screenWidth / 5) * 3, settings::screenHeight, Color{ 33,1,0,255 }, Color{ 14,42,1,static_cast<unsigned char>(power) });
 	DrawRectangleGradientV((settings::screenWidth / 5) * 3, 0, settings::screenWidth, settings::screenHeight, Color{ 33,1,0,255 }, Color{ 14,42,1, 255 });
 	board.Draw();
@@ -130,6 +139,10 @@ void Game::Draw(int power)
 	if (inputManager.GetTetrominoPreviewAmount() != 0)
 	{
 		DrawFuturePieces();
+	}
+	if (resetTimer != 1)
+	{
+		board.DrawRestartLine(resetTimer);
 	}
 	DrawFPS(0, 0);
 }
@@ -348,6 +361,20 @@ void Game::Update()
 	{
 		gamePaused = !gamePaused;
 	}
+
+	if (IsKeyDown(KEY_R))
+	{
+		resetTimer++;
+		if (resetTimer > 61)
+		{
+			ResetGame();
+			resetTimer = 1;
+		}
+	}
+	if (IsKeyReleased(KEY_R))
+	{
+		resetTimer = 1;
+	}
 }
 
 void Game::UpdateMusic()
@@ -449,30 +476,38 @@ void Game::DrawDrawMino()
 
 void Game::GameOver()
 {
-	board.Draw();
-	tetromino.Draw();
-	board.SaveScore(boardName, newBest);
-	raycpp::DrawRectangle({ 0, 0 }, { settings::screenWidth, settings::screenHeight }, Color{ 0, 0, 0, 30 });
-
-	if (newBest)
+	if (gameOverCounter < 50)
 	{
-		raycpp::DrawText("GAME\nOVER", settings::gameOverTextPosition, settings::gameOverAllRegularTextsSize, Color{ 255, 0, 0, 100 });
-		raycpp::DrawText("NEW BEST", settings::newBestTextPosition, settings::gameOverAllRegularTextsSize - 20, Color{ 255, 69, 0, 100 });
+		raycpp::DrawRectangle({ 0, 0 }, { settings::screenWidth, settings::screenHeight }, Color{ 0, 0, 0, 60 });
+		gameOverCounter++;
 	}
 	else
 	{
-		raycpp::DrawText("GAME\nOVER", settings::gameOverTextPosition, settings::gameOverAllRegularTextsSize, Color{ 255, 25, 13, 100 });
-	}
+		raycpp::DrawRectangle({ 0, 0 }, { settings::screenWidth, settings::screenHeight }, Color{ 0, 0, 0, 255 });
+		board.SaveScore(boardName, newBest);
 
-	RestartButton(newBest);
-	MainMenuButton(newBest);
+		if (newBest)
+		{
+			raycpp::DrawText("GAME\nOVER", settings::gameOverTextPosition, settings::gameOverAllRegularTextsSize, Color{ 255, 0, 0, 255 });
+			raycpp::DrawText("NEW BEST", settings::newBestTextPosition, settings::gameOverAllRegularTextsSize - 20, Color{ 255, 69, 0, 255 });
+		}
+		else
+		{
+			raycpp::DrawText("GAME\nOVER", settings::gameOverTextPosition, settings::gameOverAllRegularTextsSize, Color{ 255, 25, 13, 255 });
+		}
+
+		RestartButton(newBest);
+		MainMenuButton(newBest);
+	}
+	board.Draw();
+	tetromino.Draw();
 }
 
 void Game::PauseMenu()
 {
 	DrawTextureV(darkOverlay, { 0, 0 }, WHITE);
-	overlayLoaded = true;
-	
+	RestartButton(false);
+	MainMenuButton(false);
 }
 
 void Game::MainMenuButton(bool isNewBest)
@@ -512,26 +547,11 @@ void Game::MainMenuButton(bool isNewBest)
 		}
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 		{
-			gameShouldEnd = false;
-			inputManager.LoadBoard(boardName, board);
-			tetromino.SetCurrentPiece(tetrominoesList[0]);
-			inputManager.LoadTetromino(tetrominoesList[0], tetromino);
-			tetrominoesList.erase(tetrominoesList.begin());
-			tetrominoesList.push_back(SelectRandomPiece());
-			std::cout << "\nrandom piece selected ";
-			tetromino.SetPos({ board.GetWidth() / 2 - tetromino.GetDimension() / 2, 0 });
-			while (!tetromino.IsBottomButTop())
-			{
-				tetromino.SetPos({ tetromino.GetPos().GetX(), tetromino.GetPos().GetY() - 1 });
-			}
-			tetromino.SetFallen(false);
-			tetromino.SetIsAnythingSetToHeld(false);
-			tetromino.SetRotation(Tetromino::Rotation::UP);
-			holdPiece = -1;
-			inputManager.SetHeld(-1);
+			ResetGame();
 			board.EraseBoard();
 			mainMenu.SetGameRunning(false);
 			mainMenu.SetMenuLoaded(false);
+			soundManager.PlaySoundFromName("menuSound");
 		}
 	}
 	DrawRestartButton(isNewBest);
@@ -594,24 +614,8 @@ void Game::RestartButton(bool isNewBest)
 		}
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 		{
-			gameShouldEnd = false;
-			inputManager.LoadBoard(boardName, board);
-			tetromino.SetCurrentPiece(tetrominoesList[0]);
-			inputManager.LoadTetromino(tetrominoesList[0], tetromino);
-			tetrominoesList.erase(tetrominoesList.begin());
-			tetrominoesList.push_back(SelectRandomPiece());
-			std::cout << "\nrandom piece selected ";
-			tetromino.SetPos({ board.GetWidth() / 2 - tetromino.GetDimension() / 2, 0 });
-			while (!tetromino.IsBottomButTop())
-			{
-				tetromino.SetPos({ tetromino.GetPos().GetX(), tetromino.GetPos().GetY() - 1 });
-			}
-			tetromino.SetFallen(false);
-			tetromino.SetIsAnythingSetToHeld(false);
-			tetromino.SetRotation(Tetromino::Rotation::UP);
-			holdPiece = -1;
-			inputManager.SetHeld(-1);
-			board.EraseBoard();
+			ResetGame();
+			soundManager.PlaySoundFromName("menuSound");
 		}
 	}
 	DrawRestartButton(isNewBest);
@@ -634,4 +638,27 @@ void Game::DrawRestartButton(bool isNewBest)
 			((settings::restartButtonSize.GetY() - ((int)MeasureTextEx(GetFontDefault(), "PLAY AGAIN", (float)settings::restartButtonTextSize, 10).y)) / 2) };
 		raycpp::DrawText("PLAY AGAIN", settings::restartButtonPos + textOffset, settings::restartButtonTextSize, DARKBLUE);
 	}
+}
+
+void Game::ResetGame()
+{
+	gameShouldEnd = false;
+	inputManager.LoadBoard(boardName, board);
+	tetromino.SetCurrentPiece(tetrominoesList[0]);
+	inputManager.LoadTetromino(tetrominoesList[0], tetromino);
+	tetrominoesList.erase(tetrominoesList.begin());
+	tetrominoesList.push_back(SelectRandomPiece());
+	std::cout << "\nrandom piece selected ";
+	gameOverCounter = 0;
+	tetromino.SetPos({ board.GetWidth() / 2 - tetromino.GetDimension() / 2, 0 });
+	while (!tetromino.IsBottomButTop())
+	{
+		tetromino.SetPos({ tetromino.GetPos().GetX(), tetromino.GetPos().GetY() - 1 });
+	}
+	tetromino.SetFallen(false);
+	tetromino.SetIsAnythingSetToHeld(false);
+	tetromino.SetRotation(Tetromino::Rotation::UP);
+	holdPiece = -1;
+	inputManager.SetHeld(-1);
+	board.EraseBoard();
 }
