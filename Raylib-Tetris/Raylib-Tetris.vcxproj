@@ -152,6 +152,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="OptionsMenu.cpp" />
     <ClCompile Include="raylibCpp.cpp" />
     <ClCompile Include="ScoreManager.cpp" />
     <ClCompile Include="SoundManager.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="Board.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="OptionsMenu.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="ScoreManager.h" />
@@ -190,6 +192,9 @@
     <Media Include="menuSound.wav" />
     <Media Include="music_1.mp3" />
     <Media Include="music_2.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Cogwheel.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

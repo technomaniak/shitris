@@ -27,6 +27,9 @@ private:
 	SoundManager soundManager;
 	MainMenu mainMenu;
 
+	Texture2D cogwheel;
+	Image cogwheelImage;
+
 	Texture2D darkOverlay;
 	Image darkOverlayImage;
 

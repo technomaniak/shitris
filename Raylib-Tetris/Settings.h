@@ -50,6 +50,14 @@ namespace settings
     // Main Text
     inline int mainTextSize = 300;
 
+    // Settings Button
+    inline constexpr Vec2<int> settingsButtonSize{ 100, 100 };
+    inline constexpr int maxSettingsButtonTextureSize = 30;
+    inline constexpr int minSettingsButtonTextureSize = 10;
+    inline int settingsButtonTextureSize = 30;
+    inline constexpr Vec2<int> settingsButtonPos{ 75, 75 };
+    inline Vec2<int> settingsButtonTexturePos = settingsButtonPos;
+
     // Quit Game Button
     inline constexpr Vec2<int> quitGameButtonSize{ 500, 150 };
     inline constexpr int minQuitGameButtonTextSize = 80;

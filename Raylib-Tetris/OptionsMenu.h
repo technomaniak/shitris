@@ -1,0 +1,25 @@
+#pragma once
+#include "Vec2.h"
+#include "SoundManager.h"
+
+class OptionsMenu
+{
+public:
+	OptionsMenu(SoundManager &sounds1);
+
+	void LoadOptions();
+	void SetLoaded(bool val);
+	bool GetLoaded();
+	void Tick();
+	void Draw();
+
+private:
+	void VolumeSettings();
+	bool optionsLoaded;
+
+	bool mouseOverMusicVolumeSlider;
+	bool mouseClickedMusicVolumeSlider;
+	float volume;
+	SoundManager sounds;
+	Color volumeSliderTint;
+};

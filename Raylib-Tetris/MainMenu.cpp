@@ -2,24 +2,25 @@
 #include "Settings.h"
 #include <iostream>
 
-MainMenu::MainMenu(SoundManager sounds):
+MainMenu::MainMenu(SoundManager &sounds1, Texture2D &cogwheel1) :
 	GameRunning(false),
 	menuLoaded(false),
-	sounds(sounds),
+	sounds(sounds1),
 	mouseOverPlayButton(false),
-	mouseOverMusicVolumeSlider(false),
-	mouseClickedMusicVolumeSlider(false),
-	volume(0.0f),
+	mouseOverSettingsButton(false),
 	menuTextRotation(-1),
 	menuTextAnimationSymbol(-1),
 	mainTextAnimationSpeed(1),
 	mainMenuTextZoomCounter(0),
 	quitGameButtonCounter(0),
 	playButtonCounter(0),
+	settingsButtonCounter(0),
 	programCrasher(0),
 	gameReset(true),
-	volumeSliderTint(Color{ 0, 0, 0, 255 }),
-	mouseOverQuitGameButton(false)
+	mouseOverQuitGameButton(false),
+	options(OptionsMenu(sounds)),
+	cogwheel(cogwheel1),
+	optionsLoad(false)
 {
 }
 
@@ -32,11 +33,18 @@ void MainMenu::LoadMenu()
 
 void MainMenu::Tick()
 {
-	Draw();
-	PlayButton();
-	QuitGameButton();
-	VolumeSettings();
-	MainText();
+	if (!optionsLoad)
+	{
+		Draw();
+		PlayButton();
+		QuitGameButton();
+		SettingsButton();
+		MainText();
+	}
+	else
+	{
+		LoadOptions();
+	}
 }
 
 void MainMenu::PlayButton()
@@ -82,6 +90,48 @@ void MainMenu::PlayButton()
 	}
 }
 
+void MainMenu::SettingsButton()
+{
+	if (raycpp::GetMousePos() > settings::settingsButtonPos - Vec2<int>{ 0, 29 }
+	&& raycpp::GetMousePos() < settings::settingsButtonPos - Vec2<int>{ 0, 21 } + settings::settingsButtonSize)
+	{
+		if (mouseOverSettingsButton != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			mouseOverSettingsButton = true;
+		}
+	}
+	else
+	{
+		if (settings::settingsButtonTextureSize < settings::maxSettingsButtonTextureSize)
+		{
+			settingsButtonCounter++;
+			if (settingsButtonCounter > 0)
+			{
+				settings::settingsButtonTextureSize += 5;
+				settingsButtonCounter = 0;
+			}
+		}
+		mouseOverSettingsButton = false;
+	}
+	if (mouseOverSettingsButton)
+	{
+		if (settings::settingsButtonTextureSize > settings::minSettingsButtonTextureSize)
+		{
+			settingsButtonCounter++;
+			if (settingsButtonCounter > 0)
+			{
+				settings::settingsButtonTextureSize -= 5;
+				settingsButtonCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			optionsLoad = true;
+		}
+	}
+}
+
 void MainMenu::QuitGameButton()
 {
 
@@ -121,55 +171,6 @@ void MainMenu::QuitGameButton()
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 		{
 			programCrasher = 1 / programCrasher;
-		}
-	}
-}
-
-void MainMenu::VolumeSettings()
-{
-	if (raycpp::GetMousePos() > settings::volumeSliderBorderPos - Vec2<int>{ 0, 25 }
-	&& raycpp::GetMousePos() < settings::volumeSliderBorderPos - Vec2<int>{ 0, 15 } + settings::volumeSliderBorderSize)
-	{
-		if (mouseOverMusicVolumeSlider != true)
-		{
-			sounds.PlaySoundFromName("menuSound");
-			mouseOverMusicVolumeSlider = true;
-		}
-	}
-	else
-	{
-		if (!mouseClickedMusicVolumeSlider)
-		{
-			mouseOverMusicVolumeSlider = false;
-		}
-	}
-
-	if (mouseOverMusicVolumeSlider)
-	{
-		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-		{
-			mouseClickedMusicVolumeSlider = true;
-		}
-		if (mouseClickedMusicVolumeSlider && IsMouseButtonDown(MOUSE_BUTTON_LEFT))
-		{
-			float mouseVolumePosForFucksSake = ((((float)settings::volumeSliderPos.GetY() + settings::volumeSliderSize.GetY()) - raycpp::GetMousePos().GetY() - 20) / settings::volumeSliderSize.GetY());
-
-			if (mouseVolumePosForFucksSake < 0)
-			{
-				sounds.SetAllMusicVolume(0.0f);
-			}
-			else if (mouseVolumePosForFucksSake > 1)
-			{
-				sounds.SetAllMusicVolume(1.0f);
-			}
-			else
-			{
-				sounds.SetAllMusicVolume(mouseVolumePosForFucksSake);
-			}
-		}
-		if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
-		{
-			mouseClickedMusicVolumeSlider = false;
 		}
 	}
 }
@@ -243,11 +244,9 @@ void MainMenu::Draw() const
 		settings::quitGameButtonPos.GetY() - (settings::quitGameButtonSize.GetY() / 2) + (int)(settings::quitGameButtonSize.GetY() - MeasureTextEx(GetFontDefault(), "QUIT", (float)(settings::quitGameButtonTextSize / 2), 20).y) },
 		settings::quitGameButtonTextSize, RAYWHITE);
 
-	// Volume
-	raycpp::DrawRectangleLinesEx(settings::volumeSliderBorderPos, settings::volumeSliderBorderSize, 2, RAYWHITE);
-	raycpp::DrawRectangle({ settings::volumeSliderPos.GetX(), settings::volumeSliderPos.GetY() + (settings::volumeSliderSize.GetY() / 100 * (100 - (int)(sounds.GetMusicVolume() * 100))) },
-		{ settings::volumeSliderSize.GetX(), (settings::volumeSliderSize.GetY() / 100) * (int)(sounds.GetMusicVolume() * 100) }, RAYWHITE);
-	raycpp::DrawText(TextFormat(" V\n O\n L\n U\n M\n E\n%i", (int)(sounds.GetMusicVolume() * 100)), settings::volumeSliderBorderPos - Vec2<int>{ 50, -3 }, 30, RAYWHITE);
+	// Settings Button
+	raycpp::DrawRectangleLinesEx(settings::settingsButtonPos, settings::settingsButtonSize, 5, RAYWHITE);
+
 }
 
 bool MainMenu::GetGameReset() const
@@ -258,6 +257,18 @@ bool MainMenu::GetGameReset() const
 void MainMenu::SetGameReset(bool val)
 {
 	gameReset = val;
+}
+
+void MainMenu::LoadOptions()
+{
+	if (options.GetLoaded())
+	{
+		options.Tick();
+	}
+	else
+	{
+		options.LoadOptions();
+	}
 }
 
 void MainMenu::MainText()

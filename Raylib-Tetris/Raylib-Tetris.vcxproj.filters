@@ -31,6 +31,9 @@
     <Filter Include="Pliki zasobów\Music">
       <UniqueIdentifier>{78cdc3e6-df9b-497e-9449-8929ed28b1f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki zasobów\Textures">
+      <UniqueIdentifier>{beced3e2-5ab4-4b61-9a8c-56d67d664e14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -58,6 +61,9 @@
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionsMenu.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
   </ItemGroup>
@@ -90,6 +96,9 @@
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="MainMenu.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionsMenu.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>
@@ -150,5 +159,10 @@
     <Media Include="music_1.mp3">
       <Filter>Pliki zasobów\Music</Filter>
     </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Cogwheel.png">
+      <Filter>Pliki zasobów\Textures</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -22,8 +22,10 @@ Game::Game(int width, int height, int fps, std::string title)
 	moved(false),
 	lastAction(0),
 	gameShouldEnd(false),
+	cogwheelImage(LoadImage("Cogwheel.png")),
+	cogwheel(LoadTextureFromImage(cogwheelImage)),
 	soundManager(SoundManager()),
-	mainMenu(MainMenu(soundManager)),
+	mainMenu(MainMenu(soundManager, cogwheel)),
 	boardName("Default"),
 	newBest(false),
 	mouseOverRestartButton(false),
@@ -392,6 +394,9 @@ void Game::UpdateMusic()
 void Game::LoadTextures()
 {
 	darkOverlay = LoadTextureFromImage(darkOverlayImage);
+	cogwheel = LoadTextureFromImage(cogwheelImage);
+	UnloadImage(cogwheelImage);
+	UnloadImage(darkOverlayImage);
 }
 
 int Game::SelectRandomPiece() const

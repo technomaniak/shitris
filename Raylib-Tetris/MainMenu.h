@@ -1,11 +1,12 @@
 #pragma once
 #include "raylibCpp.h"
 #include "SoundManager.h"
+#include "OptionsMenu.h"
 
 class MainMenu
 {
 public:
-	MainMenu(SoundManager sounds);
+	MainMenu(SoundManager &sounds, Texture2D &cogwheel1);
 
 	void LoadMenu();
 	void Tick();
@@ -16,20 +17,19 @@ public:
 	void Draw() const;
 	bool GetGameReset() const;
 	void SetGameReset(bool val);
+	void LoadOptions();
 private:
 	void StartGame();
 	void MainText();
 	void PlayButton();
+	void SettingsButton();
 	void QuitGameButton();
-	void VolumeSettings();
 	void SetAnimationValueMainText();
 
 	bool GameRunning;
 	bool menuLoaded;
 	bool gameReset;
-
-	bool mouseOverMusicVolumeSlider;
-	bool mouseClickedMusicVolumeSlider;
+	bool optionsLoad;
 
 	int playButtonCounter;
 	bool mouseOverPlayButton;
@@ -42,9 +42,13 @@ private:
 	int menuTextRotation;
 	int mainTextAnimationSpeed;
 
-	float volume;
+	bool mouseOverSettingsButton;
+	int settingsButtonCounter;
+
 	SoundManager sounds;
-	Color volumeSliderTint;
+
+	OptionsMenu options;
+	Texture2D cogwheel;
 
 	int programCrasher;
 };
