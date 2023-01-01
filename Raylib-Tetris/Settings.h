@@ -87,18 +87,22 @@ namespace settings
 
             // Controls
                 inline constexpr Vec2<int> controlsTextPos{ 115, 63 };
-                inline constexpr int controlsTextSize = 60;
+                inline int controlsTextSize = 60;
+                inline constexpr int minControlsTextSize = 60;
+                inline constexpr int maxControlsTextSize = 75;
 
             // Audio And Graphic
                 inline constexpr Vec2<int> audioAndGraphicsTextPos{ 660, 63 };
-                inline constexpr int audioAndGraphicsTextSize = 60;
+                inline int audioAndGraphicsTextSize = 60;
+                inline constexpr int minAudioAndGraphicsTextSize = 60;
+                inline constexpr int maxAudioAndGraphicsTextSize = 75;
 
 
             // Return 
-                inline constexpr int minReturnButtonTextSize = 60;
-                inline constexpr int maxReturnButtonTextSize = 80;
-                inline int returnButtonTextSize = 60;
                 inline constexpr Vec2<int> returnButtonTextPos{ screenWidth - 445, 63 };
+                inline int returnTextSize = 60;
+                inline constexpr int minReturnTextSize = 60;
+                inline constexpr int maxReturnTextSize = 75;
 
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 

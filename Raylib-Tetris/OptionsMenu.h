@@ -11,12 +11,14 @@ public:
 	void SetLoaded(bool val);
 	bool GetLoaded();
 	void Tick();
-	void Draw(int which);
+	void Draw();
 
 private:
 	void VolumeSettings();
 	void ReturnButton();
-	void DrawOptionsSelection();
+	void ControlsButton();
+	void AudioAndGraphicsButton();
+	void ManageOptionsSelection();
 	void Controls();
 	void GraphicsAndAudio();
 
@@ -32,6 +34,12 @@ private:
 
 	int returnButtonCounter;
 	bool mouseOverReturnButton;
+
+	int controlsButtonCounter;
+	bool mouseOverControlsButton;
+
+	int audioAndGraphicsButtonCounter;
+	bool mouseOverAudioAndGraphicsButton;
 
 	SoundManager &sounds;
 	Color volumeSliderTint;

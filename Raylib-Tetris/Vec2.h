@@ -83,6 +83,22 @@ public:
 		}
 		return false;
 	}
+	constexpr bool operator<=(const Vec2& rhs) const
+	{
+		if (x <= rhs.x && y <= rhs.y)
+		{
+			return true;
+		}
+		return false;
+	}
+	constexpr bool operator>=(const Vec2& rhs) const
+	{
+		if (x >= rhs.x && y >= rhs.y)
+		{
+			return true;
+		}
+		return false;
+	}
 private:
 	T x;
 	T y;

@@ -7,12 +7,16 @@ OptionsMenu::OptionsMenu(SoundManager &sounds1):
 	sounds(sounds1),
 	volume(0.2f),
 	volumeSliderTint(Color{ 0, 0, 0, 255 }),
-	mouseOverMusicVolumeSlider(false),
 	mouseClickedMusicVolumeSlider(false),
+	mouseClickedSFXVolumeSlider(false),
 	mouseOverReturnButton(false),
 	mouseOverSFXVolumeSlider(false),
-	mouseClickedSFXVolumeSlider(false),
+	mouseOverMusicVolumeSlider(false),
+	mouseOverControlsButton(false),
+	mouseOverAudioAndGraphicsButton(false),
 	returnButtonCounter(0),
+	controlsButtonCounter(0),
+	audioAndGraphicsButtonCounter(0),
 	whatOptionPart(0)
 {
 }
@@ -34,11 +38,19 @@ bool OptionsMenu::GetLoaded()
 
 void OptionsMenu::Tick()
 {
-	Draw(whatOptionPart);
+	Draw();
+	ManageOptionsSelection();
+	if (IsKeyPressed(KEY_ESCAPE))
+	{
+		optionsLoaded = false;
+		whatOptionPart = 0;
+		settings::controlsTextSize = 60;
+		settings::audioAndGraphicsTextSize = 60;
+		sounds.PlaySoundFromName("menuSound");
+	}
 	switch (whatOptionPart)
 	{
 	case 0:
-		ReturnButton();
 		VolumeSettings();
 		break;
 	case 1:
@@ -46,15 +58,20 @@ void OptionsMenu::Tick()
 	}
 }
 
-void OptionsMenu::Draw(int which)
+void OptionsMenu::Draw()
 {
 	ClearBackground(BLACK);
 
-
 	// Select Which Part To View
-	switch (which)
+	switch (whatOptionPart)
 	{
 	case 0:
+
+		// Selection Buttons
+		raycpp::DrawText("AUDIO / GRAPHICS", settings::audioAndGraphicsTextPos - Vec2<int>{(int)((settings::minAudioAndGraphicsTextSize - settings::maxAudioAndGraphicsTextSize) * -4.65),
+			((settings::minAudioAndGraphicsTextSize - settings::maxAudioAndGraphicsTextSize) / 2) * -1}, settings::maxAudioAndGraphicsTextSize, WHITE);
+		raycpp::DrawText("CONTROLS", settings::controlsTextPos - Vec2<int>{(settings::minControlsTextSize - settings::controlsTextSize) * -2,
+			((settings::minControlsTextSize - settings::controlsTextSize) / 2) * -1}, settings::controlsTextSize, WHITE);
 
 		// Music Volume
 		raycpp::DrawRectangleLinesEx(settings::volumeSliderBorderPos, settings::volumeSliderBorderSize, 2, RAYWHITE);
@@ -69,14 +86,18 @@ void OptionsMenu::Draw(int which)
 		raycpp::DrawText(TextFormat(" \n\n S\n F\n X\n%i", (int)(sounds.GetSFXVolume() * 100)), settings::volumeSliderBorderPos - Vec2<int>{ 155, -3 }, 36, RAYWHITE);
 		break;
 	case 1:
+		// Selection Buttons
+		raycpp::DrawText("AUDIO / GRAPHICS", settings::audioAndGraphicsTextPos - Vec2<int>{(int)((settings::minAudioAndGraphicsTextSize - settings::audioAndGraphicsTextSize) * -4.65),
+			((settings::minAudioAndGraphicsTextSize - settings::audioAndGraphicsTextSize) / 2) * -1}, settings::audioAndGraphicsTextSize, WHITE);
+		raycpp::DrawText("CONTROLS", settings::controlsTextPos - Vec2<int>{(settings::minControlsTextSize - settings::maxControlsTextSize) * -2,
+			((settings::minControlsTextSize - settings::maxControlsTextSize) / 2) * -1}, settings::maxControlsTextSize, WHITE);
+
 		break;
 	}
 
-	// Selection Text
-	raycpp::DrawText("CONTROLS", settings::controlsTextPos, settings::controlsTextSize, WHITE);
-	raycpp::DrawText("AUDIO & GRAPHICS", settings::audioAndGraphicsTextPos, settings::audioAndGraphicsTextSize, WHITE);
-	raycpp::DrawText("RETURN", settings::returnButtonTextPos - Vec2<int>{(settings::minReturnButtonTextSize - settings::returnButtonTextSize) * -2,
-				    ((settings::minReturnButtonTextSize - settings::returnButtonTextSize) / 2) * -1}, settings::returnButtonTextSize, WHITE);
+	// Selection Borders & Return Button
+	raycpp::DrawText("RETURN", settings::returnButtonTextPos - Vec2<int>{(settings::minReturnTextSize - settings::returnTextSize) * -2,
+				    ((settings::minReturnTextSize - settings::returnTextSize) / 2) * -1}, settings::returnTextSize, WHITE);
 	raycpp::DrawLineEx(settings::verticalDividerPos, settings::verticalDividerPos + Vec2<int>{ 0, settings::verticalDividerLength }, 5, WHITE);
 	raycpp::DrawLineEx(settings::horizontalDividerPos, settings::horizontalDividerPos + Vec2<int>{ settings::horizontalDividerLength, 0 }, 5, WHITE);
 	raycpp::DrawLineEx(settings::verticalDividerPos2, settings::verticalDividerPos2 + Vec2<int>{ 0, settings::verticalDividerLength2 }, 5, WHITE);
@@ -191,12 +212,12 @@ void OptionsMenu::ReturnButton()
 	}
 	else
 	{
-		if (settings::returnButtonTextSize > settings::minReturnButtonTextSize)
+		if (settings::returnTextSize > settings::minReturnTextSize)
 		{
 			returnButtonCounter++;
 			if (returnButtonCounter > 0)
 			{
-				settings::returnButtonTextSize -= 5;
+				settings::returnTextSize -= 5;
 				returnButtonCounter = 0;
 			}
 		}
@@ -204,25 +225,124 @@ void OptionsMenu::ReturnButton()
 	}
 	if (mouseOverReturnButton)
 	{
-		if (settings::returnButtonTextSize < settings::maxReturnButtonTextSize)
+		if (settings::returnTextSize < settings::maxReturnTextSize)
 		{
 			returnButtonCounter++;
 			if (returnButtonCounter > 0)
 			{
-				settings::returnButtonTextSize += 5;
+				settings::returnTextSize += 5;
 				returnButtonCounter = 0;
 			}
 		}
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 		{
 			sounds.PlaySoundFromName("menuSound");
+			whatOptionPart = 0;
+			settings::controlsTextSize = 60;
+			settings::audioAndGraphicsTextSize = 60;
 			SetLoaded(false);
 		}
 	}
 }
 
-void OptionsMenu::DrawOptionsSelection()
+void OptionsMenu::ControlsButton()
 {
+	if (raycpp::GetMousePos() >= Vec2<int>{ 0, 0 }
+	&& raycpp::GetMousePos() < settings::verticalDividerPos - Vec2<int>{ 0, 25 - settings::verticalDividerLength })
+	{
+		if (mouseOverControlsButton != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			mouseOverControlsButton = true;
+		}
+	}
+	else
+	{
+		if (settings::controlsTextSize > settings::minControlsTextSize)
+		{
+			controlsButtonCounter++;
+			if (controlsButtonCounter > 0)
+			{
+				settings::controlsTextSize -= 5;
+				controlsButtonCounter = 0;
+			}
+		}
+		mouseOverControlsButton = false;
+	}
+	if (mouseOverControlsButton)
+	{
+		if (settings::controlsTextSize < settings::maxControlsTextSize)
+		{
+			controlsButtonCounter++;
+			if (controlsButtonCounter > 0)
+			{
+				settings::controlsTextSize += 5;
+				controlsButtonCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			sounds.PlaySoundFromName("menuSound");
+			whatOptionPart = 1;
+		}
+	}
+}
+
+void OptionsMenu::AudioAndGraphicsButton()
+{
+	if (raycpp::GetMousePos() > settings::verticalDividerPos - Vec2<int>{ 0, 25 }
+	&& raycpp::GetMousePos() < settings::verticalDividerPos2 + Vec2<int>{ 0, settings::verticalDividerLength2 } - Vec2<int>{ 0, 25 })
+	{
+		if (mouseOverAudioAndGraphicsButton != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			mouseOverAudioAndGraphicsButton = true;
+		}
+	}
+	else
+	{
+		if (settings::audioAndGraphicsTextSize > settings::minAudioAndGraphicsTextSize)
+		{
+			audioAndGraphicsButtonCounter++;
+			if (audioAndGraphicsButtonCounter > 0)
+			{
+				settings::audioAndGraphicsTextSize -= 5;
+				audioAndGraphicsButtonCounter = 0;
+			}
+		}
+		mouseOverAudioAndGraphicsButton = false;
+	}
+	if (mouseOverAudioAndGraphicsButton)
+	{
+		if (settings::audioAndGraphicsTextSize < settings::maxAudioAndGraphicsTextSize)
+		{
+			audioAndGraphicsButtonCounter++;
+			if (audioAndGraphicsButtonCounter > 0)
+			{
+				settings::audioAndGraphicsTextSize += 5;
+				audioAndGraphicsButtonCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			sounds.PlaySoundFromName("menuSound");
+			whatOptionPart = 0;
+		}
+	}
+}
+
+void OptionsMenu::ManageOptionsSelection()
+{
+	switch (whatOptionPart)
+	{
+	case 0:
+		ControlsButton();
+		break;
+	case 1:
+		AudioAndGraphicsButton();
+		break;
+	}
+	ReturnButton();
 }
 
 void OptionsMenu::Controls()
