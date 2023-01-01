@@ -173,15 +173,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="cock.board" />
+    <None Include="Controls.setting" />
     <None Include="Default.board" />
     <None Include="Default.HS" />
     <None Include="El.tetromino" />
     <None Include="Jay.tetromino" />
     <None Include="SkewS.tetromino" />
     <None Include="SkewZ.tetromino" />
+    <None Include="Sound.setting" />
     <None Include="Square.tetromino" />
     <None Include="squomino.board" />
     <None Include="Straight.tetromino" />
+    <None Include="Style.setting" />
     <None Include="Tee.tetromino" />
     <None Include="test.board" />
     <None Include="test.HS" />

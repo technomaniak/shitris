@@ -145,6 +145,15 @@
     <None Include="test.HS">
       <Filter>Pliki zasobów\PlayerData</Filter>
     </None>
+    <None Include="Sound.setting">
+      <Filter>Pliki zasobów\PlayerData</Filter>
+    </None>
+    <None Include="Controls.setting">
+      <Filter>Pliki zasobów\PlayerData</Filter>
+    </None>
+    <None Include="Style.setting">
+      <Filter>Pliki zasobów\PlayerData</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Media Include="..\..\..\..\Documents\Gry\placeSound.wav">

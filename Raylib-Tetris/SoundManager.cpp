@@ -1,5 +1,6 @@
 #include "SoundManager.h"
 #include <iostream>
+#include <fstream>
 
 SoundManager::SoundManager():
 	music({ LoadMusicStream("music_1.mp3"), LoadMusicStream("music_2.mp3") }),
@@ -7,8 +8,18 @@ SoundManager::SoundManager():
 	placeSound(LoadSound("placeSound.wav")),
 	menuSound(LoadSound("menuSound.wav")),
 	musicVolume(0.2f),
+	sfxVolume(0.2f),
 	currentlyPlaying(0)
 {
+	std::ifstream settings("Sound.setting");
+
+	std::string input;
+	std::getline(settings, input);
+	if (input != "")
+	{
+		musicVolume = std::stof(input);
+	}
+
 	SetSoundVolume(placeSound, musicVolume);
 	SetSoundVolume(menuSound, musicVolume);
 }
@@ -67,10 +78,19 @@ void SoundManager::CloseSound()
 
 void SoundManager::SetAllMusicVolume(float volume)
 {
+	std::ofstream settings("Sound.setting");
+
 	musicVolume = volume;
-	SetMusicVolume(music[currentlyPlaying], musicVolume);
+	settings << volume;
+
+	SetMusicVolume(music[currentlyPlaying], volume);
 	SetSoundVolume(placeSound, musicVolume);
 	SetSoundVolume(menuSound, musicVolume);
+}
+
+void SoundManager::SetAllSFXVolume(float volume)
+{
+	sfxVolume = volume;
 }
 
 float SoundManager::GetMusicVolume() const

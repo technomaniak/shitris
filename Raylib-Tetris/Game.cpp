@@ -30,9 +30,11 @@ Game::Game(int width, int height, int fps, std::string title)
 	newBest(false),
 	mouseOverRestartButton(false),
 	mouseOverMainMenuButton(false),
+	mouseOverOptionsButton(false),
 	restartButtonCounter(0),
 	mainMenuButtonCounter(0),
 	gameOverCounter(0),
+	optionsButtonCounter(0),
 	gamePaused(false),
 	texturesLoaded(false),
 	darkOverlayImage(GenImageColor(settings::screenWidth, settings::screenHeight, Color{ 0, 0, 0, 100 })),
@@ -650,6 +652,48 @@ void Game::DrawRestartButton(bool isNewBest)
 
 void Game::OptionsButton(bool isNewBest)
 {
+	if (raycpp::GetMousePos() - Vec2<int>{ 0, -20 } > settings::optionsButtonPos
+		&& raycpp::GetMousePos() < settings::optionsButtonPos + settings::optionsButtonSize - Vec2<int>{ 0, 20 })
+	{
+		if (mouseOverOptionsButton != true)
+		{
+			soundManager.PlaySoundFromName("menuSound");
+			mouseOverOptionsButton = true;
+		}
+	}
+	else
+	{
+		mouseOverOptionsButton = false;
+	}
+	if (mouseOverOptionsButton)
+	{
+		if (settings::optionsButtonTextSize >= settings::minOptionsButtonTextSize)
+		{
+			optionsButtonCounter++;
+			if (optionsButtonCounter > 0)
+			{
+				settings::optionsButtonTextSize -= 1;
+				optionsButtonCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			ResetGame();
+			soundManager.PlaySoundFromName("menuSound");
+		}
+	}
+	else
+	{
+		if (settings::optionsButtonTextSize <= settings::maxOptionsButtonTextSize)
+		{
+			optionsButtonCounter++;
+			if (optionsButtonCounter > 0)
+			{
+				settings::optionsButtonTextSize += 1;
+				optionsButtonCounter = 0;
+			}
+		}
+	}
 	DrawOptionsButton(isNewBest);
 }
 

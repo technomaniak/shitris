@@ -64,11 +64,13 @@ private:
 	bool gamePaused;
 	bool mouseOverRestartButton;
 	bool mouseOverMainMenuButton;
+	bool mouseOverOptionsButton;
 	bool texturesLoaded;
 	int resetTimer;
 	int restartButtonCounter;
 	int mainMenuButtonCounter;
 	int gameOverCounter;
+	int optionsButtonCounter;
 	std::string boardName;
 
 };

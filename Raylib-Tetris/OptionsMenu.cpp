@@ -5,7 +5,7 @@
 OptionsMenu::OptionsMenu(SoundManager &sounds1):
 	optionsLoaded(false),
 	sounds(sounds1),
-	volume(sounds.GetMusicVolume()),
+	volume(0.2f),
 	volumeSliderTint(Color{ 0, 0, 0, 255 }),
 	mouseOverMusicVolumeSlider(false),
 	mouseClickedMusicVolumeSlider(false),
@@ -44,7 +44,7 @@ void OptionsMenu::Draw()
 	raycpp::DrawRectangleLinesEx(settings::volumeSliderBorderPos, settings::volumeSliderBorderSize, 2, RAYWHITE);
 	raycpp::DrawRectangle({ settings::volumeSliderPos.GetX(), settings::volumeSliderPos.GetY() + (settings::volumeSliderSize.GetY() / 100 * (100 - (int)(sounds.GetMusicVolume() * 100))) },
 		{ settings::volumeSliderSize.GetX(), (settings::volumeSliderSize.GetY() / 100) * (int)(sounds.GetMusicVolume() * 100) }, RAYWHITE);
-	raycpp::DrawText(TextFormat(" V\n O\n L\n U\n M\n E\n%i", (int)(sounds.GetMusicVolume() * 100)), settings::volumeSliderBorderPos - Vec2<int>{ 50, -3 }, 30, RAYWHITE);
+	raycpp::DrawText(TextFormat(" M\n U\n S\n I\n C\n%i", (int)(sounds.GetMusicVolume() * 100)), settings::volumeSliderBorderPos - Vec2<int>{ 53, -3 }, 36, RAYWHITE);
 
 	// Return Button
 	raycpp::DrawRectangleLinesEx(settings::returnButtonPos, settings::returnButtonSize, 5, RAYWHITE);

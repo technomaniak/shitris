@@ -166,7 +166,8 @@ void MainMenu::QuitGameButton()
 		}
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 		{
-			CloseWindow();
+			sounds.CloseSound();
+			exit(0);
 		}
 	}
 }
@@ -242,7 +243,7 @@ void MainMenu::Draw() const
 
 	// Settings Button
 	raycpp::DrawRectangleLinesEx(settings::settingsButtonPos , settings::settingsButtonSize, 5, RAYWHITE);
-	raycpp::DrawTextureEx(cogwheel, settings::settingsButtonTexturePos + (((19.53125 - (settings::settingsButtonTextureSize * 100)) * 5.12) / 2), 0.0f, settings::settingsButtonTextureSize, WHITE);
+	raycpp::DrawTextureEx(cogwheel, settings::settingsButtonTexturePos + (int)(((19.53125 - (settings::settingsButtonTextureSize * 100)) * 5.12) / 2), 0.0f, settings::settingsButtonTextureSize, WHITE);
 
 }
 

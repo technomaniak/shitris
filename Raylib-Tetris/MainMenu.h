@@ -6,7 +6,7 @@
 class MainMenu
 {
 public:
-	MainMenu(SoundManager &sounds, Texture2D &cogwheel1);
+	MainMenu(SoundManager &sounds1, Texture2D &cogwheel1);
 
 	void LoadMenu();
 	void Tick();
@@ -44,7 +44,7 @@ private:
 	bool mouseOverSettingsButton;
 	int settingsButtonCounter;
 
-	SoundManager sounds;
+	SoundManager &sounds;
 
 	OptionsMenu options;
 	Texture2D cogwheel;

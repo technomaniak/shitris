@@ -25,6 +25,6 @@ private:
 	int returnButtonCounter;
 	bool mouseOverReturnButton;
 
-	SoundManager sounds;
+	SoundManager &sounds;
 	Color volumeSliderTint;
 };
