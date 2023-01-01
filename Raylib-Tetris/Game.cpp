@@ -764,7 +764,7 @@ void Game::ResetGame()
 	tetromino.SetRotation(Tetromino::Rotation::UP);
 	holdPiece = -1;
 	inputManager.SetHeld(-1);
-	board.ResetScore();
+	board. ();
 	board.EraseBoard();
 	newBest = false;
 	inputManager.LoadHighScore(boardName);
