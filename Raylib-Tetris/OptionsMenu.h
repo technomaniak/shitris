@@ -16,10 +16,14 @@ public:
 private:
 	void VolumeSettings();
 	void ReturnButton();
+
 	bool optionsLoaded;
 
 	bool mouseOverMusicVolumeSlider;
 	bool mouseClickedMusicVolumeSlider;
+
+	bool mouseOverSFXVolumeSlider;
+	bool mouseClickedSFXVolumeSlider;
 	float volume;
 
 	int returnButtonCounter;

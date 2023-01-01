@@ -256,3 +256,9 @@ void ScoreManager::SetHighScore(int highScoreNew)
 {
 	highScore = highScoreNew;
 }
+
+void ScoreManager::ResetScore()
+{
+	score = 0;
+	lines = 0;
+}

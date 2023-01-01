@@ -392,6 +392,12 @@ void Board::SaveScore(std::string boardName, bool &newBest)
 	return;
 }
 
+void Board::ResetScore()
+{
+	score.ResetScore();
+	scoreSaved = false;
+}
+
 void Board::SetHighScore(int hS)
 {
 	score.SetHighScore(hS);

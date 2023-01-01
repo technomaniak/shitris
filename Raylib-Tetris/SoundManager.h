@@ -23,6 +23,7 @@ public:
 	void SetAllMusicVolume(float volume);
 	void SetAllSFXVolume(float volume);
 	float GetMusicVolume() const;
+	float GetSFXVolume() const;
 
 private:
 	const std::vector<Music> music;
@@ -30,7 +31,7 @@ private:
 	const Sound menuSound;
 	const int music_amount;
 	float musicVolume;
-	float sfxVolume;
+	float SFXVolume;
 	int currentlyPlaying;
 
 	Options ResolveOptions(std::string input);

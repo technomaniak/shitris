@@ -8,7 +8,7 @@ SoundManager::SoundManager():
 	placeSound(LoadSound("placeSound.wav")),
 	menuSound(LoadSound("menuSound.wav")),
 	musicVolume(0.2f),
-	sfxVolume(0.2f),
+	SFXVolume(0.2f),
 	currentlyPlaying(0)
 {
 	std::ifstream settings("Sound.setting");
@@ -19,9 +19,14 @@ SoundManager::SoundManager():
 	{
 		musicVolume = std::stof(input);
 	}
+	std::getline(settings, input);
+	if (input != "")
+	{
+		SFXVolume = std::stof(input);
+	}
 
-	SetSoundVolume(placeSound, musicVolume);
-	SetSoundVolume(menuSound, musicVolume);
+	SetSoundVolume(placeSound, SFXVolume);
+	SetSoundVolume(menuSound,  SFXVolume);
 }
 
 void SoundManager::PlaySoundFromName(std::string name)
@@ -81,21 +86,30 @@ void SoundManager::SetAllMusicVolume(float volume)
 	std::ofstream settings("Sound.setting");
 
 	musicVolume = volume;
-	settings << volume;
+	settings << volume << "\n" << SFXVolume;
 
 	SetMusicVolume(music[currentlyPlaying], volume);
-	SetSoundVolume(placeSound, musicVolume);
-	SetSoundVolume(menuSound, musicVolume);
 }
 
 void SoundManager::SetAllSFXVolume(float volume)
 {
-	sfxVolume = volume;
+	std::ofstream settings("Sound.setting");
+
+	SFXVolume = volume;
+	settings << musicVolume << "\n" << volume;
+
+	SetSoundVolume(placeSound, SFXVolume);
+	SetSoundVolume(menuSound, SFXVolume);
 }
 
 float SoundManager::GetMusicVolume() const
 {
 	return musicVolume;
+}
+
+float SoundManager::GetSFXVolume() const
+{
+	return SFXVolume;
 }
 
 SoundManager::Options SoundManager::ResolveOptions(std::string input)

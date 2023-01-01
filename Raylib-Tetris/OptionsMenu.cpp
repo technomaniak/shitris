@@ -10,6 +10,8 @@ OptionsMenu::OptionsMenu(SoundManager &sounds1):
 	mouseOverMusicVolumeSlider(false),
 	mouseClickedMusicVolumeSlider(false),
 	mouseOverReturnButton(false),
+	mouseOverSFXVolumeSlider(false),
+	mouseClickedSFXVolumeSlider(false),
 	returnButtonCounter(0)
 {
 }
@@ -40,11 +42,17 @@ void OptionsMenu::Draw()
 {
 	ClearBackground(BLACK);
 
-	// Volume
+	// Music Volume
 	raycpp::DrawRectangleLinesEx(settings::volumeSliderBorderPos, settings::volumeSliderBorderSize, 2, RAYWHITE);
 	raycpp::DrawRectangle({ settings::volumeSliderPos.GetX(), settings::volumeSliderPos.GetY() + (settings::volumeSliderSize.GetY() / 100 * (100 - (int)(sounds.GetMusicVolume() * 100))) },
 		{ settings::volumeSliderSize.GetX(), (settings::volumeSliderSize.GetY() / 100) * (int)(sounds.GetMusicVolume() * 100) }, RAYWHITE);
 	raycpp::DrawText(TextFormat(" M\n U\n S\n I\n C\n%i", (int)(sounds.GetMusicVolume() * 100)), settings::volumeSliderBorderPos - Vec2<int>{ 53, -3 }, 36, RAYWHITE);
+
+	// Sounds Volume
+	raycpp::DrawRectangleLinesEx(settings::volumeSliderBorderPos - Vec2<int>{ 103, 0 }, settings::volumeSliderBorderSize, 2, RAYWHITE);
+	raycpp::DrawRectangle({ settings::volumeSliderPos.GetX() - 103, settings::volumeSliderPos.GetY() + (settings::volumeSliderSize.GetY() / 100 * (100 - (int)(sounds.GetSFXVolume() * 100)))},
+		{ settings::volumeSliderSize.GetX(), (settings::volumeSliderSize.GetY() / 100) * (int)(sounds.GetSFXVolume() * 100) }, RAYWHITE);
+	raycpp::DrawText(TextFormat(" \n\n S\n F\n X\n%i", (int)(sounds.GetSFXVolume() * 100)), settings::volumeSliderBorderPos - Vec2<int>{ 155, -3 }, 36, RAYWHITE);
 
 	// Return Button
 	raycpp::DrawRectangleLinesEx(settings::returnButtonPos, settings::returnButtonSize, 5, RAYWHITE);
@@ -100,6 +108,53 @@ void OptionsMenu::VolumeSettings()
 		if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
 		{
 			mouseClickedMusicVolumeSlider = false;
+		}
+	}
+
+
+	if (raycpp::GetMousePos() > settings::volumeSliderBorderPos - Vec2<int>{ 103, 25 }
+	&& raycpp::GetMousePos() < settings::volumeSliderBorderPos - Vec2<int>{ 103, 15 } + settings::volumeSliderBorderSize)
+	{
+		if (mouseOverSFXVolumeSlider != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			mouseOverSFXVolumeSlider = true;
+		}
+	}
+	else
+	{
+		if (!mouseClickedSFXVolumeSlider)
+		{
+			mouseOverSFXVolumeSlider = false;
+		}
+	}
+
+	if (mouseOverSFXVolumeSlider)
+	{
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			mouseClickedSFXVolumeSlider = true;
+		}
+		if (mouseClickedSFXVolumeSlider && IsMouseButtonDown(MOUSE_BUTTON_LEFT))
+		{
+			float mouseVolumePosForFucksSake = ((((float)settings::volumeSliderPos.GetY() + settings::volumeSliderSize.GetY()) - raycpp::GetMousePos().GetY() - 20) / settings::volumeSliderSize.GetY());
+
+			if (mouseVolumePosForFucksSake < 0)
+			{
+				sounds.SetAllSFXVolume(0.0f);
+			}
+			else if (mouseVolumePosForFucksSake > 1)
+			{
+				sounds.SetAllSFXVolume(1.0f);
+			}
+			else
+			{
+				sounds.SetAllSFXVolume(mouseVolumePosForFucksSake);
+			}
+		}
+		if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
+		{
+			mouseClickedSFXVolumeSlider = false;
 		}
 	}
 }

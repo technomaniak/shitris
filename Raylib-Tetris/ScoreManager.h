@@ -19,6 +19,7 @@ public:
 	void SaveBestScore(std::string file, bool &newBest);
 
 	void SetHighScore(int highScoreNew);
+	void ResetScore();
 
 private:
 	int score;

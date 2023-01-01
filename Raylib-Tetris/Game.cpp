@@ -341,10 +341,8 @@ void Game::Update()
 		if (counterDrop <= 0)
 		{
 			tetromino.PlaceTetromino(gameShouldEnd);
-			if (!gameShouldEnd)
-			{
-				soundManager.PlaySoundFromName("placeSound");
-			}
+			soundManager.PlaySoundFromName("placeSound");
+			
 			counterDrop = 40;
 			counterFall = 1;
 		}
@@ -522,8 +520,17 @@ void Game::PauseMenu()
 
 void Game::MainMenuButton(bool isNewBest)
 {
-	if (raycpp::GetMousePos() - Vec2<int>{ 0, -20 } > settings::mainMenuButtonPos
-		&& raycpp::GetMousePos() < settings::mainMenuButtonPos + settings::mainMenuButtonSize - Vec2<int>{ 0, 20 })
+	Vec2<int> extraOffset;
+	if (isNewBest)
+	{
+		extraOffset = { 0, 150 };
+	}
+	else
+	{
+		extraOffset = { 0, 0 };
+	}
+	if (raycpp::GetMousePos() - Vec2<int>{ 0, -20 } - extraOffset > settings::mainMenuButtonPos
+		&& raycpp::GetMousePos() < settings::mainMenuButtonPos + settings::mainMenuButtonSize - Vec2<int>{ 0, 20 } - extraOffset)
 	{
 		if (mouseOverMainMenuButton != true)
 		{
@@ -589,8 +596,19 @@ void Game::DrawMainMenuButton(bool isNewBest)
 
 void Game::RestartButton(bool isNewBest)
 {
-	if (raycpp::GetMousePos() - Vec2<int>{ 0, - 20 } > settings::restartButtonPos
-		&& raycpp::GetMousePos() < settings::restartButtonPos + settings::restartButtonSize - Vec2<int>{ 0, 20 } )
+
+	Vec2<int> extraOffset;
+	if (isNewBest)
+	{
+		extraOffset = { 0, 150 };
+	}
+	else
+	{
+		extraOffset = { 0, 0 };
+	}
+
+	if (raycpp::GetMousePos() - Vec2<int>{ 0, - 20 } + extraOffset > settings::restartButtonPos
+		&& raycpp::GetMousePos() < settings::restartButtonPos + settings::restartButtonSize - Vec2<int>{ 0, 20 } + extraOffset)
 	{
 		if (mouseOverRestartButton != true)
 		{
@@ -652,8 +670,18 @@ void Game::DrawRestartButton(bool isNewBest)
 
 void Game::OptionsButton(bool isNewBest)
 {
-	if (raycpp::GetMousePos() - Vec2<int>{ 0, -20 } > settings::optionsButtonPos
-		&& raycpp::GetMousePos() < settings::optionsButtonPos + settings::optionsButtonSize - Vec2<int>{ 0, 20 })
+	Vec2<int> extraOffset;
+	if (isNewBest)
+	{
+		extraOffset = { 0, 150 };
+	}
+	else
+	{
+		extraOffset = { 0, 0 };
+	}
+
+	if (raycpp::GetMousePos() - Vec2<int>{ 0, -20 } + extraOffset > settings::optionsButtonPos
+		&& raycpp::GetMousePos() < settings::optionsButtonPos + settings::optionsButtonSize - Vec2<int>{ 0, 20 } + extraOffset)
 	{
 		if (mouseOverOptionsButton != true)
 		{
@@ -736,5 +764,8 @@ void Game::ResetGame()
 	tetromino.SetRotation(Tetromino::Rotation::UP);
 	holdPiece = -1;
 	inputManager.SetHeld(-1);
+	board.ResetScore();
 	board.EraseBoard();
+	newBest = false;
+	inputManager.LoadHighScore(boardName);
 }

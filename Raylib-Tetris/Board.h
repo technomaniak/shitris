@@ -56,6 +56,7 @@ public:
 
 	void SetSize(Vec2<int> widthHei);
 	void SaveScore(std::string boardName, bool &newBest);
+	void ResetScore();
 	void SetHighScore(int hS);
 
 private:

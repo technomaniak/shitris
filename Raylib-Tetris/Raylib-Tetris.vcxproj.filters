@@ -156,9 +156,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="..\..\..\..\Documents\Gry\placeSound.wav">
-      <Filter>Pliki zasobów\sounds</Filter>
-    </Media>
     <Media Include="menuSound.wav">
       <Filter>Pliki zasobów\sounds</Filter>
     </Media>
@@ -167,6 +164,9 @@
     </Media>
     <Media Include="music_1.mp3">
       <Filter>Pliki zasobów\Music</Filter>
+    </Media>
+    <Media Include="placeSound.wav">
+      <Filter>Pliki zasobów\sounds</Filter>
     </Media>
   </ItemGroup>
   <ItemGroup>
