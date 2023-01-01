@@ -15,11 +15,16 @@ public:
 
 private:
 	void VolumeSettings();
+	void ReturnButton();
 	bool optionsLoaded;
 
 	bool mouseOverMusicVolumeSlider;
 	bool mouseClickedMusicVolumeSlider;
 	float volume;
+
+	int returnButtonCounter;
+	bool mouseOverReturnButton;
+
 	SoundManager sounds;
 	Color volumeSliderTint;
 };

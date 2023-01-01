@@ -17,7 +17,6 @@ public:
 	void Draw() const;
 	bool GetGameReset() const;
 	void SetGameReset(bool val);
-	void LoadOptions();
 	void UpdateTextures(Texture2D &cogwheel1);
 private:
 	void StartGame();
@@ -30,7 +29,6 @@ private:
 	bool GameRunning;
 	bool menuLoaded;
 	bool gameReset;
-	bool optionsLoad;
 
 	int playButtonCounter;
 	bool mouseOverPlayButton;
@@ -50,6 +48,4 @@ private:
 
 	OptionsMenu options;
 	Texture2D cogwheel;
-
-	int programCrasher;
 };

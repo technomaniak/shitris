@@ -68,6 +68,16 @@ namespace settings
 
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
+    // Setting Menu
+    inline constexpr Vec2<int> returnButtonSize{ 250, 75 };
+    inline constexpr int minReturnButtonTextSize = 40;
+    inline constexpr int maxReturnButtonTextSize = 50;
+    inline int returnButtonTextSize = 50;
+    inline constexpr Vec2<int> returnButtonPos{ screenWidth - 350, 45 };
+    inline Vec2<int> returnButtonTextPos{ returnButtonPos.GetX(), returnButtonPos.GetY() };
+
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
     // Game Over Screen
     
     // Text

@@ -8,7 +8,9 @@ OptionsMenu::OptionsMenu(SoundManager &sounds1):
 	volume(sounds.GetMusicVolume()),
 	volumeSliderTint(Color{ 0, 0, 0, 255 }),
 	mouseOverMusicVolumeSlider(false),
-	mouseClickedMusicVolumeSlider(false)
+	mouseClickedMusicVolumeSlider(false),
+	mouseOverReturnButton(false),
+	returnButtonCounter(0)
 {
 }
 
@@ -30,6 +32,7 @@ bool OptionsMenu::GetLoaded()
 void OptionsMenu::Tick()
 {
 	Draw();
+	ReturnButton();
 	VolumeSettings();
 }
 
@@ -42,6 +45,14 @@ void OptionsMenu::Draw()
 	raycpp::DrawRectangle({ settings::volumeSliderPos.GetX(), settings::volumeSliderPos.GetY() + (settings::volumeSliderSize.GetY() / 100 * (100 - (int)(sounds.GetMusicVolume() * 100))) },
 		{ settings::volumeSliderSize.GetX(), (settings::volumeSliderSize.GetY() / 100) * (int)(sounds.GetMusicVolume() * 100) }, RAYWHITE);
 	raycpp::DrawText(TextFormat(" V\n O\n L\n U\n M\n E\n%i", (int)(sounds.GetMusicVolume() * 100)), settings::volumeSliderBorderPos - Vec2<int>{ 50, -3 }, 30, RAYWHITE);
+
+	// Return Button
+	raycpp::DrawRectangleLinesEx(settings::returnButtonPos, settings::returnButtonSize, 5, RAYWHITE);
+	raycpp::DrawText("RETURN", { settings::returnButtonTextPos.GetX() - (settings::returnButtonSize.GetX() / 2) + (settings::returnButtonSize.GetX() - MeasureText("RETURN", settings::returnButtonTextSize) / 2),
+		settings::returnButtonPos.GetY() - (settings::returnButtonSize.GetY() / 2) + (int)(settings::returnButtonSize.GetY() - MeasureTextEx(GetFontDefault(), "RETURN", (float)(settings::returnButtonTextSize / 2), 20).y) },
+		settings::returnButtonTextSize, RAYWHITE);
+
+
 }
 
 void OptionsMenu::VolumeSettings()
@@ -89,6 +100,49 @@ void OptionsMenu::VolumeSettings()
 		if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
 		{
 			mouseClickedMusicVolumeSlider = false;
+		}
+	}
+}
+
+void OptionsMenu::ReturnButton()
+{
+	if (raycpp::GetMousePos() > settings::returnButtonPos - Vec2<int>{ 0, 25 }
+	&& raycpp::GetMousePos() < settings::returnButtonPos - Vec2<int>{ 0, 25 } + settings::returnButtonSize)
+	{
+		if (mouseOverReturnButton != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			mouseOverReturnButton = true;
+		}
+	}
+	else
+	{
+		if (settings::returnButtonTextSize < settings::maxReturnButtonTextSize)
+		{
+			returnButtonCounter++;
+			if (returnButtonCounter > 0)
+			{
+				settings::returnButtonTextSize += 5;
+				returnButtonCounter = 0;
+			}
+		}
+		mouseOverReturnButton = false;
+	}
+	if (mouseOverReturnButton)
+	{
+		if (settings::returnButtonTextSize > settings::minReturnButtonTextSize)
+		{
+			returnButtonCounter++;
+			if (returnButtonCounter > 0)
+			{
+				settings::returnButtonTextSize -= 5;
+				returnButtonCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			sounds.PlaySoundFromName("menuSound");
+			SetLoaded(false);
 		}
 	}
 }

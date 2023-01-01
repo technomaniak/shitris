@@ -15,12 +15,10 @@ MainMenu::MainMenu(SoundManager &sounds1, Texture2D &cogwheel1) :
 	quitGameButtonCounter(0),
 	playButtonCounter(0),
 	settingsButtonCounter(0),
-	programCrasher(0),
 	gameReset(true),
 	mouseOverQuitGameButton(false),
 	options(OptionsMenu(sounds)),
-	cogwheel(cogwheel1),
-	optionsLoad(false)
+	cogwheel(cogwheel1)
 {
 }
 
@@ -31,7 +29,7 @@ void MainMenu::LoadMenu()
 
 void MainMenu::Tick()
 {
-	if (!optionsLoad)
+	if (!options.GetLoaded())
 	{
 		Draw();
 		PlayButton();
@@ -41,7 +39,7 @@ void MainMenu::Tick()
 	}
 	else
 	{
-		LoadOptions();
+		options.Tick();
 	}
 }
 
@@ -125,7 +123,7 @@ void MainMenu::SettingsButton()
 		}
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 		{
-			optionsLoad = true;
+			options.LoadOptions();
 		}
 	}
 }
@@ -168,7 +166,7 @@ void MainMenu::QuitGameButton()
 		}
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 		{
-			programCrasher = 1 / programCrasher;
+			CloseWindow();
 		}
 	}
 }
@@ -256,18 +254,6 @@ bool MainMenu::GetGameReset() const
 void MainMenu::SetGameReset(bool val)
 {
 	gameReset = val;
-}
-
-void MainMenu::LoadOptions()
-{
-	if (options.GetLoaded())
-	{
-		options.Tick();
-	}
-	else
-	{
-		options.LoadOptions();
-	}
 }
 
 void MainMenu::UpdateTextures(Texture2D& cogwheel1)
