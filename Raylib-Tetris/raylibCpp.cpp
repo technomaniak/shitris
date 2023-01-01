@@ -20,6 +20,11 @@ void raycpp::DrawText(const char* text, Vec2<int> pos, int fontSize, Color color
 	DrawText(text, pos.GetX(), pos.GetY(), fontSize, color);
 }
 
+void raycpp::DrawTextureEx(Texture2D texture, Vec2<int> pos, float rotation, float scale, Color color)
+{
+	DrawTextureEx(texture, Vector2{ (float)pos.GetX(), (float)pos.GetY() }, rotation, scale, color);
+}
+
 Vec2<int> raycpp::GetMousePos()
 {
 	return { GetMouseX(), GetMouseY() };

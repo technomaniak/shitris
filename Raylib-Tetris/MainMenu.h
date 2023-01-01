@@ -18,6 +18,7 @@ public:
 	bool GetGameReset() const;
 	void SetGameReset(bool val);
 	void LoadOptions();
+	void UpdateTextures(Texture2D &cogwheel1);
 private:
 	void StartGame();
 	void MainText();

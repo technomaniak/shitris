@@ -77,6 +77,7 @@ void Game::Tick()
 	{
 		texturesLoaded = true;
 		LoadTextures();
+		mainMenu.UpdateTextures(cogwheel);
 	}
 	if (mainMenu.GetGameRunning())
 	{

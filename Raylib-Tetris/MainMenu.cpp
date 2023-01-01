@@ -26,8 +26,6 @@ MainMenu::MainMenu(SoundManager &sounds1, Texture2D &cogwheel1) :
 
 void MainMenu::LoadMenu()
 {
-	//Texture2D texture = LoadTextureFromImage(GenImageColor(settings::screenWidth, settings::screenHeight, Color{ 0, 0, 0, 255 }));
-	//DrawTexture(texture, 0, 0, WHITE);
 	menuLoaded = true;
 }
 
@@ -108,7 +106,7 @@ void MainMenu::SettingsButton()
 			settingsButtonCounter++;
 			if (settingsButtonCounter > 0)
 			{
-				settings::settingsButtonTextureSize += 5;
+				settings::settingsButtonTextureSize += 0.01f;
 				settingsButtonCounter = 0;
 			}
 		}
@@ -121,7 +119,7 @@ void MainMenu::SettingsButton()
 			settingsButtonCounter++;
 			if (settingsButtonCounter > 0)
 			{
-				settings::settingsButtonTextureSize -= 5;
+				settings::settingsButtonTextureSize -= 0.01f;
 				settingsButtonCounter = 0;
 			}
 		}
@@ -245,7 +243,8 @@ void MainMenu::Draw() const
 		settings::quitGameButtonTextSize, RAYWHITE);
 
 	// Settings Button
-	raycpp::DrawRectangleLinesEx(settings::settingsButtonPos, settings::settingsButtonSize, 5, RAYWHITE);
+	raycpp::DrawRectangleLinesEx(settings::settingsButtonPos , settings::settingsButtonSize, 5, RAYWHITE);
+	raycpp::DrawTextureEx(cogwheel, settings::settingsButtonTexturePos + (((19.53125 - (settings::settingsButtonTextureSize * 100)) * 5.12) / 2), 0.0f, settings::settingsButtonTextureSize, WHITE);
 
 }
 
@@ -269,6 +268,11 @@ void MainMenu::LoadOptions()
 	{
 		options.LoadOptions();
 	}
+}
+
+void MainMenu::UpdateTextures(Texture2D& cogwheel1)
+{
+	cogwheel = cogwheel1;
 }
 
 void MainMenu::MainText()
