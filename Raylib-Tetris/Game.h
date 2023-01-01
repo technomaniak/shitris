@@ -47,6 +47,8 @@ private:
 	void DrawMainMenuButton(bool isNewBest);
 	void RestartButton(bool isNewBest);
 	void DrawRestartButton(bool isNewBest);
+	void OptionsButton(bool isNewBest);
+	void DrawOptionsButton(bool isNewBest);
 	void ResetGame();
 
 	int counterFall;

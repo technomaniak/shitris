@@ -105,7 +105,11 @@ namespace settings
 
     // Reuses Restart Button and Main Menu Button
 
-    inline constexpr Vec2<int> optionsButtonPos {};
+    inline constexpr Vec2<int> optionsButtonPos = mainMenuButtonPos + Vec2<int>{ 0, 100 };
+    inline constexpr Vec2<int> optionsButtonSize{ 257, 75 };
+    inline constexpr int maxOptionsButtonTextSize = 30;
+    inline constexpr int minOptionsButtonTextSize = 35;
+    inline int optionsButtonTextSize = 35;
 
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 }

@@ -504,6 +504,7 @@ void Game::GameOver()
 
 		RestartButton(newBest);
 		MainMenuButton(newBest);
+		OptionsButton(newBest);
 	}
 	board.Draw();
 	tetromino.Draw();
@@ -514,6 +515,7 @@ void Game::PauseMenu()
 	DrawTextureV(darkOverlay, { 0, 0 }, WHITE);
 	RestartButton(false);
 	MainMenuButton(false);
+	OptionsButton(false);
 }
 
 void Game::MainMenuButton(bool isNewBest)
@@ -643,6 +645,30 @@ void Game::DrawRestartButton(bool isNewBest)
 		Vec2<int> textOffset = { (settings::restartButtonSize.GetX() - ((int)MeasureText("PLAY AGAIN", settings::restartButtonTextSize))) / 2,
 			((settings::restartButtonSize.GetY() - ((int)MeasureTextEx(GetFontDefault(), "PLAY AGAIN", (float)settings::restartButtonTextSize, 10).y)) / 2) };
 		raycpp::DrawText("PLAY AGAIN", settings::restartButtonPos + textOffset, settings::restartButtonTextSize, DARKBLUE);
+	}
+}
+
+void Game::OptionsButton(bool isNewBest)
+{
+	DrawOptionsButton(isNewBest);
+}
+
+void Game::DrawOptionsButton(bool isNewBest)
+{
+	if (isNewBest)
+	{
+		Vec2<int> extraOffset{ 0, 150 };
+		raycpp::DrawRectangleLinesEx(settings::optionsButtonPos + extraOffset, settings::optionsButtonSize, 5, BLUE);
+		Vec2<int> textOffset = { (settings::optionsButtonSize.GetX() - ((int)MeasureText("OPTIONS", settings::optionsButtonTextSize))) / 2,
+			((settings::optionsButtonSize.GetY() - ((int)MeasureTextEx(GetFontDefault(), "OPTIONS", (float)settings::optionsButtonTextSize, 10).y)) / 2) };
+		raycpp::DrawText("OPTIONS", settings::optionsButtonPos + textOffset + extraOffset, settings::optionsButtonTextSize, DARKBLUE);
+	}
+	else
+	{
+		raycpp::DrawRectangleLinesEx(settings::optionsButtonPos, settings::optionsButtonSize, 5, BLUE);
+		Vec2<int> textOffset = { (settings::optionsButtonSize.GetX() - ((int)MeasureText("OPTIONS", settings::optionsButtonTextSize))) / 2,
+			((settings::optionsButtonSize.GetY() - ((int)MeasureTextEx(GetFontDefault(), "OPTIONS", (float)settings::optionsButtonTextSize, 10).y)) / 2) };
+		raycpp::DrawText("OPTIONS", settings::optionsButtonPos + textOffset, settings::optionsButtonTextSize, DARKBLUE);
 	}
 }
 
