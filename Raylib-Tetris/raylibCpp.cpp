@@ -25,6 +25,11 @@ void raycpp::DrawTextureEx(Texture2D texture, Vec2<int> pos, float rotation, flo
 	DrawTextureEx(texture, Vector2{ (float)pos.GetX(), (float)pos.GetY() }, rotation, scale, color);
 }
 
+void raycpp::DrawLineEx(Vec2<int> startPos, Vec2<int> endPos, float thick, Color color)
+{
+	DrawLineEx(Vector2{ (float)startPos.GetX(), (float)startPos.GetY() }, Vector2{ (float)endPos.GetX(), (float)endPos.GetY() }, thick, color);
+}
+
 Vec2<int> raycpp::GetMousePos()
 {
 	return { GetMouseX(), GetMouseY() };

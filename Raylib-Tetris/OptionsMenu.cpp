@@ -75,12 +75,11 @@ void OptionsMenu::Draw(int which)
 	// Selection Text
 	raycpp::DrawText("CONTROLS", settings::controlsTextPos, settings::controlsTextSize, WHITE);
 	raycpp::DrawText("AUDIO & GRAPHICS", settings::audioAndGraphicsTextPos, settings::audioAndGraphicsTextSize, WHITE);
-
-	// Return Button
-	raycpp::DrawRectangleLinesEx(settings::returnButtonPos, settings::returnButtonSize, 5, RAYWHITE);
-	raycpp::DrawText("RETURN", { settings::returnButtonTextPos.GetX() - (settings::returnButtonSize.GetX() / 2) + (settings::returnButtonSize.GetX() - MeasureText("RETURN", settings::returnButtonTextSize) / 2),
-		settings::returnButtonPos.GetY() - (settings::returnButtonSize.GetY() / 2) + (int)(settings::returnButtonSize.GetY() - MeasureTextEx(GetFontDefault(), "RETURN", (float)(settings::returnButtonTextSize / 2), 20).y) },
-		settings::returnButtonTextSize, RAYWHITE);
+	raycpp::DrawText("RETURN", settings::returnButtonTextPos - Vec2<int>{(settings::minReturnButtonTextSize - settings::returnButtonTextSize) * -2,
+				    ((settings::minReturnButtonTextSize - settings::returnButtonTextSize) / 2) * -1}, settings::returnButtonTextSize, WHITE);
+	raycpp::DrawLineEx(settings::verticalDividerPos, settings::verticalDividerPos + Vec2<int>{ 0, settings::verticalDividerLength }, 5, WHITE);
+	raycpp::DrawLineEx(settings::horizontalDividerPos, settings::horizontalDividerPos + Vec2<int>{ settings::horizontalDividerLength, 0 }, 5, WHITE);
+	raycpp::DrawLineEx(settings::verticalDividerPos2, settings::verticalDividerPos2 + Vec2<int>{ 0, settings::verticalDividerLength2 }, 5, WHITE);
 }
 
 void OptionsMenu::VolumeSettings()
@@ -181,8 +180,8 @@ void OptionsMenu::VolumeSettings()
 
 void OptionsMenu::ReturnButton()
 {
-	if (raycpp::GetMousePos() > settings::returnButtonPos - Vec2<int>{ 0, 25 }
-	&& raycpp::GetMousePos() < settings::returnButtonPos - Vec2<int>{ 0, 25 } + settings::returnButtonSize)
+	if (raycpp::GetMousePos() > settings::verticalDividerPos2 - Vec2<int>{ 0, 25 }
+	&& raycpp::GetMousePos() < Vec2<int>{ settings::screenWidth, settings::verticalDividerLength2 } - Vec2<int>{ 0, 25 })
 	{
 		if (mouseOverReturnButton != true)
 		{
@@ -192,12 +191,12 @@ void OptionsMenu::ReturnButton()
 	}
 	else
 	{
-		if (settings::returnButtonTextSize < settings::maxReturnButtonTextSize)
+		if (settings::returnButtonTextSize > settings::minReturnButtonTextSize)
 		{
 			returnButtonCounter++;
 			if (returnButtonCounter > 0)
 			{
-				settings::returnButtonTextSize += 5;
+				settings::returnButtonTextSize -= 5;
 				returnButtonCounter = 0;
 			}
 		}
@@ -205,12 +204,12 @@ void OptionsMenu::ReturnButton()
 	}
 	if (mouseOverReturnButton)
 	{
-		if (settings::returnButtonTextSize > settings::minReturnButtonTextSize)
+		if (settings::returnButtonTextSize < settings::maxReturnButtonTextSize)
 		{
 			returnButtonCounter++;
 			if (returnButtonCounter > 0)
 			{
-				settings::returnButtonTextSize -= 5;
+				settings::returnButtonTextSize += 5;
 				returnButtonCounter = 0;
 			}
 		}

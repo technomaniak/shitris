@@ -70,33 +70,35 @@ namespace settings
 
     // Setting Menu
 
-            // Return Button
-                inline constexpr Vec2<int> returnButtonSize{ 250, 75 };
-                inline constexpr int minReturnButtonTextSize = 40;
-                inline constexpr int maxReturnButtonTextSize = 50;
-                inline int returnButtonTextSize = 50;
-                inline constexpr Vec2<int> returnButtonPos{ screenWidth - 350, 75 };
-                inline Vec2<int> returnButtonTextPos{ returnButtonPos.GetX(), returnButtonPos.GetY() };
-
         // Options Selection
-    
+            
             // Dividers
 
-            // Vertical
-                inline constexpr Vec2<int> verticalDividerPos{ 450, 0 };
-                inline constexpr int verticalDividerLength = 75;
+                // Vertical
+                    inline constexpr Vec2<int> verticalDividerPos{ 570, 0 };
+                    inline constexpr int verticalDividerLength = 175;
+
+                    inline constexpr Vec2<int> verticalDividerPos2{ screenWidth - 570, 0 };
+                    inline constexpr int verticalDividerLength2 = 175;
     
-            // Horizontal
-                inline constexpr Vec2<int> horizontalDividerPos{ 0, 90 };
-                inline constexpr int horizontalDividerLength = screenWidth;
+                // Horizontal
+                    inline constexpr Vec2<int> horizontalDividerPos{ 0, 175 };
+                    inline constexpr int horizontalDividerLength = screenWidth;
 
-        // Controls
-            inline constexpr Vec2<int> controlsTextPos{ 250, 75 };
-            inline constexpr int controlsTextSize = 60;
+            // Controls
+                inline constexpr Vec2<int> controlsTextPos{ 115, 63 };
+                inline constexpr int controlsTextSize = 60;
 
-        // Audio And Graphic
-            inline constexpr Vec2<int> audioAndGraphicsTextPos{ 750, 75 };
-            inline constexpr int audioAndGraphicsTextSize = 60;
+            // Audio And Graphic
+                inline constexpr Vec2<int> audioAndGraphicsTextPos{ 660, 63 };
+                inline constexpr int audioAndGraphicsTextSize = 60;
+
+
+            // Return 
+                inline constexpr int minReturnButtonTextSize = 60;
+                inline constexpr int maxReturnButtonTextSize = 80;
+                inline int returnButtonTextSize = 60;
+                inline constexpr Vec2<int> returnButtonTextPos{ screenWidth - 445, 63 };
 
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
