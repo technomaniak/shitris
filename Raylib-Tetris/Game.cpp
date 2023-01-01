@@ -93,11 +93,18 @@ void Game::Tick()
 			{
 			if (gamePaused)
 			{
-				Draw(255);
-				PauseMenu();
-				if (IsKeyPressed(KEY_ESCAPE))
+				if (mainMenu.GetOptionsLoaded())
 				{
-					gamePaused = !gamePaused;
+					mainMenu.Tick();
+				}
+				else
+				{
+					Draw(255);
+					PauseMenu();
+					if (IsKeyPressed(KEY_ESCAPE))
+					{
+						gamePaused = !gamePaused;
+					}
 				}
 			}
 			else
@@ -482,32 +489,39 @@ void Game::DrawDrawMino()
 
 void Game::GameOver()
 {
-	if (gameOverCounter < 50)
+	if (mainMenu.GetOptionsLoaded())
 	{
-		raycpp::DrawRectangle({ 0, 0 }, { settings::screenWidth, settings::screenHeight }, Color{ 0, 0, 0, 60 });
-		gameOverCounter++;
+		mainMenu.Tick();
 	}
 	else
 	{
-		raycpp::DrawRectangle({ 0, 0 }, { settings::screenWidth, settings::screenHeight }, Color{ 0, 0, 0, 255 });
-		board.SaveScore(boardName, newBest);
-
-		if (newBest)
+		if (gameOverCounter < 50)
 		{
-			raycpp::DrawText("GAME\nOVER", settings::gameOverTextPosition, settings::gameOverAllRegularTextsSize, Color{ 255, 0, 0, 255 });
-			raycpp::DrawText("NEW BEST", settings::newBestTextPosition, settings::gameOverAllRegularTextsSize - 20, Color{ 255, 69, 0, 255 });
+			raycpp::DrawRectangle({ 0, 0 }, { settings::screenWidth, settings::screenHeight }, Color{ 0, 0, 0, 60 });
+			gameOverCounter++;
 		}
 		else
 		{
-			raycpp::DrawText("GAME\nOVER", settings::gameOverTextPosition, settings::gameOverAllRegularTextsSize, Color{ 255, 25, 13, 255 });
-		}
+			raycpp::DrawRectangle({ 0, 0 }, { settings::screenWidth, settings::screenHeight }, Color{ 0, 0, 0, 255 });
+			board.SaveScore(boardName, newBest);
 
-		RestartButton(newBest);
-		MainMenuButton(newBest);
-		OptionsButton(newBest);
+			if (newBest)
+			{
+				raycpp::DrawText("GAME\nOVER", settings::gameOverTextPosition, settings::gameOverAllRegularTextsSize, Color{ 255, 0, 0, 255 });
+				raycpp::DrawText("NEW BEST", settings::newBestTextPosition, settings::gameOverAllRegularTextsSize - 20, Color{ 255, 69, 0, 255 });
+			}
+			else
+			{
+				raycpp::DrawText("GAME\nOVER", settings::gameOverTextPosition, settings::gameOverAllRegularTextsSize, Color{ 255, 25, 13, 255 });
+			}
+
+			RestartButton(newBest);
+			MainMenuButton(newBest);
+			OptionsButton(newBest);
+		}
+		board.Draw();
+		tetromino.Draw();
 	}
-	board.Draw();
-	tetromino.Draw();
 }
 
 void Game::PauseMenu()
@@ -530,7 +544,7 @@ void Game::MainMenuButton(bool isNewBest)
 		extraOffset = { 0, 0 };
 	}
 	if (raycpp::GetMousePos() - Vec2<int>{ 0, -20 } - extraOffset > settings::mainMenuButtonPos
-		&& raycpp::GetMousePos() < settings::mainMenuButtonPos + settings::mainMenuButtonSize - Vec2<int>{ 0, 20 } - extraOffset)
+		&& raycpp::GetMousePos() < settings::mainMenuButtonPos + settings::mainMenuButtonSize - Vec2<int>{ 0, 20 } + extraOffset)
 	{
 		if (mouseOverMainMenuButton != true)
 		{
@@ -607,7 +621,7 @@ void Game::RestartButton(bool isNewBest)
 		extraOffset = { 0, 0 };
 	}
 
-	if (raycpp::GetMousePos() - Vec2<int>{ 0, - 20 } + extraOffset > settings::restartButtonPos
+	if (raycpp::GetMousePos() - Vec2<int>{ 0, - 20 } - extraOffset > settings::restartButtonPos
 		&& raycpp::GetMousePos() < settings::restartButtonPos + settings::restartButtonSize - Vec2<int>{ 0, 20 } + extraOffset)
 	{
 		if (mouseOverRestartButton != true)
@@ -680,7 +694,7 @@ void Game::OptionsButton(bool isNewBest)
 		extraOffset = { 0, 0 };
 	}
 
-	if (raycpp::GetMousePos() - Vec2<int>{ 0, -20 } + extraOffset > settings::optionsButtonPos
+	if (raycpp::GetMousePos() - Vec2<int>{ 0, -20 } - extraOffset > settings::optionsButtonPos
 		&& raycpp::GetMousePos() < settings::optionsButtonPos + settings::optionsButtonSize - Vec2<int>{ 0, 20 } + extraOffset)
 	{
 		if (mouseOverOptionsButton != true)
@@ -706,7 +720,7 @@ void Game::OptionsButton(bool isNewBest)
 		}
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 		{
-			ResetGame();
+			mainMenu.LoadOptions();
 			soundManager.PlaySoundFromName("menuSound");
 		}
 	}
@@ -764,7 +778,7 @@ void Game::ResetGame()
 	tetromino.SetRotation(Tetromino::Rotation::UP);
 	holdPiece = -1;
 	inputManager.SetHeld(-1);
-	board. ();
+	board.ResetScore();
 	board.EraseBoard();
 	newBest = false;
 	inputManager.LoadHighScore(boardName);

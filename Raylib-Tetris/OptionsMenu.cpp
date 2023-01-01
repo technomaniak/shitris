@@ -12,7 +12,8 @@ OptionsMenu::OptionsMenu(SoundManager &sounds1):
 	mouseOverReturnButton(false),
 	mouseOverSFXVolumeSlider(false),
 	mouseClickedSFXVolumeSlider(false),
-	returnButtonCounter(0)
+	returnButtonCounter(0),
+	whatOptionPart(0)
 {
 }
 
@@ -33,34 +34,53 @@ bool OptionsMenu::GetLoaded()
 
 void OptionsMenu::Tick()
 {
-	Draw();
-	ReturnButton();
-	VolumeSettings();
+	Draw(whatOptionPart);
+	switch (whatOptionPart)
+	{
+	case 0:
+		ReturnButton();
+		VolumeSettings();
+		break;
+	case 1:
+		break;
+	}
 }
 
-void OptionsMenu::Draw()
+void OptionsMenu::Draw(int which)
 {
 	ClearBackground(BLACK);
 
-	// Music Volume
-	raycpp::DrawRectangleLinesEx(settings::volumeSliderBorderPos, settings::volumeSliderBorderSize, 2, RAYWHITE);
-	raycpp::DrawRectangle({ settings::volumeSliderPos.GetX(), settings::volumeSliderPos.GetY() + (settings::volumeSliderSize.GetY() / 100 * (100 - (int)(sounds.GetMusicVolume() * 100))) },
-		{ settings::volumeSliderSize.GetX(), (settings::volumeSliderSize.GetY() / 100) * (int)(sounds.GetMusicVolume() * 100) }, RAYWHITE);
-	raycpp::DrawText(TextFormat(" M\n U\n S\n I\n C\n%i", (int)(sounds.GetMusicVolume() * 100)), settings::volumeSliderBorderPos - Vec2<int>{ 53, -3 }, 36, RAYWHITE);
 
-	// Sounds Volume
-	raycpp::DrawRectangleLinesEx(settings::volumeSliderBorderPos - Vec2<int>{ 103, 0 }, settings::volumeSliderBorderSize, 2, RAYWHITE);
-	raycpp::DrawRectangle({ settings::volumeSliderPos.GetX() - 103, settings::volumeSliderPos.GetY() + (settings::volumeSliderSize.GetY() / 100 * (100 - (int)(sounds.GetSFXVolume() * 100)))},
-		{ settings::volumeSliderSize.GetX(), (settings::volumeSliderSize.GetY() / 100) * (int)(sounds.GetSFXVolume() * 100) }, RAYWHITE);
-	raycpp::DrawText(TextFormat(" \n\n S\n F\n X\n%i", (int)(sounds.GetSFXVolume() * 100)), settings::volumeSliderBorderPos - Vec2<int>{ 155, -3 }, 36, RAYWHITE);
+	// Select Which Part To View
+	switch (which)
+	{
+	case 0:
+
+		// Music Volume
+		raycpp::DrawRectangleLinesEx(settings::volumeSliderBorderPos, settings::volumeSliderBorderSize, 2, RAYWHITE);
+		raycpp::DrawRectangle({ settings::volumeSliderPos.GetX(), settings::volumeSliderPos.GetY() + (settings::volumeSliderSize.GetY() / 100 * (100 - (int)(sounds.GetMusicVolume() * 100))) },
+			{ settings::volumeSliderSize.GetX(), (settings::volumeSliderSize.GetY() / 100) * (int)(sounds.GetMusicVolume() * 100) }, RAYWHITE);
+		raycpp::DrawText(TextFormat(" M\n U\n S\n I\n C\n%i", (int)(sounds.GetMusicVolume() * 100)), settings::volumeSliderBorderPos - Vec2<int>{ 53, -3 }, 36, RAYWHITE);
+
+		// Sounds Volume
+		raycpp::DrawRectangleLinesEx(settings::volumeSliderBorderPos - Vec2<int>{ 103, 0 }, settings::volumeSliderBorderSize, 2, RAYWHITE);
+		raycpp::DrawRectangle({ settings::volumeSliderPos.GetX() - 103, settings::volumeSliderPos.GetY() + (settings::volumeSliderSize.GetY() / 100 * (100 - (int)(sounds.GetSFXVolume() * 100))) },
+			{ settings::volumeSliderSize.GetX(), (settings::volumeSliderSize.GetY() / 100) * (int)(sounds.GetSFXVolume() * 100) }, RAYWHITE);
+		raycpp::DrawText(TextFormat(" \n\n S\n F\n X\n%i", (int)(sounds.GetSFXVolume() * 100)), settings::volumeSliderBorderPos - Vec2<int>{ 155, -3 }, 36, RAYWHITE);
+		break;
+	case 1:
+		break;
+	}
+
+	// Selection Text
+	raycpp::DrawText("CONTROLS", settings::controlsTextPos, settings::controlsTextSize, WHITE);
+	raycpp::DrawText("AUDIO & GRAPHICS", settings::audioAndGraphicsTextPos, settings::audioAndGraphicsTextSize, WHITE);
 
 	// Return Button
 	raycpp::DrawRectangleLinesEx(settings::returnButtonPos, settings::returnButtonSize, 5, RAYWHITE);
 	raycpp::DrawText("RETURN", { settings::returnButtonTextPos.GetX() - (settings::returnButtonSize.GetX() / 2) + (settings::returnButtonSize.GetX() - MeasureText("RETURN", settings::returnButtonTextSize) / 2),
 		settings::returnButtonPos.GetY() - (settings::returnButtonSize.GetY() / 2) + (int)(settings::returnButtonSize.GetY() - MeasureTextEx(GetFontDefault(), "RETURN", (float)(settings::returnButtonTextSize / 2), 20).y) },
 		settings::returnButtonTextSize, RAYWHITE);
-
-
 }
 
 void OptionsMenu::VolumeSettings()
@@ -200,4 +220,16 @@ void OptionsMenu::ReturnButton()
 			SetLoaded(false);
 		}
 	}
+}
+
+void OptionsMenu::DrawOptionsSelection()
+{
+}
+
+void OptionsMenu::Controls()
+{
+}
+
+void OptionsMenu::GraphicsAndAudio()
+{
 }

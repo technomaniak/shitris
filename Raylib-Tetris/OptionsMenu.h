@@ -11,13 +11,17 @@ public:
 	void SetLoaded(bool val);
 	bool GetLoaded();
 	void Tick();
-	void Draw();
+	void Draw(int which);
 
 private:
 	void VolumeSettings();
 	void ReturnButton();
+	void DrawOptionsSelection();
+	void Controls();
+	void GraphicsAndAudio();
 
 	bool optionsLoaded;
+	int whatOptionPart;
 
 	bool mouseOverMusicVolumeSlider;
 	bool mouseClickedMusicVolumeSlider;

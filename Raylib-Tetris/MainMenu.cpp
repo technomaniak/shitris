@@ -262,6 +262,16 @@ void MainMenu::UpdateTextures(Texture2D& cogwheel1)
 	cogwheel = cogwheel1;
 }
 
+void MainMenu::LoadOptions()
+{
+	options.LoadOptions();
+}
+
+bool MainMenu::GetOptionsLoaded()
+{
+	return options.GetLoaded();
+}
+
 void MainMenu::MainText()
 {
 	if (menuTextRotation == -1)
