@@ -123,6 +123,7 @@ void MainMenu::SettingsButton()
 		}
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 		{
+			sounds.PlaySoundFromName("menuSound");
 			options.LoadOptions();
 		}
 	}

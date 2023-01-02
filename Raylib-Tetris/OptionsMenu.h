@@ -4,6 +4,18 @@
 
 class OptionsMenu
 {
+private:
+	enum class KeyBinds {
+		ROTATELEFT,
+		ROTATERIGHT,
+		RESET,
+		SWAPPIECE,
+		MENU,
+		MOVERIGHT,
+		MOVELEFT,
+		HARDDROP,
+		SOFTDROP,
+	};
 public:
 	OptionsMenu(SoundManager &sounds1);
 
@@ -14,13 +26,21 @@ public:
 	void Draw();
 
 private:
-	void VolumeSettings();
 	void ReturnButton();
-	void ControlsButton();
-	void AudioAndGraphicsButton();
 	void ManageOptionsSelection();
+
+	void ControlsButton();
+	void ControlsSelection();
 	void Controls();
-	void GraphicsAndAudio();
+	void VolumeSettings();
+
+	void AudioAndGraphics();
+	void AudioAndGraphicsSelection();
+	void AudioAndGraphicsButton();
+	void DrawControlsKeyBinds();
+	KeyBinds SelectKeyBind();
+	KeyboardKey SelectKey();
+	void SetKeysInSettings();
 
 	bool optionsLoaded;
 	int whatOptionPart;

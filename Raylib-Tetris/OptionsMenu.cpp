@@ -39,7 +39,6 @@ bool OptionsMenu::GetLoaded()
 void OptionsMenu::Tick()
 {
 	Draw();
-	ManageOptionsSelection();
 	if (IsKeyPressed(KEY_ESCAPE))
 	{
 		optionsLoaded = false;
@@ -61,42 +60,10 @@ void OptionsMenu::Tick()
 void OptionsMenu::Draw()
 {
 	ClearBackground(BLACK);
-
-	// Select Which Part To View
-	switch (whatOptionPart)
-	{
-	case 0:
-
-		// Selection Buttons
-		raycpp::DrawText("AUDIO / GRAPHICS", settings::audioAndGraphicsTextPos - Vec2<int>{(int)((settings::minAudioAndGraphicsTextSize - settings::maxAudioAndGraphicsTextSize) * -4.65),
-			((settings::minAudioAndGraphicsTextSize - settings::maxAudioAndGraphicsTextSize) / 2) * -1}, settings::maxAudioAndGraphicsTextSize, WHITE);
-		raycpp::DrawText("CONTROLS", settings::controlsTextPos - Vec2<int>{(settings::minControlsTextSize - settings::controlsTextSize) * -2,
-			((settings::minControlsTextSize - settings::controlsTextSize) / 2) * -1}, settings::controlsTextSize, WHITE);
-
-		// Music Volume
-		raycpp::DrawRectangleLinesEx(settings::volumeSliderBorderPos, settings::volumeSliderBorderSize, 2, RAYWHITE);
-		raycpp::DrawRectangle({ settings::volumeSliderPos.GetX(), settings::volumeSliderPos.GetY() + (settings::volumeSliderSize.GetY() / 100 * (100 - (int)(sounds.GetMusicVolume() * 100))) },
-			{ settings::volumeSliderSize.GetX(), (settings::volumeSliderSize.GetY() / 100) * (int)(sounds.GetMusicVolume() * 100) }, RAYWHITE);
-		raycpp::DrawText(TextFormat(" M\n U\n S\n I\n C\n%i", (int)(sounds.GetMusicVolume() * 100)), settings::volumeSliderBorderPos - Vec2<int>{ 53, -3 }, 36, RAYWHITE);
-
-		// Sounds Volume
-		raycpp::DrawRectangleLinesEx(settings::volumeSliderBorderPos - Vec2<int>{ 103, 0 }, settings::volumeSliderBorderSize, 2, RAYWHITE);
-		raycpp::DrawRectangle({ settings::volumeSliderPos.GetX() - 103, settings::volumeSliderPos.GetY() + (settings::volumeSliderSize.GetY() / 100 * (100 - (int)(sounds.GetSFXVolume() * 100))) },
-			{ settings::volumeSliderSize.GetX(), (settings::volumeSliderSize.GetY() / 100) * (int)(sounds.GetSFXVolume() * 100) }, RAYWHITE);
-		raycpp::DrawText(TextFormat(" \n\n S\n F\n X\n%i", (int)(sounds.GetSFXVolume() * 100)), settings::volumeSliderBorderPos - Vec2<int>{ 155, -3 }, 36, RAYWHITE);
-		break;
-	case 1:
-		// Selection Buttons
-		raycpp::DrawText("AUDIO / GRAPHICS", settings::audioAndGraphicsTextPos - Vec2<int>{(int)((settings::minAudioAndGraphicsTextSize - settings::audioAndGraphicsTextSize) * -4.65),
-			((settings::minAudioAndGraphicsTextSize - settings::audioAndGraphicsTextSize) / 2) * -1}, settings::audioAndGraphicsTextSize, WHITE);
-		raycpp::DrawText("CONTROLS", settings::controlsTextPos - Vec2<int>{(settings::minControlsTextSize - settings::maxControlsTextSize) * -2,
-			((settings::minControlsTextSize - settings::maxControlsTextSize) / 2) * -1}, settings::maxControlsTextSize, WHITE);
-
-		break;
-	}
+	ManageOptionsSelection();
 
 	// Selection Borders & Return Button
-	raycpp::DrawText("RETURN", settings::returnButtonTextPos - Vec2<int>{(settings::minReturnTextSize - settings::returnTextSize) * -2,
+	raycpp::DrawText("RETURN", settings::returnButtonTextPos - Vec2<int>{ (settings::minReturnTextSize - settings::returnTextSize) * -2,
 				    ((settings::minReturnTextSize - settings::returnTextSize) / 2) * -1}, settings::returnTextSize, WHITE);
 	raycpp::DrawLineEx(settings::verticalDividerPos, settings::verticalDividerPos + Vec2<int>{ 0, settings::verticalDividerLength }, 5, WHITE);
 	raycpp::DrawLineEx(settings::horizontalDividerPos, settings::horizontalDividerPos + Vec2<int>{ settings::horizontalDividerLength, 0 }, 5, WHITE);
@@ -245,7 +212,7 @@ void OptionsMenu::ReturnButton()
 	}
 }
 
-void OptionsMenu::ControlsButton()
+void OptionsMenu::AudioAndGraphicsButton()
 {
 	if (raycpp::GetMousePos() >= Vec2<int>{ 0, 0 }
 	&& raycpp::GetMousePos() < settings::verticalDividerPos - Vec2<int>{ 0, 25 - settings::verticalDividerLength })
@@ -288,7 +255,51 @@ void OptionsMenu::ControlsButton()
 	}
 }
 
-void OptionsMenu::AudioAndGraphicsButton()
+void OptionsMenu::DrawControlsKeyBinds()
+{
+	raycpp::DrawText("ROTATE LEFT", settings::rotateLeftKeyTextPos, settings::rotateLeftKeyTextSize, WHITE);
+	raycpp::DrawText("Z", settings::rotateLeftKeyButtonTextPos, settings::rotateLeftKeyTextSize, WHITE);
+
+	raycpp::DrawText("ROTATE RIGHT", settings::rotateRightKeyTextPos, settings::rotateRightKeyTextSize, WHITE);
+	raycpp::DrawText("X", settings::rotateRightKeyButtonTextPos, settings::rotateRightKeyTextSize, WHITE);
+
+	raycpp::DrawText("MOVE RIGHT", settings::moveRightKeyTextPos, settings::moveRightKeyTextSize, WHITE);
+	raycpp::DrawText("RIGHT ARROW", settings::moveRightKeyButtonTextPos, settings::moveRightKeyTextSize, WHITE);
+
+	raycpp::DrawText("MOVE LEFT", settings::moveLeftKeyTextPos, settings::moveLeftKeyTextSize, WHITE);
+	raycpp::DrawText("LEFT ARROW", settings::moveLeftKeyButtonTextPos, settings::moveLeftKeyTextSize, WHITE);
+
+	raycpp::DrawText("RESET", settings::resetKeyTextPos, settings::resetKeyTextSize, WHITE);
+	raycpp::DrawText("R", settings::resetKeyButtonTextPos, settings::resetKeyTextSize, WHITE);
+
+	raycpp::DrawText("OPEN MENU", settings::menuKeyTextPos, settings::menuKeyTextSize, WHITE);
+	raycpp::DrawText("ESC", settings::menuKeyButtonTextPos, settings::menuKeyTextSize, WHITE);
+
+	raycpp::DrawText("HARD DROP", settings::hardDropKeyTextPos, settings::hardDropKeyTextSize, WHITE);
+	raycpp::DrawText("SPACE", settings::hardDropKeyButtonTextPos, settings::hardDropKeyTextSize, WHITE);
+
+	raycpp::DrawText("SOFT DROP", settings::softDropKeyTextPos, settings::softDropKeyTextSize, WHITE);
+	raycpp::DrawText("ARROW DOWN", settings::softDropKeyButtonTextPos, settings::softDropKeyTextSize, WHITE);
+
+	raycpp::DrawText("HOLD PIECE", settings::swapKeyTextPos, settings::swapKeyTextSize, WHITE);
+	raycpp::DrawText("C", settings::swapKeyButtonTextPos, settings::swapKeyTextSize, WHITE);
+}
+
+OptionsMenu::KeyBinds OptionsMenu::SelectKeyBind()
+{
+	return KeyBinds::ROTATERIGHT;
+}
+
+KeyboardKey OptionsMenu::SelectKey()
+{
+	return KeyboardKey();
+}
+
+void OptionsMenu::SetKeysInSettings()
+{
+}
+
+void OptionsMenu::ControlsButton()
 {
 	if (raycpp::GetMousePos() > settings::verticalDividerPos - Vec2<int>{ 0, 25 }
 	&& raycpp::GetMousePos() < settings::verticalDividerPos2 + Vec2<int>{ 0, settings::verticalDividerLength2 } - Vec2<int>{ 0, 25 })
@@ -331,24 +342,60 @@ void OptionsMenu::AudioAndGraphicsButton()
 	}
 }
 
+void OptionsMenu::ControlsSelection()
+{
+	// Selection Buttons
+	raycpp::DrawText("AUDIO / GRAPHICS", settings::audioAndGraphicsTextPos - Vec2<int>{ (int)((settings::minAudioAndGraphicsTextSize - settings::audioAndGraphicsTextSize) * -4.85),
+		((settings::minAudioAndGraphicsTextSize - settings::audioAndGraphicsTextSize) / 2) * -1 }, settings::audioAndGraphicsTextSize, WHITE);
+	raycpp::DrawText("CONTROLS", settings::controlsTextPos - Vec2<int>{ (int)((settings::minControlsTextSize - settings::maxControlsTextSize) * -2.5),
+		((settings::minControlsTextSize - settings::maxControlsTextSize) / 2) * -1 }, settings::maxControlsTextSize, WHITE);
+
+}
+
 void OptionsMenu::ManageOptionsSelection()
 {
 	switch (whatOptionPart)
 	{
 	case 0:
-		ControlsButton();
+		AudioAndGraphics();
 		break;
 	case 1:
-		AudioAndGraphicsButton();
+		Controls();
 		break;
 	}
 	ReturnButton();
 }
 
-void OptionsMenu::Controls()
+void OptionsMenu::AudioAndGraphics()
 {
+	AudioAndGraphicsButton();
+	AudioAndGraphicsSelection();
 }
 
-void OptionsMenu::GraphicsAndAudio()
+void OptionsMenu::AudioAndGraphicsSelection()
 {
+	// Selection Buttons
+	raycpp::DrawText("AUDIO / GRAPHICS", settings::audioAndGraphicsTextPos - Vec2<int>{ (int)((settings::minAudioAndGraphicsTextSize - settings::maxAudioAndGraphicsTextSize) * -4.85),
+		((settings::minAudioAndGraphicsTextSize - settings::maxAudioAndGraphicsTextSize) / 2) * -1 }, settings::maxAudioAndGraphicsTextSize, WHITE);
+	raycpp::DrawText("CONTROLS", settings::controlsTextPos - Vec2<int>{ (int)((settings::minControlsTextSize - settings::controlsTextSize) * -2.5),
+		((settings::minControlsTextSize - settings::controlsTextSize) / 2) * -1 }, settings::controlsTextSize, WHITE);
+
+	// Music Volume
+	raycpp::DrawRectangleLinesEx(settings::volumeSliderBorderPos, settings::volumeSliderBorderSize, 2, RAYWHITE);
+	raycpp::DrawRectangle({ settings::volumeSliderPos.GetX(), settings::volumeSliderPos.GetY() + (settings::volumeSliderSize.GetY() / 100 * (100 - (int)(sounds.GetMusicVolume() * 100))) },
+		{ settings::volumeSliderSize.GetX(), (settings::volumeSliderSize.GetY() / 100) * (int)(sounds.GetMusicVolume() * 100) }, RAYWHITE);
+	raycpp::DrawText(TextFormat(" M\n U\n S\n I\n C\n%i", (int)(sounds.GetMusicVolume() * 100)), settings::volumeSliderBorderPos - Vec2<int>{ 63, -3 }, 36, RAYWHITE);
+
+	// Sounds Volume
+	raycpp::DrawRectangleLinesEx(settings::volumeSliderBorderPos - Vec2<int>{ 123, 0 }, settings::volumeSliderBorderSize, 2, RAYWHITE);
+	raycpp::DrawRectangle({ settings::volumeSliderPos.GetX() - 123, settings::volumeSliderPos.GetY() + (settings::volumeSliderSize.GetY() / 100 * (100 - (int)(sounds.GetSFXVolume() * 100))) },
+		{ settings::volumeSliderSize.GetX(), (settings::volumeSliderSize.GetY() / 100) * (int)(sounds.GetSFXVolume() * 100) }, RAYWHITE);
+	raycpp::DrawText(TextFormat(" \n\n S\n F\n X\n%i", (int)(sounds.GetSFXVolume() * 100)), settings::volumeSliderBorderPos - Vec2<int>{ 185, -5 }, 36, RAYWHITE);
+}
+
+void OptionsMenu::Controls()
+{
+	ControlsButton();
+	ControlsSelection();
+	DrawControlsKeyBinds();
 }

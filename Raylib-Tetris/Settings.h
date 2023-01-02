@@ -41,11 +41,6 @@ namespace settings
             inline constexpr Vec2<int> playButtonPos{ (screenWidth / 2) - (playButtonSize.GetX() / 2), ((screenHeight / 5) * 3) };
             inline Vec2<int> playButtonTextPos{ playButtonPos.GetX(), playButtonPos.GetY() };
 
-        // Volume Slider
-            inline constexpr Vec2<int> volumeSliderBorderSize{ 25, 306 };
-            inline constexpr Vec2<int> volumeSliderBorderPos{ screenWidth - volumeSliderBorderSize.GetX() * 5, screenHeight - (int)(volumeSliderBorderSize.GetY() * 1.3) };
-            inline Vec2<int> volumeSliderSize = volumeSliderBorderSize - 6;
-            inline constexpr Vec2<int> volumeSliderPos = volumeSliderBorderPos + 3;
 
         // Main Text
             inline int mainTextSize = 300;
@@ -86,17 +81,90 @@ namespace settings
                     inline constexpr int horizontalDividerLength = screenWidth;
 
             // Controls
-                inline constexpr Vec2<int> controlsTextPos{ 115, 63 };
-                inline int controlsTextSize = 60;
-                inline constexpr int minControlsTextSize = 60;
-                inline constexpr int maxControlsTextSize = 75;
+                
+                // Text
+                    inline constexpr Vec2<int> controlsTextPos{ 115, 63 };
+                    inline int controlsTextSize = 60;
+                    inline constexpr int minControlsTextSize = 60;
+                    inline constexpr int maxControlsTextSize = 75;
 
+                // Key Positions
+                    
+                    // Rotate Right
+                        inline constexpr Vec2<int> rotateRightKeyTextPos{ 100, 200 };
+                        inline constexpr int rotateRightKeyTextSize = 60;
+                        inline constexpr int minRotateRightKeyTextSize = 60;
+                        inline constexpr int maxRotateRightKeyTextSize = 70;
+                        inline constexpr Vec2<int> rotateRightKeyButtonTextPos{ 700, 200 };
+                
+                    // Rotate Left
+                        inline constexpr Vec2<int> rotateLeftKeyTextPos{ 100, 300 };
+                        inline constexpr int rotateLeftKeyTextSize = 60;
+                        inline constexpr int minRotateLeftKeyTextSize = 60;
+                        inline constexpr int maxRotateLeftKeyTextSize = 70;
+                        inline constexpr Vec2<int> rotateLeftKeyButtonTextPos{ 700, 300 };
+                
+                    // Swap
+                        inline constexpr Vec2<int> swapKeyTextPos{ 100, 400 };
+                        inline constexpr int swapKeyTextSize = 60;
+                        inline constexpr int minSwapKeyTextSize = 60;
+                        inline constexpr int maxSwapKeyTextSize = 70;
+                        inline constexpr Vec2<int> swapKeyButtonTextPos{ 700, 400 };
+                
+                    // Move Right
+                        inline constexpr Vec2<int> moveRightKeyTextPos{ 100, 500 };
+                        inline constexpr int moveRightKeyTextSize = 60;
+                        inline constexpr int minMoveRightKeyTextSize = 60;
+                        inline constexpr int maxMoveRightKeyTextSize = 70;
+                        inline constexpr Vec2<int> moveRightKeyButtonTextPos{ 700, 500 };
+                
+                    // Move Left
+                        inline constexpr Vec2<int> moveLeftKeyTextPos{ 100, 600 };
+                        inline constexpr int moveLeftKeyTextSize = 60;
+                        inline constexpr int minMoveLeftKeyTextSize = 60;
+                        inline constexpr int maxMoveLeftKeyTextSize = 70;
+                        inline constexpr Vec2<int> moveLeftKeyButtonTextPos{ 700, 600 };
+                
+                    // Reset
+                        inline constexpr Vec2<int> resetKeyTextPos{ 100, 700 };
+                        inline constexpr int resetKeyTextSize = 60;
+                        inline constexpr int minResetKeyTextSize = 60;
+                        inline constexpr int maxResetKeyTextSize = 70;
+                        inline constexpr Vec2<int> resetKeyButtonTextPos{ 700, 700 };
+                
+                    // Menu
+                        inline constexpr Vec2<int> menuKeyTextPos{ 100, 800 };
+                        inline constexpr int menuKeyTextSize = 60;
+                        inline constexpr int minMenuKeyTextSize = 60;
+                        inline constexpr int maxMenuKeyTextSize = 70;
+                        inline constexpr Vec2<int> menuKeyButtonTextPos{ 700, 800 };
+                
+                    // Soft Drop
+                        inline constexpr Vec2<int> softDropKeyTextPos{ 100, 900 };
+                        inline constexpr int softDropKeyTextSize = 60;
+                        inline constexpr int minSoftDropKeyTextSize = 60;
+                        inline constexpr int maxSoftDropKeyTextSize = 70;
+                        inline constexpr Vec2<int> softDropKeyButtonTextPos{ 700, 900 };
+
+                    // Hard Drop
+                        inline constexpr Vec2<int> hardDropKeyTextPos{ 100, 1000 };
+                        inline constexpr int hardDropKeyTextSize = 60;
+                        inline constexpr int minhardDropKeyTextSize = 60;
+                        inline constexpr int maxhardDropKeyTextSize = 70;
+                        inline constexpr Vec2<int> hardDropKeyButtonTextPos{ 700, 1000 };
+                
             // Audio And Graphic
-                inline constexpr Vec2<int> audioAndGraphicsTextPos{ 660, 63 };
-                inline int audioAndGraphicsTextSize = 60;
-                inline constexpr int minAudioAndGraphicsTextSize = 60;
-                inline constexpr int maxAudioAndGraphicsTextSize = 75;
+                // Text
+                    inline constexpr Vec2<int> audioAndGraphicsTextPos{ 660, 63 };
+                    inline int audioAndGraphicsTextSize = 60;
+                    inline constexpr int minAudioAndGraphicsTextSize = 60;
+                    inline constexpr int maxAudioAndGraphicsTextSize = 75;
 
+                // Volume Slider
+                    inline constexpr Vec2<int> volumeSliderBorderSize{ 50, 610 };
+                    inline constexpr Vec2<int> volumeSliderBorderPos{ screenWidth - volumeSliderBorderSize.GetX() * 5, screenHeight - (int)(volumeSliderBorderSize.GetY() * 1.25) };
+                    inline Vec2<int> volumeSliderSize = volumeSliderBorderSize - 10;
+                    inline constexpr Vec2<int> volumeSliderPos = volumeSliderBorderPos + 5;
 
             // Return 
                 inline constexpr Vec2<int> returnButtonTextPos{ screenWidth - 445, 63 };
