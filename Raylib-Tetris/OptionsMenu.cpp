@@ -64,10 +64,10 @@ void OptionsMenu::Draw()
 
 	// Selection Borders & Return Button
 	raycpp::DrawText("RETURN", settings::returnButtonTextPos - Vec2<int>{ (settings::minReturnTextSize - settings::returnTextSize) * -2,
-				    ((settings::minReturnTextSize - settings::returnTextSize) / 2) * -1}, settings::returnTextSize, WHITE);
-	raycpp::DrawLineEx(settings::verticalDividerPos, settings::verticalDividerPos + Vec2<int>{ 0, settings::verticalDividerLength }, 5, WHITE);
-	raycpp::DrawLineEx(settings::horizontalDividerPos, settings::horizontalDividerPos + Vec2<int>{ settings::horizontalDividerLength, 0 }, 5, WHITE);
-	raycpp::DrawLineEx(settings::verticalDividerPos2, settings::verticalDividerPos2 + Vec2<int>{ 0, settings::verticalDividerLength2 }, 5, WHITE);
+				    ((settings::minReturnTextSize - settings::returnTextSize) / 2) * -1}, settings::returnTextSize, RAYWHITE);
+	raycpp::DrawLineEx(settings::verticalDividerPos, settings::verticalDividerPos + Vec2<int>{ 0, settings::verticalDividerLength }, 5, RAYWHITE);
+	raycpp::DrawLineEx(settings::horizontalDividerPos, settings::horizontalDividerPos + Vec2<int>{ settings::horizontalDividerLength, 0 }, 5, RAYWHITE);
+	raycpp::DrawLineEx(settings::verticalDividerPos2, settings::verticalDividerPos2 + Vec2<int>{ 0, settings::verticalDividerLength2 }, 5, RAYWHITE);
 }
 
 void OptionsMenu::VolumeSettings()
@@ -257,32 +257,41 @@ void OptionsMenu::AudioAndGraphicsButton()
 
 void OptionsMenu::DrawControlsKeyBinds()
 {
-	raycpp::DrawText("ROTATE LEFT", settings::rotateLeftKeyTextPos, settings::rotateLeftKeyTextSize, WHITE);
-	raycpp::DrawText("Z", settings::rotateLeftKeyButtonTextPos, settings::rotateLeftKeyTextSize, WHITE);
+	raycpp::DrawText("ROTATE LEFT", settings::rotateLeftKeyTextPos, settings::rotateLeftKeyTextSize, RAYWHITE);
+	raycpp::DrawText("Z", settings::rotateLeftKeyButtonTextPos, settings::rotateLeftKeyTextSize, RAYWHITE);
+	raycpp::DrawText("NONE", settings::alternateRotateLeftKeyButtonTextPos, settings::rotateLeftKeyTextSize, RAYWHITE);
 
-	raycpp::DrawText("ROTATE RIGHT", settings::rotateRightKeyTextPos, settings::rotateRightKeyTextSize, WHITE);
-	raycpp::DrawText("X", settings::rotateRightKeyButtonTextPos, settings::rotateRightKeyTextSize, WHITE);
+	raycpp::DrawText("ROTATE RIGHT", settings::rotateRightKeyTextPos, settings::rotateRightKeyTextSize, RAYWHITE);
+	raycpp::DrawText("X", settings::rotateRightKeyButtonTextPos, settings::rotateRightKeyTextSize, RAYWHITE);
+	raycpp::DrawText("NONE", settings::alternateRotateRightKeyButtonTextPos, settings::rotateRightKeyTextSize, RAYWHITE);
 
-	raycpp::DrawText("MOVE RIGHT", settings::moveRightKeyTextPos, settings::moveRightKeyTextSize, WHITE);
-	raycpp::DrawText("RIGHT ARROW", settings::moveRightKeyButtonTextPos, settings::moveRightKeyTextSize, WHITE);
+	raycpp::DrawText("MOVE RIGHT", settings::moveRightKeyTextPos, settings::moveRightKeyTextSize, RAYWHITE);
+	raycpp::DrawText("RIGHT ARROW", settings::moveRightKeyButtonTextPos, settings::moveRightKeyTextSize, RAYWHITE);
+	raycpp::DrawText("NONE", settings::alternateMoveRightKeyButtonTextPos, settings::moveRightKeyTextSize, RAYWHITE);
 
-	raycpp::DrawText("MOVE LEFT", settings::moveLeftKeyTextPos, settings::moveLeftKeyTextSize, WHITE);
-	raycpp::DrawText("LEFT ARROW", settings::moveLeftKeyButtonTextPos, settings::moveLeftKeyTextSize, WHITE);
+	raycpp::DrawText("MOVE LEFT", settings::moveLeftKeyTextPos, settings::moveLeftKeyTextSize, RAYWHITE);
+	raycpp::DrawText("LEFT ARROW", settings::moveLeftKeyButtonTextPos, settings::moveLeftKeyTextSize, RAYWHITE);
+	raycpp::DrawText("NONE", settings::alternateMoveLeftKeyButtonTextPos, settings::moveLeftKeyTextSize, RAYWHITE);
 
-	raycpp::DrawText("RESET", settings::resetKeyTextPos, settings::resetKeyTextSize, WHITE);
-	raycpp::DrawText("R", settings::resetKeyButtonTextPos, settings::resetKeyTextSize, WHITE);
+	raycpp::DrawText("RESET", settings::resetKeyTextPos, settings::resetKeyTextSize, RAYWHITE);
+	raycpp::DrawText("R", settings::resetKeyButtonTextPos, settings::resetKeyTextSize, RAYWHITE);
+	raycpp::DrawText("NONE", settings::alternateResetKeyButtonTextPos, settings::resetKeyTextSize, RAYWHITE);
 
-	raycpp::DrawText("OPEN MENU", settings::menuKeyTextPos, settings::menuKeyTextSize, WHITE);
-	raycpp::DrawText("ESC", settings::menuKeyButtonTextPos, settings::menuKeyTextSize, WHITE);
+	raycpp::DrawText("OPEN MENU", settings::menuKeyTextPos, settings::menuKeyTextSize, RAYWHITE);
+	raycpp::DrawText("ESC", settings::menuKeyButtonTextPos, settings::menuKeyTextSize, RAYWHITE);
+	raycpp::DrawText("NONE", settings::alternateMenuKeyButtonTextPos, settings::menuKeyTextSize, RAYWHITE);
 
-	raycpp::DrawText("HARD DROP", settings::hardDropKeyTextPos, settings::hardDropKeyTextSize, WHITE);
-	raycpp::DrawText("SPACE", settings::hardDropKeyButtonTextPos, settings::hardDropKeyTextSize, WHITE);
+	raycpp::DrawText("HARD DROP", settings::hardDropKeyTextPos, settings::hardDropKeyTextSize, RAYWHITE);
+	raycpp::DrawText("SPACE", settings::hardDropKeyButtonTextPos, settings::hardDropKeyTextSize, RAYWHITE);
+	raycpp::DrawText("NONE", settings::alternateHardDropKeyButtonTextPos, settings::hardDropKeyTextSize, RAYWHITE);
 
-	raycpp::DrawText("SOFT DROP", settings::softDropKeyTextPos, settings::softDropKeyTextSize, WHITE);
-	raycpp::DrawText("ARROW DOWN", settings::softDropKeyButtonTextPos, settings::softDropKeyTextSize, WHITE);
+	raycpp::DrawText("SOFT DROP", settings::softDropKeyTextPos, settings::softDropKeyTextSize, RAYWHITE);
+	raycpp::DrawText("ARROW DOWN", settings::softDropKeyButtonTextPos, settings::softDropKeyTextSize, RAYWHITE);
+	raycpp::DrawText("NONE", settings::alternateSoftDropKeyButtonTextPos, settings::softDropKeyTextSize, RAYWHITE);
 
-	raycpp::DrawText("HOLD PIECE", settings::swapKeyTextPos, settings::swapKeyTextSize, WHITE);
-	raycpp::DrawText("C", settings::swapKeyButtonTextPos, settings::swapKeyTextSize, WHITE);
+	raycpp::DrawText("HOLD PIECE", settings::swapKeyTextPos, settings::swapKeyTextSize, RAYWHITE);
+	raycpp::DrawText("C", settings::swapKeyButtonTextPos, settings::swapKeyTextSize, RAYWHITE);
+	raycpp::DrawText("NONE", settings::alternateSwapKeyButtonTextPos, settings::swapKeyTextSize, RAYWHITE);
 }
 
 OptionsMenu::KeyBinds OptionsMenu::SelectKeyBind()
@@ -290,9 +299,9 @@ OptionsMenu::KeyBinds OptionsMenu::SelectKeyBind()
 	return KeyBinds::ROTATERIGHT;
 }
 
-KeyboardKey OptionsMenu::SelectKey()
+int OptionsMenu::SelectKey()
 {
-	return KeyboardKey();
+	return 0;
 }
 
 void OptionsMenu::SetKeysInSettings()
@@ -346,9 +355,9 @@ void OptionsMenu::ControlsSelection()
 {
 	// Selection Buttons
 	raycpp::DrawText("AUDIO / GRAPHICS", settings::audioAndGraphicsTextPos - Vec2<int>{ (int)((settings::minAudioAndGraphicsTextSize - settings::audioAndGraphicsTextSize) * -4.85),
-		((settings::minAudioAndGraphicsTextSize - settings::audioAndGraphicsTextSize) / 2) * -1 }, settings::audioAndGraphicsTextSize, WHITE);
+		((settings::minAudioAndGraphicsTextSize - settings::audioAndGraphicsTextSize) / 2) * -1 }, settings::audioAndGraphicsTextSize, RAYWHITE);
 	raycpp::DrawText("CONTROLS", settings::controlsTextPos - Vec2<int>{ (int)((settings::minControlsTextSize - settings::maxControlsTextSize) * -2.5),
-		((settings::minControlsTextSize - settings::maxControlsTextSize) / 2) * -1 }, settings::maxControlsTextSize, WHITE);
+		((settings::minControlsTextSize - settings::maxControlsTextSize) / 2) * -1 }, settings::maxControlsTextSize, RAYWHITE);
 
 }
 
@@ -376,9 +385,9 @@ void OptionsMenu::AudioAndGraphicsSelection()
 {
 	// Selection Buttons
 	raycpp::DrawText("AUDIO / GRAPHICS", settings::audioAndGraphicsTextPos - Vec2<int>{ (int)((settings::minAudioAndGraphicsTextSize - settings::maxAudioAndGraphicsTextSize) * -4.85),
-		((settings::minAudioAndGraphicsTextSize - settings::maxAudioAndGraphicsTextSize) / 2) * -1 }, settings::maxAudioAndGraphicsTextSize, WHITE);
+		((settings::minAudioAndGraphicsTextSize - settings::maxAudioAndGraphicsTextSize) / 2) * -1 }, settings::maxAudioAndGraphicsTextSize, RAYWHITE);
 	raycpp::DrawText("CONTROLS", settings::controlsTextPos - Vec2<int>{ (int)((settings::minControlsTextSize - settings::controlsTextSize) * -2.5),
-		((settings::minControlsTextSize - settings::controlsTextSize) / 2) * -1 }, settings::controlsTextSize, WHITE);
+		((settings::minControlsTextSize - settings::controlsTextSize) / 2) * -1 }, settings::controlsTextSize, RAYWHITE);
 
 	// Music Volume
 	raycpp::DrawRectangleLinesEx(settings::volumeSliderBorderPos, settings::volumeSliderBorderSize, 2, RAYWHITE);

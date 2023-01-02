@@ -39,7 +39,7 @@ private:
 	void AudioAndGraphicsButton();
 	void DrawControlsKeyBinds();
 	KeyBinds SelectKeyBind();
-	KeyboardKey SelectKey();
+	int SelectKey();
 	void SetKeysInSettings();
 
 	bool optionsLoaded;

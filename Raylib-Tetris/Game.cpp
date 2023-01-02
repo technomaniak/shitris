@@ -526,7 +526,7 @@ void Game::GameOver()
 
 void Game::PauseMenu()
 {
-	DrawTextureV(darkOverlay, { 0, 0 }, WHITE);
+	DrawTextureV(darkOverlay, { 0, 0 }, RAYWHITE);
 	RestartButton(false);
 	MainMenuButton(false);
 	OptionsButton(false);
