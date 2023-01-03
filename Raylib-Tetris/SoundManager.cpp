@@ -4,7 +4,7 @@
 
 SoundManager::SoundManager():
 	music({ LoadMusicStream("music_1.mp3"), LoadMusicStream("music_2.mp3") }),
-	music_amount(music.size()),
+	music_amount((int)music.size()),
 	placeSound(LoadSound("placeSound.wav")),
 	menuSound(LoadSound("menuSound.wav")),
 	musicVolume(0.2f),

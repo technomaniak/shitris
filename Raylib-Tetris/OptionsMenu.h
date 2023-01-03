@@ -97,6 +97,11 @@ private:
 	bool mouseOverMoveRight;
 	int alternateMoveRightCounter;
 	bool alternateMouseOverMoveRight;
+
+	int moveLeftCounter;
+	bool mouseOverMoveLeft;
+	int alternateMoveLeftCounter;
+	bool alternateMouseOverMoveLeft;
 	
 	int keyPressed;
 	KeyBinds waitingForInput;
