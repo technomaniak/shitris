@@ -176,6 +176,7 @@
     <None Include="Controls.setting" />
     <None Include="Default.board" />
     <None Include="Default.HS" />
+    <None Include="defaultcontrols.setting" />
     <None Include="El.tetromino" />
     <None Include="Jay.tetromino" />
     <None Include="SkewS.tetromino" />

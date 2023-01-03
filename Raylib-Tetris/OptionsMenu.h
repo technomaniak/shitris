@@ -15,9 +15,18 @@ private:
 		MOVELEFT,
 		HARDDROP,
 		SOFTDROP,
+		ALTERNATEROTATELEFT,
+		ALTERNATEROTATERIGHT,
+		ALTERNATERESET,
+		ALTERNATESWAPPIECE,
+		ALTERNATEMENU,
+		ALTERNATEMOVERIGHT,
+		ALTERNATEMOVELEFT,
+		ALTERNATEHARDDROP,
+		ALTERNATESOFTDROP
 	};
 public:
-	OptionsMenu(SoundManager &sounds1);
+	OptionsMenu(SoundManager &sounds1, std::vector<std::vector<int>> &keyBindsList1);
 
 	void LoadOptions();
 	void SetLoaded(bool val);
@@ -40,8 +49,12 @@ private:
 	void DrawControlsKeyBinds();
 	KeyBinds SelectKeyBind();
 	int SelectKey();
-	void SetKeysInSettings();
+	void SaveKeysInSettings();
+	void LoadKeysFromSettings();
 
+	std::string KeyBindName(int key);
+
+	std::vector<std::vector<int>>& keyBindsList;
 	bool optionsLoaded;
 	int whatOptionPart;
 

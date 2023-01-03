@@ -2,7 +2,7 @@
 #include "Settings.h"
 #include <iostream>
 
-MainMenu::MainMenu(SoundManager &sounds1, Texture2D &cogwheel1) :
+MainMenu::MainMenu(SoundManager &sounds1, Texture2D &cogwheel1, std::vector<std::vector<int>> &keyBindsList1) :
 	GameRunning(false),
 	menuLoaded(false),
 	sounds(sounds1),
@@ -17,7 +17,8 @@ MainMenu::MainMenu(SoundManager &sounds1, Texture2D &cogwheel1) :
 	settingsButtonCounter(0),
 	gameReset(true),
 	mouseOverQuitGameButton(false),
-	options(OptionsMenu(sounds)),
+	keyBindsList(keyBindsList1),
+	options(OptionsMenu(sounds, keyBindsList)),
 	cogwheel(cogwheel1)
 {
 }

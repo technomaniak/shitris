@@ -14,6 +14,9 @@ Game::Game(int width, int height, int fps, std::string title)
 	heldMino(Tetromino(board)),
 	drawMino(Tetromino(board)),
 	counterFall(1),
+	cogwheelImage(LoadImage("Cogwheel.png")),
+	cogwheel(LoadTextureFromImage(cogwheelImage)),
+	keyBindsList({ { 262, 263, 88, 90, 82, 256, 32, 264, 67 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 } }),
 	counterMove(0),
 	counterKeepMoving(0),
 	counterDrop(1),
@@ -22,10 +25,8 @@ Game::Game(int width, int height, int fps, std::string title)
 	moved(false),
 	lastAction(0),
 	gameShouldEnd(false),
-	cogwheelImage(LoadImage("Cogwheel.png")),
-	cogwheel(LoadTextureFromImage(cogwheelImage)),
 	soundManager(SoundManager()),
-	mainMenu(MainMenu(soundManager, cogwheel)),
+	mainMenu(MainMenu(soundManager, cogwheel, keyBindsList)),
 	boardName("Default"),
 	newBest(false),
 	mouseOverRestartButton(false),
@@ -179,7 +180,7 @@ void Game::Update()
 		tetromino.SetIsAnythingSetToHeld(false);
 		tetromino.SetRotation(Tetromino::Rotation::UP);}
 
-	if (IsKeyPressed(KEY_X))
+	if (IsKeyPressed(keyBindsList[0][2]) || IsKeyPressed(keyBindsList[1][2]))
 	{
 		tetromino.RotateClockwise();
 		if (tetromino.IsBottom())
@@ -189,7 +190,7 @@ void Game::Update()
 		}
 		lastAction = 1;
 	}
-	if (IsKeyPressed(KEY_Z))
+	if (IsKeyPressed(keyBindsList[0][3]) || IsKeyPressed(keyBindsList[1][3]))
 	{
 		tetromino.RotateCounterClockwise();
 		if (tetromino.IsBottom())
@@ -199,18 +200,18 @@ void Game::Update()
 		}
 		lastAction = 1;
 	}
-	if (IsKeyPressed(KEY_W))
-	{
-		tetromino.RotateFull();
-		if (tetromino.IsBottom())
-		{
-			counterDrop = 40;
-			counterFall = 1;
-		}
-		lastAction = 1;
-	}
+	//if (IsKeyPressed(KEY_W))
+	//{
+	//	tetromino.RotateFull();
+	//	if (tetromino.IsBottom())
+	//	{
+	//		counterDrop = 40;
+	//		counterFall = 1;
+	//	}
+	//	lastAction = 1;
+	//}
 
-	if (IsKeyDown(KEY_LEFT))
+	if (IsKeyDown(keyBindsList[0][1]) || IsKeyDown(keyBindsList[1][1]))
 	{
 		counterMove++;
 		if (counterMove > 10)
@@ -235,11 +236,11 @@ void Game::Update()
 		}
 		lastAction = 2;
 	}
-	if (IsKeyReleased(KEY_LEFT))
+	if (IsKeyReleased(keyBindsList[0][1]) || IsKeyReleased(keyBindsList[1][1]))
 	{
 		counterMove = 0, counterKeepMoving = 0;
 	}
-	if (IsKeyPressed(KEY_LEFT))
+	if (IsKeyPressed(keyBindsList[0][1]) || IsKeyPressed(keyBindsList[1][1]))
 	{
 		tetromino.MoveLeft();
 
@@ -251,7 +252,7 @@ void Game::Update()
 		lastAction = 2;
 	}
 
-	if (IsKeyDown(KEY_RIGHT))
+	if (IsKeyDown(keyBindsList[0][0]) || IsKeyDown(keyBindsList[1][0]))
 	{
 		counterMove++;
 
@@ -277,11 +278,11 @@ void Game::Update()
 		}
 		lastAction = 2;
 	}
-	if (IsKeyReleased(KEY_RIGHT))
+	if (IsKeyReleased(keyBindsList[0][0]) || IsKeyReleased(keyBindsList[1][0]))
 	{
 		counterMove = 0, counterKeepMoving = 0;
 	}
-	if (IsKeyPressed(KEY_RIGHT))
+	if (IsKeyPressed(keyBindsList[0][0]) || IsKeyPressed(keyBindsList[1][0]))
 	{
 		tetromino.MoveRight();
 
@@ -293,7 +294,7 @@ void Game::Update()
 		lastAction = 2;
 	}
 
-	if (IsKeyDown(KEY_DOWN))
+	if (IsKeyDown(keyBindsList[0][7]) || IsKeyDown(keyBindsList[1][7]))
 	{
 		if (!tetromino.IsBottom())
 		{
@@ -302,7 +303,7 @@ void Game::Update()
 		counterFall += 5 + board.GetSpeed();
 	}
 
-	if (IsKeyPressed(KEY_C))
+	if (IsKeyPressed(keyBindsList[0][8]) || IsKeyPressed(keyBindsList[1][8]))
 	{
 		if (!tetromino.getIsAnythingHeld())
 		{
@@ -334,7 +335,7 @@ void Game::Update()
 		}
 	}
 
-	if (IsKeyPressed(KEY_SPACE))
+	if (IsKeyPressed(keyBindsList[0][6]) || IsKeyPressed(keyBindsList[1][6]))
 	{
 		tetromino.HardDrop();
 		counterDrop = -1;
@@ -367,12 +368,12 @@ void Game::Update()
 		}
 	}
 
-	if (IsKeyPressed(KEY_ESCAPE)) 
+	if (IsKeyPressed(keyBindsList[0][5]) || IsKeyPressed(keyBindsList[1][5]))
 	{
 		gamePaused = !gamePaused;
 	}
 
-	if (IsKeyDown(KEY_R))
+	if (IsKeyPressed(keyBindsList[0][4]) || IsKeyPressed(keyBindsList[1][4]))
 	{
 		resetTimer++;
 		if (resetTimer > 61)
@@ -381,7 +382,7 @@ void Game::Update()
 			resetTimer = 1;
 		}
 	}
-	if (IsKeyReleased(KEY_R))
+	if (IsKeyReleased(keyBindsList[0][4]) || IsKeyReleased(keyBindsList[1][4]))
 	{
 		resetTimer = 1;
 	}

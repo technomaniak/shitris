@@ -154,6 +154,9 @@
     <None Include="Style.setting">
       <Filter>Pliki zasobów\PlayerData</Filter>
     </None>
+    <None Include="defaultcontrols.setting">
+      <Filter>Pliki zasobów\PlayerData</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Media Include="menuSound.wav">

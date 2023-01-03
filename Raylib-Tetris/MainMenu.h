@@ -6,7 +6,7 @@
 class MainMenu
 {
 public:
-	MainMenu(SoundManager &sounds1, Texture2D &cogwheel1);
+	MainMenu(SoundManager &sounds1, Texture2D &cogwheel1, std::vector<std::vector<int>> &keyBindsList1);
 
 	void LoadMenu();
 	void Tick();
@@ -49,6 +49,7 @@ private:
 
 	SoundManager &sounds;
 
+	std::vector<std::vector<int>> &keyBindsList;
 	OptionsMenu options;
 	Texture2D cogwheel;
 };

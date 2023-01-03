@@ -23,9 +23,6 @@ private:
 	Tetromino futureMino;
 	Tetromino drawMino;
 	Tetromino heldMino;
-	InputManager inputManager;
-	SoundManager soundManager;
-	MainMenu mainMenu;
 
 	Texture2D cogwheel;
 	Image cogwheelImage;
@@ -72,6 +69,10 @@ private:
 	int gameOverCounter;
 	int optionsButtonCounter;
 	std::string boardName;
-
+	
+	std::vector<std::vector<int>> keyBindsList{};
+	InputManager inputManager;
+	SoundManager soundManager;
+	MainMenu mainMenu;
 };
 
