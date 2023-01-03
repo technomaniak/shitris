@@ -21,7 +21,8 @@ OptionsMenu::OptionsMenu(SoundManager& sounds1, std::vector<std::vector<int>>& k
 	whatOptionPart(0),
 	keyBindsList(keyBindsList1),
 	waitingForInput(KeyBinds::NONE),
-	keyPressed(0)
+	keyPressed(0),
+	justFoundKey(false)
 {
 	LoadKeysFromSettings();
 }
@@ -46,13 +47,21 @@ void OptionsMenu::Tick()
 	Draw();
 	if (waitingForInput == KeyBinds::NONE)
 	{
-		if (IsKeyPressed(KEY_ESCAPE))
+		if (justFoundKey == false)
 		{
-			optionsLoaded = false;
-			whatOptionPart = 0;
-			settings::controlsTextSize = 60;
-			settings::audioAndGraphicsTextSize = 60;
-			sounds.PlaySoundFromName("menuSound");
+			if (IsKeyPressed(KEY_ESCAPE))
+			{
+				optionsLoaded = false;
+				whatOptionPart = 0;
+				SaveKeysInSettings();
+				settings::controlsTextSize = 60;
+				settings::audioAndGraphicsTextSize = 60;
+				sounds.PlaySoundFromName("menuSound");
+			}
+		}
+		else
+		{
+			justFoundKey = false;
 		}
 	}
 	switch (whatOptionPart)
@@ -264,36 +273,309 @@ bool OptionsMenu::MoveLeftKeyBind()
 
 bool OptionsMenu::RotateRightKeyBind()
 {
+	if (raycpp::GetMousePos() > settings::rotateLeftKeyButtonTextPos - Vec2<int>{ 100, 50 }
+	&& raycpp::GetMousePos() < Vec2<int>{ settings::alternateRotateLeftKeyButtonTextPos.GetX(), settings::alternateRotateLeftKeyButtonTextPos.GetY() + 100 } - Vec2<int>{ 100, 50 })
+	{
+		if (mouseOverRotateLeft != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			mouseOverRotateLeft = true;
+		}
+	}
+	else
+	{
+		if (settings::rotateLeftKeyTextSize > settings::minRotateLeftKeyTextSize)
+		{
+			rotateLeftCounter++;
+			if (rotateLeftCounter > 0)
+			{
+				settings::rotateLeftKeyTextSize -= 5;
+				rotateLeftCounter = 0;
+			}
+		}
+		mouseOverRotateLeft = false;
+	}
+	if (mouseOverRotateLeft)
+	{
+		if (settings::rotateLeftKeyTextSize < settings::maxRotateLeftKeyTextSize)
+		{
+			rotateLeftCounter++;
+			if (rotateLeftCounter > 0)
+			{
+				settings::rotateLeftKeyTextSize += 5;
+				rotateLeftCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			sounds.PlaySoundFromName("menuSound");
+			return true;
+		}
+	}
 	return false;
 }
 
 bool OptionsMenu::RotateLeftKeyBind()
 {
+	if (raycpp::GetMousePos() > settings::rotateRightKeyButtonTextPos - Vec2<int>{ 100, 50 }
+	&& raycpp::GetMousePos() < Vec2<int>{ settings::alternateRotateRightKeyButtonTextPos.GetX(), settings::alternateRotateRightKeyButtonTextPos.GetY() + 100 } - Vec2<int>{ 100, 50 })
+	{
+		if (mouseOverRotateRight != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			mouseOverRotateRight = true;
+		}
+	}
+	else
+	{
+		if (settings::rotateRightKeyTextSize > settings::minRotateRightKeyTextSize)
+		{
+			rotateRightCounter++;
+			if (rotateRightCounter > 0)
+			{
+				settings::rotateRightKeyTextSize -= 5;
+				rotateRightCounter = 0;
+			}
+		}
+		mouseOverRotateRight = false;
+	}
+	if (mouseOverRotateRight)
+	{
+		if (settings::rotateRightKeyTextSize < settings::maxRotateRightKeyTextSize)
+		{
+			rotateRightCounter++;
+			if (rotateRightCounter > 0)
+			{
+				settings::rotateRightKeyTextSize += 5;
+				rotateRightCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			sounds.PlaySoundFromName("menuSound");
+			return true;
+		}
+	}
 	return false;
 }
 
 bool OptionsMenu::ResetKeyBind()
 {
+	if (raycpp::GetMousePos() > settings::resetKeyButtonTextPos - Vec2<int>{ 100, 50 }
+	&& raycpp::GetMousePos() < Vec2<int>{ settings::alternateResetKeyButtonTextPos.GetX(), settings::alternateResetKeyButtonTextPos.GetY() + 100 } - Vec2<int>{ 100, 50 })
+	{
+		if (mouseOverReset != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			mouseOverReset = true;
+		}
+	}
+	else
+	{
+		if (settings::resetKeyTextSize > settings::minResetKeyTextSize)
+		{
+			resetCounter++;
+			if (resetCounter > 0)
+			{
+				settings::resetKeyTextSize -= 5;
+				resetCounter = 0;
+			}
+		}
+		mouseOverReset = false;
+	}
+	if (mouseOverReset)
+	{
+		if (settings::resetKeyTextSize < settings::maxResetKeyTextSize)
+		{
+			resetCounter++;
+			if (resetCounter > 0)
+			{
+				settings::resetKeyTextSize += 5;
+				resetCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			sounds.PlaySoundFromName("menuSound");
+			return true;
+		}
+	}
 	return false;
 }
 
 bool OptionsMenu::MenuKeyBind()
 {
+	if (raycpp::GetMousePos() > settings::menuKeyButtonTextPos - Vec2<int>{ 100, 50 }
+	&& raycpp::GetMousePos() < Vec2<int>{ settings::alternateMenuKeyButtonTextPos.GetX(), settings::alternateMenuKeyButtonTextPos.GetY() + 100 } - Vec2<int>{ 100, 50 })
+	{
+		if (mouseOverMenu != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			mouseOverMenu = true;
+		}
+	}
+	else
+	{
+		if (settings::menuKeyTextSize > settings::minMenuKeyTextSize)
+		{
+			menuCounter++;
+			if (menuCounter > 0)
+			{
+				settings::menuKeyTextSize -= 5;
+				menuCounter = 0;
+			}
+		}
+		mouseOverMenu = false;
+	}
+	if (mouseOverMenu)
+	{
+		if (settings::menuKeyTextSize < settings::maxMenuKeyTextSize)
+		{
+			menuCounter++;
+			if (menuCounter > 0)
+			{
+				settings::menuKeyTextSize += 5;
+				menuCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			sounds.PlaySoundFromName("menuSound");
+			return true;
+		}
+	}
 	return false;
 }
 
 bool OptionsMenu::HardDropKeyBind()
 {
+	if (raycpp::GetMousePos() > settings::hardDropKeyButtonTextPos - Vec2<int>{ 100, 50 }
+	&& raycpp::GetMousePos() < Vec2<int>{ settings::alternateHardDropKeyButtonTextPos.GetX(), settings::alternateHardDropKeyButtonTextPos.GetY() + 100 } - Vec2<int>{ 100, 50 })
+	{
+		if (mouseOverHardDrop != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			mouseOverHardDrop = true;
+		}
+	}
+	else
+	{
+		if (settings::hardDropKeyTextSize > settings::minHardDropKeyTextSize)
+		{
+			hardDropCounter++;
+			if (hardDropCounter > 0)
+			{
+				settings::hardDropKeyTextSize -= 5;
+				hardDropCounter = 0;
+			}
+		}
+		mouseOverHardDrop = false;
+	}
+	if (mouseOverHardDrop)
+	{
+		if (settings::hardDropKeyTextSize < settings::maxHardDropKeyTextSize)
+		{
+			hardDropCounter++;
+			if (hardDropCounter > 0)
+			{
+				settings::hardDropKeyTextSize += 5;
+				hardDropCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			sounds.PlaySoundFromName("menuSound");
+			return true;
+		}
+	}
 	return false;
 }
 
 bool OptionsMenu::SoftDropKeyBind()
 {
+	if (raycpp::GetMousePos() > settings::softDropKeyButtonTextPos - Vec2<int>{ 100, 50 }
+	&& raycpp::GetMousePos() < Vec2<int>{ settings::alternateSoftDropKeyButtonTextPos.GetX(), settings::alternateSoftDropKeyButtonTextPos.GetY() + 100 } - Vec2<int>{ 100, 50 })
+	{
+		if (mouseOverSoftDrop != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			mouseOverSoftDrop = true;
+		}
+	}
+	else
+	{
+		if (settings::softDropKeyTextSize > settings::minSoftDropKeyTextSize)
+		{
+			softDropCounter++;
+			if (softDropCounter > 0)
+			{
+				settings::softDropKeyTextSize -= 5;
+				softDropCounter = 0;
+			}
+		}
+		mouseOverSoftDrop = false;
+	}
+	if (mouseOverSoftDrop)
+	{
+		if (settings::softDropKeyTextSize < settings::maxSoftDropKeyTextSize)
+		{
+			softDropCounter++;
+			if (softDropCounter > 0)
+			{
+				settings::softDropKeyTextSize += 5;
+				softDropCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			sounds.PlaySoundFromName("menuSound");
+			return true;
+		}
+	}
 	return false;
 }
 
 bool OptionsMenu::SwapKeyBind()
 {
+	if (raycpp::GetMousePos() > settings::swapKeyButtonTextPos - Vec2<int>{ 100, 50 }
+	&& raycpp::GetMousePos() < Vec2<int>{ settings::alternateSwapKeyButtonTextPos.GetX(), settings::alternateSwapKeyButtonTextPos.GetY() + 100 } - Vec2<int>{ 100, 50 })
+	{
+		if (mouseOverSwap != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			mouseOverSwap = true;
+		}
+	}
+	else
+	{
+		if (settings::swapKeyTextSize > settings::minSwapKeyTextSize)
+		{
+			swapCounter++;
+			if (swapCounter > 0)
+			{
+				settings::swapKeyTextSize -= 5;
+				swapCounter = 0;
+			}
+		}
+		mouseOverSwap = false;
+	}
+	if (mouseOverSwap)
+	{
+		if (settings::swapKeyTextSize < settings::maxSwapKeyTextSize)
+		{
+			swapCounter++;
+			if (swapCounter > 0)
+			{
+				settings::swapKeyTextSize += 5;
+				swapCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			sounds.PlaySoundFromName("menuSound");
+			return true;
+		}
+	}
 	return false;
 }
 
@@ -328,7 +610,7 @@ bool OptionsMenu::AlternateMoveRightKeyBind()
 			alternateMoveRightCounter++;
 			if (alternateMoveRightCounter > 0)
 			{
-				settings::moveRightKeyTextSize += 5;
+				settings::alternateMoveRightKeyTextSize += 5;
 				alternateMoveRightCounter = 0;
 			}
 		}
@@ -372,7 +654,7 @@ bool OptionsMenu::AlternateMoveLeftKeyBind()
 			alternateMoveLeftCounter++;
 			if (alternateMoveLeftCounter > 0)
 			{
-				settings::moveLeftKeyTextSize += 5;
+				settings::alternateMoveLeftKeyTextSize += 5;
 				alternateMoveLeftCounter = 0;
 			}
 		}
@@ -387,36 +669,309 @@ bool OptionsMenu::AlternateMoveLeftKeyBind()
 
 bool OptionsMenu::AlternateRotateRightKeyBind()
 {
+	if (raycpp::GetMousePos() > settings::alternateRotateRightKeyButtonTextPos - Vec2<int>{ 100, 50 }
+	&& raycpp::GetMousePos() < Vec2<int>{ settings::screenWidth, settings::alternateRotateRightKeyButtonTextPos.GetY() + 100 } - Vec2<int>{ 100, 50 })
+	{
+		if (alternateMouseOverRotateRight != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			alternateMouseOverRotateRight = true;
+		}
+	}
+	else
+	{
+		if (settings::alternateRotateRightKeyTextSize > settings::minRotateRightKeyTextSize)
+		{
+			alternateRotateRightCounter++;
+			if (alternateRotateRightCounter > 0)
+			{
+				settings::alternateRotateRightKeyTextSize -= 5;
+				alternateRotateRightCounter = 0;
+			}
+		}
+		alternateMouseOverRotateRight = false;
+	}
+	if (alternateMouseOverRotateRight)
+	{
+		if (settings::alternateRotateRightKeyTextSize < settings::maxRotateRightKeyTextSize)
+		{
+			alternateRotateRightCounter++;
+			if (alternateRotateRightCounter > 0)
+			{
+				settings::alternateRotateRightKeyTextSize += 5;
+				alternateRotateRightCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			sounds.PlaySoundFromName("menuSound");
+			return true;
+		}
+	}
 	return false;
 }
 
 bool OptionsMenu::AlternateRotateLeftKeyBind()
 {
+	if (raycpp::GetMousePos() > settings::alternateRotateLeftKeyButtonTextPos - Vec2<int>{ 100, 50 }
+	&& raycpp::GetMousePos() < Vec2<int>{ settings::screenWidth, settings::alternateRotateLeftKeyButtonTextPos.GetY() + 100 } - Vec2<int>{ 100, 50 })
+	{
+		if (alternateMouseOverRotateLeft != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			alternateMouseOverRotateLeft = true;
+		}
+	}
+	else
+	{
+		if (settings::alternateRotateLeftKeyTextSize > settings::minRotateLeftKeyTextSize)
+		{
+			alternateRotateLeftCounter++;
+			if (alternateRotateLeftCounter > 0)
+			{
+				settings::alternateRotateLeftKeyTextSize -= 5;
+				alternateRotateLeftCounter = 0;
+			}
+		}
+		alternateMouseOverRotateLeft = false;
+	}
+	if (alternateMouseOverRotateLeft)
+	{
+		if (settings::alternateRotateLeftKeyTextSize < settings::maxRotateLeftKeyTextSize)
+		{
+			alternateRotateLeftCounter++;
+			if (alternateRotateLeftCounter > 0)
+			{
+				settings::alternateRotateLeftKeyTextSize += 5;
+				alternateRotateLeftCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			sounds.PlaySoundFromName("menuSound");
+			return true;
+		}
+	}
 	return false;
 }
 
 bool OptionsMenu::AlternateResetKeyBind()
 {
+	if (raycpp::GetMousePos() > settings::alternateResetKeyButtonTextPos - Vec2<int>{ 100, 50 }
+	&& raycpp::GetMousePos() < Vec2<int>{ settings::screenWidth, settings::alternateResetKeyButtonTextPos.GetY() + 100 } - Vec2<int>{ 100, 50 })
+	{
+		if (alternateMouseOverReset != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			alternateMouseOverReset = true;
+		}
+	}
+	else
+	{
+		if (settings::alternateResetKeyTextSize > settings::minResetKeyTextSize)
+		{
+			alternateResetCounter++;
+			if (alternateResetCounter > 0)
+			{
+				settings::alternateResetKeyTextSize -= 5;
+				alternateResetCounter = 0;
+			}
+		}
+		alternateMouseOverReset = false;
+	}
+	if (alternateMouseOverReset)
+	{
+		if (settings::alternateResetKeyTextSize < settings::maxResetKeyTextSize)
+		{
+			alternateResetCounter++;
+			if (alternateResetCounter > 0)
+			{
+				settings::alternateResetKeyTextSize += 5;
+				alternateResetCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			sounds.PlaySoundFromName("menuSound");
+			return true;
+		}
+	}
 	return false;
 }
 
 bool OptionsMenu::AlternateMenuKeyBind()
 {
+	if (raycpp::GetMousePos() > settings::alternateMenuKeyButtonTextPos - Vec2<int>{ 100, 50 }
+	&& raycpp::GetMousePos() < Vec2<int>{ settings::screenWidth, settings::alternateMenuKeyButtonTextPos.GetY() + 100 } - Vec2<int>{ 100, 50 })
+	{
+		if (alternateMouseOverMenu != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			alternateMouseOverMenu = true;
+		}
+	}
+	else
+	{
+		if (settings::alternateMenuKeyTextSize > settings::minMenuKeyTextSize)
+		{
+			alternateMenuCounter++;
+			if (alternateMenuCounter > 0)
+			{
+				settings::alternateMenuKeyTextSize -= 5;
+				alternateMenuCounter = 0;
+			}
+		}
+		alternateMouseOverMenu = false;
+	}
+	if (alternateMouseOverMenu)
+	{
+		if (settings::alternateMenuKeyTextSize < settings::maxMenuKeyTextSize)
+		{
+			alternateMenuCounter++;
+			if (alternateMenuCounter > 0)
+			{
+				settings::alternateMenuKeyTextSize += 5;
+				alternateMenuCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			sounds.PlaySoundFromName("menuSound");
+			return true;
+		}
+	}
 	return false;
 }
 
 bool OptionsMenu::AlternateHardDropKeyBind()
 {
+	if (raycpp::GetMousePos() > settings::alternateHardDropKeyButtonTextPos - Vec2<int>{ 100, 50 }
+	&& raycpp::GetMousePos() < Vec2<int>{ settings::screenWidth, settings::alternateHardDropKeyButtonTextPos.GetY() + 100 } - Vec2<int>{ 100, 50 })
+	{
+		if (alternateMouseOverHardDrop != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			alternateMouseOverHardDrop = true;
+		}
+	}
+	else
+	{
+		if (settings::alternateHardDropKeyTextSize > settings::minHardDropKeyTextSize)
+		{
+			alternateHardDropCounter++;
+			if (alternateHardDropCounter > 0)
+			{
+				settings::alternateHardDropKeyTextSize -= 5;
+				alternateHardDropCounter = 0;
+			}
+		}
+		alternateMouseOverHardDrop = false;
+	}
+	if (alternateMouseOverHardDrop)
+	{
+		if (settings::alternateHardDropKeyTextSize < settings::maxHardDropKeyTextSize)
+		{
+			alternateHardDropCounter++;
+			if (alternateHardDropCounter > 0)
+			{
+				settings::alternateHardDropKeyTextSize += 5;
+				alternateHardDropCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			sounds.PlaySoundFromName("menuSound");
+			return true;
+		}
+	}
 	return false;
 }
 
 bool OptionsMenu::AlternateSoftDropKeyBind()
 {
+	if (raycpp::GetMousePos() > settings::alternateSoftDropKeyButtonTextPos - Vec2<int>{ 100, 50 }
+	&& raycpp::GetMousePos() < Vec2<int>{ settings::screenWidth, settings::alternateSoftDropKeyButtonTextPos.GetY() + 100 } - Vec2<int>{ 100, 50 })
+	{
+		if (alternateMouseOverSoftDrop != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			alternateMouseOverSoftDrop = true;
+		}
+	}
+	else
+	{
+		if (settings::alternateSoftDropKeyTextSize > settings::minSoftDropKeyTextSize)
+		{
+			alternateSoftDropCounter++;
+			if (alternateSoftDropCounter > 0)
+			{
+				settings::alternateSoftDropKeyTextSize -= 5;
+				alternateSoftDropCounter = 0;
+			}
+		}
+		alternateMouseOverSoftDrop = false;
+	}
+	if (alternateMouseOverSoftDrop)
+	{
+		if (settings::alternateSoftDropKeyTextSize < settings::maxSoftDropKeyTextSize)
+		{
+			alternateSoftDropCounter++;
+			if (alternateSoftDropCounter > 0)
+			{
+				settings::alternateSoftDropKeyTextSize += 5;
+				alternateSoftDropCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			sounds.PlaySoundFromName("menuSound");
+			return true;
+		}
+	}
 	return false;
 }
 
 bool OptionsMenu::AlternateSwapKeyBind()
 {
+	if (raycpp::GetMousePos() > settings::alternateSwapKeyButtonTextPos - Vec2<int>{ 100, 50 }
+	&& raycpp::GetMousePos() < Vec2<int>{ settings::screenWidth, settings::alternateSwapKeyButtonTextPos.GetY() + 100 } - Vec2<int>{ 100, 50 })
+	{
+		if (alternateMouseOverSwap != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			alternateMouseOverSwap = true;
+		}
+	}
+	else
+	{
+		if (settings::alternateSwapKeyTextSize > settings::minSwapKeyTextSize)
+		{
+			alternateSwapCounter++;
+			if (alternateSwapCounter > 0)
+			{
+				settings::alternateSwapKeyTextSize -= 5;
+				alternateSwapCounter = 0;
+			}
+		}
+		alternateMouseOverSwap = false;
+	}
+	if (alternateMouseOverSwap)
+	{
+		if (settings::alternateSwapKeyTextSize < settings::maxSwapKeyTextSize)
+		{
+			alternateSwapCounter++;
+			if (alternateSwapCounter > 0)
+			{
+				settings::alternateSwapKeyTextSize += 5;
+				alternateSwapCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			sounds.PlaySoundFromName("menuSound");
+			return true;
+		}
+	}
 	return false;
 }
 
@@ -532,38 +1087,94 @@ void OptionsMenu::DrawControlsKeyBinds()
 		(int)((-1 * (MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[0][1]).c_str(), (int)settings::minMoveLeftKeyTextSize, 20).y - MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[0][1]).c_str(), (float)settings::moveLeftKeyTextSize, 20).y)) / 2) },
 		settings::moveLeftKeyTextSize, RAYWHITE);
 	raycpp::DrawText(KeyBindName(keyBindsList[1][1]).c_str(),
-		settings::alternateMoveLeftKeyButtonTextPos - Vec2<int>{ (int)(-1 * (MeasureText(KeyBindName(keyBindsList[1][0]).c_str(), settings::minMoveLeftKeyTextSize)
+		settings::alternateMoveLeftKeyButtonTextPos - Vec2<int>{ (int)(-1 * (MeasureText(KeyBindName(keyBindsList[1][1]).c_str(), settings::minMoveLeftKeyTextSize)
 			- MeasureText(KeyBindName(keyBindsList[1][1]).c_str(), settings::alternateMoveLeftKeyTextSize))) / 2,
 		(int)((-1 * (MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[1][1]).c_str(), (int)settings::minMoveLeftKeyTextSize, 20).y - MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[1][1]).c_str(), (float)settings::alternateMoveLeftKeyTextSize, 20).y)) / 2) },
 		settings::alternateMoveLeftKeyTextSize, RAYWHITE);
 
 	raycpp::DrawText("ROTATE RIGHT", settings::rotateRightKeyTextPos, settings::minRotateRightKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[0][2]).c_str(), settings::rotateRightKeyButtonTextPos, settings::rotateRightKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[1][2]).c_str(), settings::alternateRotateRightKeyButtonTextPos, settings::alternateRotateRightKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[0][2]).c_str(),
+		settings::rotateRightKeyButtonTextPos - Vec2<int>{ (int)(-1 * (MeasureText(KeyBindName(keyBindsList[0][2]).c_str(), settings::minRotateRightKeyTextSize)
+			- MeasureText(KeyBindName(keyBindsList[0][2]).c_str(), settings::rotateRightKeyTextSize))) / 2,
+		(int)((-1 * (MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[0][2]).c_str(), (int)settings::minRotateRightKeyTextSize, 20).y - MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[0][2]).c_str(), (float)settings::rotateRightKeyTextSize, 20).y)) / 2) },
+		settings::rotateRightKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[1][2]).c_str(),
+		settings::alternateRotateRightKeyButtonTextPos - Vec2<int>{ (int)(-1 * (MeasureText(KeyBindName(keyBindsList[1][2]).c_str(), settings::minRotateRightKeyTextSize)
+			- MeasureText(KeyBindName(keyBindsList[1][2]).c_str(), settings::alternateRotateRightKeyTextSize))) / 2,
+		(int)((-1 * (MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[1][2]).c_str(), (int)settings::minRotateRightKeyTextSize, 20).y - MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[1][2]).c_str(), (float)settings::alternateRotateRightKeyTextSize, 20).y)) / 2) },
+		settings::alternateRotateRightKeyTextSize, RAYWHITE);
 
 	raycpp::DrawText("ROTATE LEFT", settings::rotateLeftKeyTextPos, settings::minRotateLeftKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[0][3]).c_str(), settings::rotateLeftKeyButtonTextPos, settings::rotateLeftKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[1][3]).c_str(), settings::alternateRotateLeftKeyButtonTextPos, settings::alternateRotateLeftKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[0][3]).c_str(),
+		settings::rotateLeftKeyButtonTextPos - Vec2<int>{ (int)(-1 * (MeasureText(KeyBindName(keyBindsList[0][3]).c_str(), settings::minRotateLeftKeyTextSize)
+			- MeasureText(KeyBindName(keyBindsList[0][3]).c_str(), settings::rotateLeftKeyTextSize))) / 2,
+		(int)((-1 * (MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[0][3]).c_str(), (int)settings::minRotateLeftKeyTextSize, 20).y - MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[0][3]).c_str(), (float)settings::rotateLeftKeyTextSize, 20).y)) / 2) },
+		settings::rotateLeftKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[1][3]).c_str(),
+		settings::alternateRotateLeftKeyButtonTextPos - Vec2<int>{ (int)(-1 * (MeasureText(KeyBindName(keyBindsList[1][3]).c_str(), settings::minRotateLeftKeyTextSize)
+			- MeasureText(KeyBindName(keyBindsList[1][3]).c_str(), settings::alternateRotateLeftKeyTextSize))) / 2,
+		(int)((-1 * (MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[1][3]).c_str(), (int)settings::minRotateLeftKeyTextSize, 20).y - MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[1][3]).c_str(), (float)settings::alternateRotateLeftKeyTextSize, 20).y)) / 2) },
+		settings::alternateRotateLeftKeyTextSize, RAYWHITE);
 
 	raycpp::DrawText("RESET", settings::resetKeyTextPos, settings::minResetKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[0][4]).c_str(), settings::resetKeyButtonTextPos, settings::resetKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[1][4]).c_str(), settings::alternateResetKeyButtonTextPos, settings::alternateResetKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[0][4]).c_str(),
+		settings::resetKeyButtonTextPos - Vec2<int>{ (int)(-1 * (MeasureText(KeyBindName(keyBindsList[0][4]).c_str(), settings::minResetKeyTextSize)
+			- MeasureText(KeyBindName(keyBindsList[0][4]).c_str(), settings::resetKeyTextSize))) / 2,
+		(int)((-1 * (MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[0][4]).c_str(), (int)settings::minResetKeyTextSize, 20).y - MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[0][4]).c_str(), (float)settings::resetKeyTextSize, 20).y)) / 2) },
+		settings::resetKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[1][4]).c_str(),
+		settings::alternateResetKeyButtonTextPos - Vec2<int>{ (int)(-1 * (MeasureText(KeyBindName(keyBindsList[1][4]).c_str(), settings::minResetKeyTextSize)
+			- MeasureText(KeyBindName(keyBindsList[1][4]).c_str(), settings::alternateResetKeyTextSize))) / 2,
+		(int)((-1 * (MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[1][4]).c_str(), (int)settings::minResetKeyTextSize, 20).y - MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[1][4]).c_str(), (float)settings::alternateResetKeyTextSize, 20).y)) / 2) },
+		settings::alternateResetKeyTextSize, RAYWHITE);
 
 	raycpp::DrawText("OPEN MENU", settings::menuKeyTextPos, settings::minMenuKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[0][5]).c_str(), settings::menuKeyButtonTextPos, settings::menuKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[1][5]).c_str(), settings::alternateMenuKeyButtonTextPos, settings::alternateMenuKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[0][5]).c_str(),
+		settings::menuKeyButtonTextPos - Vec2<int>{ (int)(-1 * (MeasureText(KeyBindName(keyBindsList[0][5]).c_str(), settings::minMenuKeyTextSize)
+			- MeasureText(KeyBindName(keyBindsList[0][5]).c_str(), settings::menuKeyTextSize))) / 2,
+		(int)((-1 * (MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[0][5]).c_str(), (int)settings::minMenuKeyTextSize, 20).y - MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[0][5]).c_str(), (float)settings::menuKeyTextSize, 20).y)) / 2) },
+		settings::menuKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[1][5]).c_str(),
+		settings::alternateMenuKeyButtonTextPos - Vec2<int>{ (int)(-1 * (MeasureText(KeyBindName(keyBindsList[1][5]).c_str(), settings::minMenuKeyTextSize)
+			- MeasureText(KeyBindName(keyBindsList[1][5]).c_str(), settings::alternateMenuKeyTextSize))) / 2,
+		(int)((-1 * (MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[1][5]).c_str(), (int)settings::minMenuKeyTextSize, 20).y - MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[1][5]).c_str(), (float)settings::alternateMenuKeyTextSize, 20).y)) / 2) },
+		settings::alternateMenuKeyTextSize, RAYWHITE);
 
 	raycpp::DrawText("HARD DROP", settings::hardDropKeyTextPos, settings::minHardDropKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[0][6]).c_str(), settings::hardDropKeyButtonTextPos, settings::hardDropKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[1][6]).c_str(), settings::alternateHardDropKeyButtonTextPos, settings::alternateHardDropKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[0][6]).c_str(),
+		settings::hardDropKeyButtonTextPos - Vec2<int>{ (int)(-1 * (MeasureText(KeyBindName(keyBindsList[0][6]).c_str(), settings::minHardDropKeyTextSize)
+			- MeasureText(KeyBindName(keyBindsList[0][6]).c_str(), settings::hardDropKeyTextSize))) / 2,
+		(int)((-1 * (MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[0][6]).c_str(), (int)settings::minHardDropKeyTextSize, 20).y - MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[0][6]).c_str(), (float)settings::hardDropKeyTextSize, 20).y)) / 2) },
+		settings::hardDropKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[1][6]).c_str(),
+		settings::alternateHardDropKeyButtonTextPos - Vec2<int>{ (int)(-1 * (MeasureText(KeyBindName(keyBindsList[1][6]).c_str(), settings::minHardDropKeyTextSize)
+			- MeasureText(KeyBindName(keyBindsList[1][6]).c_str(), settings::alternateHardDropKeyTextSize))) / 2,
+		(int)((-1 * (MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[1][6]).c_str(), (int)settings::minHardDropKeyTextSize, 20).y - MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[1][6]).c_str(), (float)settings::alternateHardDropKeyTextSize, 20).y)) / 2) },
+		settings::alternateHardDropKeyTextSize, RAYWHITE);
 
 	raycpp::DrawText("SOFT DROP", settings::softDropKeyTextPos, settings::minSoftDropKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[0][7]).c_str(), settings::softDropKeyButtonTextPos, settings::softDropKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[1][7]).c_str(), settings::alternateSoftDropKeyButtonTextPos, settings::alternateSoftDropKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[0][7]).c_str(),
+		settings::softDropKeyButtonTextPos - Vec2<int>{ (int)(-1 * (MeasureText(KeyBindName(keyBindsList[0][7]).c_str(), settings::minSoftDropKeyTextSize)
+			- MeasureText(KeyBindName(keyBindsList[0][7]).c_str(), settings::softDropKeyTextSize))) / 2,
+		(int)((-1 * (MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[0][7]).c_str(), (int)settings::minSoftDropKeyTextSize, 20).y - MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[0][7]).c_str(), (float)settings::softDropKeyTextSize, 20).y)) / 2) },
+		settings::softDropKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[1][7]).c_str(),
+		settings::alternateSoftDropKeyButtonTextPos - Vec2<int>{ (int)(-1 * (MeasureText(KeyBindName(keyBindsList[1][7]).c_str(), settings::minSoftDropKeyTextSize)
+			- MeasureText(KeyBindName(keyBindsList[1][7]).c_str(), settings::alternateSoftDropKeyTextSize))) / 2,
+		(int)((-1 * (MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[1][7]).c_str(), (int)settings::minSoftDropKeyTextSize, 20).y - MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[1][7]).c_str(), (float)settings::alternateSoftDropKeyTextSize, 20).y)) / 2) },
+		settings::alternateSoftDropKeyTextSize, RAYWHITE);
 
 	raycpp::DrawText("HOLD PIECE", settings::swapKeyTextPos, settings::minSwapKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[0][8]).c_str(), settings::swapKeyButtonTextPos, settings::swapKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[1][8]).c_str(), settings::alternateSwapKeyButtonTextPos, settings::alternateSwapKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[0][8]).c_str(),
+		settings::swapKeyButtonTextPos - Vec2<int>{ (int)(-1 * (MeasureText(KeyBindName(keyBindsList[0][8]).c_str(), settings::minSwapKeyTextSize)
+			- MeasureText(KeyBindName(keyBindsList[0][8]).c_str(), settings::swapKeyTextSize))) / 2,
+		(int)((-1 * (MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[0][8]).c_str(), (int)settings::minSwapKeyTextSize, 20).y - MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[0][8]).c_str(), (float)settings::swapKeyTextSize, 20).y)) / 2) },
+		settings::swapKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[1][8]).c_str(),
+		settings::alternateSwapKeyButtonTextPos - Vec2<int>{ (int)(-1 * (MeasureText(KeyBindName(keyBindsList[1][8]).c_str(), settings::minSwapKeyTextSize)
+			- MeasureText(KeyBindName(keyBindsList[1][8]).c_str(), settings::alternateSwapKeyTextSize))) / 2,
+		(int)((-1 * (MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[1][8]).c_str(), (int)settings::minSwapKeyTextSize, 20).y - MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[1][8]).c_str(), (float)settings::alternateSwapKeyTextSize, 20).y)) / 2) },
+		settings::alternateSwapKeyTextSize, RAYWHITE);
 }
 
 OptionsMenu::KeyBinds OptionsMenu::SelectKeyBind()
@@ -590,22 +1201,76 @@ OptionsMenu::KeyBinds OptionsMenu::SelectKeyBind()
 			waitingForInput = KeyBinds::ALTERNATEMOVELEFT;
 			return KeyBinds::ALTERNATEMOVELEFT;
 		}
-		//if (RotateRightKeyBind)
-		//{
-		//	return KeyBinds::ROTATERIGHT;
-		//}
-		//if (AlternateRotateRightKeyBind)
-		//{
-		//	return KeyBinds::ALTERNATEROTATERIGHT;
-		//}
-		//if (RotateLeftKeyBind)
-		//{
-		//	return KeyBinds::ROTATELEFT;
-		//}
-		//if (AlternateRotateLeftKeyBind)
-		//{
-		//	return KeyBinds::ALTERNATEROTATELEFT;
-		//}
+		if (RotateRightKeyBind())
+		{
+			waitingForInput = KeyBinds::ROTATERIGHT;
+			return KeyBinds::ROTATERIGHT;
+		}
+		if (AlternateRotateRightKeyBind())
+		{
+			waitingForInput = KeyBinds::ALTERNATEROTATERIGHT;
+			return KeyBinds::ALTERNATEROTATERIGHT;
+		}
+		if (RotateLeftKeyBind())
+		{
+			waitingForInput = KeyBinds::ROTATELEFT;
+			return KeyBinds::ROTATELEFT;
+		}
+		if (AlternateRotateLeftKeyBind())
+		{
+			waitingForInput = KeyBinds::ALTERNATEROTATELEFT;
+			return KeyBinds::ALTERNATEROTATELEFT;
+		}
+		if (ResetKeyBind())
+		{
+			waitingForInput = KeyBinds::RESET;
+			return KeyBinds::RESET;
+		}
+		if (AlternateResetKeyBind())
+		{
+			waitingForInput = KeyBinds::ALTERNATERESET;
+			return KeyBinds::ALTERNATERESET;
+		}
+		if (MenuKeyBind())
+		{
+			waitingForInput = KeyBinds::MENU;
+			return KeyBinds::MENU;
+		}
+		if (AlternateMenuKeyBind())
+		{
+			waitingForInput = KeyBinds::ALTERNATEMENU;
+			return KeyBinds::ALTERNATEMENU;
+		}
+		if (HardDropKeyBind())
+		{
+			waitingForInput = KeyBinds::HARDDROP;
+			return KeyBinds::HARDDROP;
+		}
+		if (AlternateHardDropKeyBind())
+		{
+			waitingForInput = KeyBinds::ALTERNATEHARDDROP;
+			return KeyBinds::ALTERNATEHARDDROP;
+		}
+		if (SoftDropKeyBind())
+		{
+			waitingForInput = KeyBinds::SOFTDROP;
+			return KeyBinds::SOFTDROP;
+		}
+		if (AlternateSoftDropKeyBind())
+		{
+			waitingForInput = KeyBinds::ALTERNATESOFTDROP;
+			return KeyBinds::ALTERNATESOFTDROP;
+		}
+		if (SwapKeyBind())
+		{
+			waitingForInput = KeyBinds::SWAPPIECE;
+			return KeyBinds::SWAPPIECE;
+		}
+		if (AlternateSwapKeyBind())
+		{
+			waitingForInput = KeyBinds::ALTERNATESWAPPIECE;
+			return KeyBinds::ALTERNATESWAPPIECE;
+		}
 	}
 	return waitingForInput;
 }
@@ -615,64 +1280,328 @@ void OptionsMenu::SelectKey(KeyBinds selection)
 	switch (selection)
 	{
 	case OptionsMenu::KeyBinds::ROTATELEFT:
+		keyPressed = GetKeyPressed();
+		if (keyPressed != KEY_NULL)
+		{
+			if (keyPressed == keyBindsList[0][3])
+			{
+				keyBindsList[0][3] = 0;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+			else
+			{
+				keyBindsList[0][3] = keyPressed;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+		}
 		break;
 	case OptionsMenu::KeyBinds::ROTATERIGHT:
+		keyPressed = GetKeyPressed();
+		if (keyPressed != KEY_NULL)
+		{
+			if (keyPressed == keyBindsList[0][2])
+			{
+				keyBindsList[0][2] = 0;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+			else
+			{
+				keyBindsList[0][2] = keyPressed;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+		}
 		break;
 	case OptionsMenu::KeyBinds::RESET:
+		keyPressed = GetKeyPressed();
+		if (keyPressed != KEY_NULL)
+		{
+			if (keyPressed == keyBindsList[0][4])
+			{
+				keyBindsList[0][4] = 0;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+			else
+			{
+				keyBindsList[0][4] = keyPressed;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+		}
 		break;
 	case OptionsMenu::KeyBinds::SWAPPIECE:
+		keyPressed = GetKeyPressed();
+		if (keyPressed != KEY_NULL)
+		{
+			if (keyPressed == keyBindsList[0][8])
+			{
+				keyBindsList[0][8] = 0;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+			else
+			{
+				keyBindsList[0][8] = keyPressed;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+		}
 		break;
 	case OptionsMenu::KeyBinds::MENU:
+		keyPressed = GetKeyPressed();
+		if (keyPressed != KEY_NULL)
+		{
+			if (keyPressed == keyBindsList[0][5])
+			{
+				keyBindsList[0][5] = 0;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+			else
+			{
+				keyBindsList[0][5] = keyPressed;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+		}
 		break;
 	case OptionsMenu::KeyBinds::MOVERIGHT:
 		keyPressed = GetKeyPressed();
 		if (keyPressed != KEY_NULL)
 		{
-			keyBindsList[0][0] = keyPressed;
-			waitingForInput = KeyBinds::NONE;
+			if (keyPressed == keyBindsList[0][0])
+			{
+				keyBindsList[0][0] = 0;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+			else
+			{
+				keyBindsList[0][0] = keyPressed;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
 		}
 		break;
 	case OptionsMenu::KeyBinds::MOVELEFT:
 		keyPressed = GetKeyPressed();
 		if (keyPressed != KEY_NULL)
 		{
-			keyBindsList[0][1] = keyPressed;
-			waitingForInput = KeyBinds::NONE;
+			if (keyPressed == keyBindsList[0][1])
+			{
+				keyBindsList[0][1] = 0;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+			else
+			{
+				keyBindsList[0][1] = keyPressed;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
 		}
 		break;
 	case OptionsMenu::KeyBinds::HARDDROP:
+		keyPressed = GetKeyPressed();
+		if (keyPressed != KEY_NULL)
+		{
+			if (keyPressed == keyBindsList[0][6])
+			{
+				keyBindsList[0][6] = 0;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+			else
+			{
+				keyBindsList[0][6] = keyPressed;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+		}
 		break;
 	case OptionsMenu::KeyBinds::SOFTDROP:
+		keyPressed = GetKeyPressed();
+		if (keyPressed != KEY_NULL)
+		{
+			if (keyPressed == keyBindsList[0][7])
+			{
+				keyBindsList[0][7] = 0;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+			else
+			{
+				keyBindsList[0][7] = keyPressed;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+		}
 		break;
 	case OptionsMenu::KeyBinds::ALTERNATEROTATELEFT:
 		keyPressed = GetKeyPressed();
 		if (keyPressed != KEY_NULL)
 		{
-			keyBindsList[1][1] = keyPressed;
-			waitingForInput = KeyBinds::NONE;
+			if (keyPressed == keyBindsList[1][3])
+			{
+				keyBindsList[1][3] = 0;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+			else
+			{
+				keyBindsList[1][3] = keyPressed;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
 		}
 		break;
 	case OptionsMenu::KeyBinds::ALTERNATEROTATERIGHT:
 		keyPressed = GetKeyPressed();
 		if (keyPressed != KEY_NULL)
 		{
-			keyBindsList[1][0] = keyPressed;
-			waitingForInput = KeyBinds::NONE;
+			if (keyPressed == keyBindsList[1][2])
+			{
+				keyBindsList[1][2] = 0;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+			else
+			{
+				keyBindsList[1][2] = keyPressed;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
 		}
 		break;
 	case OptionsMenu::KeyBinds::ALTERNATERESET:
+		keyPressed = GetKeyPressed();
+		if (keyPressed != KEY_NULL)
+		{
+			if (keyPressed == keyBindsList[1][4])
+			{
+				keyBindsList[1][4] = 0;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+			else
+			{
+				keyBindsList[1][4] = keyPressed;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+		}
 		break;
 	case OptionsMenu::KeyBinds::ALTERNATESWAPPIECE:
+		keyPressed = GetKeyPressed();
+		if (keyPressed != KEY_NULL)
+		{
+			if (keyPressed == keyBindsList[1][8])
+			{
+				keyBindsList[1][8] = 0;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+			else
+			{
+				keyBindsList[1][8] = keyPressed;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+		}
 		break;
 	case OptionsMenu::KeyBinds::ALTERNATEMENU:
+		keyPressed = GetKeyPressed();
+		if (keyPressed != KEY_NULL)
+		{
+			if (keyPressed == keyBindsList[1][5])
+			{
+				keyBindsList[1][5] = 0;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+			else
+			{
+				keyBindsList[1][5] = keyPressed;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+		}
 		break;
 	case OptionsMenu::KeyBinds::ALTERNATEMOVERIGHT:
+		keyPressed = GetKeyPressed();
+		if (keyPressed != KEY_NULL)
+		{
+			if (keyPressed == keyBindsList[1][0])
+			{
+				keyBindsList[1][0] = 0;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+			else
+			{
+				keyBindsList[1][0] = keyPressed;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+		}
 		break;
 	case OptionsMenu::KeyBinds::ALTERNATEMOVELEFT:
+		keyPressed = GetKeyPressed();
+		if (keyPressed != KEY_NULL)
+		{
+			if (keyPressed == keyBindsList[1][1])
+			{
+				keyBindsList[1][1] = 0;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+			else
+			{
+				keyBindsList[1][1] = keyPressed;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+		}
 		break;
 	case OptionsMenu::KeyBinds::ALTERNATEHARDDROP:
+		keyPressed = GetKeyPressed();
+		if (keyPressed != KEY_NULL)
+		{
+			if (keyPressed == keyBindsList[1][6])
+			{
+				keyBindsList[1][6] = 0;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+			else
+			{
+				keyBindsList[1][6] = keyPressed;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+		}
 		break;
 	case OptionsMenu::KeyBinds::ALTERNATESOFTDROP:
+		keyPressed = GetKeyPressed();
+		if (keyPressed != KEY_NULL)
+		{
+			if (keyPressed == keyBindsList[1][7])
+			{
+				keyBindsList[1][7] = 0;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+			else
+			{
+				keyBindsList[1][7] = keyPressed;
+				waitingForInput = KeyBinds::NONE;
+				justFoundKey = true;
+			}
+		}
 		break;
 	}
 }

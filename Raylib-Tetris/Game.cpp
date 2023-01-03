@@ -782,5 +782,6 @@ void Game::ResetGame()
 	board.ResetScore();
 	board.EraseBoard();
 	newBest = false;
+	mainMenu.UnLoadOptions();
 	inputManager.LoadHighScore(boardName);
 }

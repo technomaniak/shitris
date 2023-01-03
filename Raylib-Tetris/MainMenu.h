@@ -19,6 +19,7 @@ public:
 	void SetGameReset(bool val);
 	void UpdateTextures(Texture2D &cogwheel1);
 	void LoadOptions();
+	void UnLoadOptions();
 	bool GetOptionsLoaded();
 
 private:

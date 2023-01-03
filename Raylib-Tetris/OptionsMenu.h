@@ -102,8 +102,44 @@ private:
 	bool mouseOverMoveLeft;
 	int alternateMoveLeftCounter;
 	bool alternateMouseOverMoveLeft;
+
+	int rotateRightCounter;
+	bool mouseOverRotateRight;
+	int alternateRotateRightCounter;
+	bool alternateMouseOverRotateRight;
+
+	int rotateLeftCounter;
+	bool mouseOverRotateLeft;
+	int alternateRotateLeftCounter;
+	bool alternateMouseOverRotateLeft;
+
+	int resetCounter;
+	bool mouseOverReset;
+	int alternateResetCounter;
+	bool alternateMouseOverReset;
+
+	int menuCounter;
+	bool mouseOverMenu;
+	int alternateMenuCounter;
+	bool alternateMouseOverMenu;
+
+	int hardDropCounter;
+	bool mouseOverHardDrop;
+	int alternateHardDropCounter;
+	bool alternateMouseOverHardDrop;
+
+	int softDropCounter;
+	bool mouseOverSoftDrop;
+	int alternateSoftDropCounter;
+	bool alternateMouseOverSoftDrop;
+
+	int swapCounter;
+	bool mouseOverSwap;
+	int alternateSwapCounter;
+	bool alternateMouseOverSwap;
 	
 	int keyPressed;
+	bool justFoundKey;
 	KeyBinds waitingForInput;
 
 	SoundManager &sounds;

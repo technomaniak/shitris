@@ -269,6 +269,11 @@ void MainMenu::LoadOptions()
 	options.LoadOptions();
 }
 
+void MainMenu::UnLoadOptions()
+{
+	options.SetLoaded(false);
+}
+
 bool MainMenu::GetOptionsLoaded()
 {
 	return options.GetLoaded();
