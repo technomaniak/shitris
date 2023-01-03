@@ -92,7 +92,8 @@ namespace settings
                     
                     // Rotate Right
                         inline constexpr Vec2<int> rotateRightKeyTextPos{ 100, 200 };
-                        inline constexpr int rotateRightKeyTextSize = 60;
+                        inline int rotateRightKeyTextSize = 60;
+                        inline int alternateRotateRightKeyTextSize = 60;
                         inline constexpr int minRotateRightKeyTextSize = 60;
                         inline constexpr int maxRotateRightKeyTextSize = 70;
                         inline constexpr Vec2<int> rotateRightKeyButtonTextPos{ 700, 200 };
@@ -100,7 +101,8 @@ namespace settings
                 
                     // Rotate Left
                         inline constexpr Vec2<int> rotateLeftKeyTextPos{ 100, 300 };
-                        inline constexpr int rotateLeftKeyTextSize = 60;
+                        inline int rotateLeftKeyTextSize = 60;
+                        inline int alternateRotateLeftKeyTextSize = 60;
                         inline constexpr int minRotateLeftKeyTextSize = 60;
                         inline constexpr int maxRotateLeftKeyTextSize = 70;
                         inline constexpr Vec2<int> rotateLeftKeyButtonTextPos{ 700, 300 };
@@ -108,7 +110,8 @@ namespace settings
                 
                     // Swap
                         inline constexpr Vec2<int> swapKeyTextPos{ 100, 400 };
-                        inline constexpr int swapKeyTextSize = 60;
+                        inline int swapKeyTextSize = 60;
+                        inline int alternateSwapKeyTextSize = 60;
                         inline constexpr int minSwapKeyTextSize = 60;
                         inline constexpr int maxSwapKeyTextSize = 70;
                         inline constexpr Vec2<int> swapKeyButtonTextPos{ 700, 400 };
@@ -116,7 +119,8 @@ namespace settings
                 
                     // Move Right
                         inline constexpr Vec2<int> moveRightKeyTextPos{ 100, 500 };
-                        inline constexpr int moveRightKeyTextSize = 60;
+                        inline int moveRightKeyTextSize = 60;
+                        inline int alternateMoveRightKeyTextSize = 60;
                         inline constexpr int minMoveRightKeyTextSize = 60;
                         inline constexpr int maxMoveRightKeyTextSize = 70;
                         inline constexpr Vec2<int> moveRightKeyButtonTextPos{ 700, 500 };
@@ -124,7 +128,8 @@ namespace settings
                 
                     // Move Left
                         inline constexpr Vec2<int> moveLeftKeyTextPos{ 100, 600 };
-                        inline constexpr int moveLeftKeyTextSize = 60;
+                        inline int moveLeftKeyTextSize = 60;
+                        inline int alternateMoveLeftKeyTextSize = 60;
                         inline constexpr int minMoveLeftKeyTextSize = 60;
                         inline constexpr int maxMoveLeftKeyTextSize = 70;
                         inline constexpr Vec2<int> moveLeftKeyButtonTextPos{ 700, 600 };
@@ -132,7 +137,8 @@ namespace settings
                 
                     // Reset
                         inline constexpr Vec2<int> resetKeyTextPos{ 100, 700 };
-                        inline constexpr int resetKeyTextSize = 60;
+                        inline int resetKeyTextSize = 60;
+                        inline int alternateResetKeyTextSize = 60;
                         inline constexpr int minResetKeyTextSize = 60;
                         inline constexpr int maxResetKeyTextSize = 70;
                         inline constexpr Vec2<int> resetKeyButtonTextPos{ 700, 700 };
@@ -140,7 +146,8 @@ namespace settings
                 
                     // Menu
                         inline constexpr Vec2<int> menuKeyTextPos{ 100, 800 };
-                        inline constexpr int menuKeyTextSize = 60;
+                        inline int menuKeyTextSize = 60;
+                        inline int alternateMenuKeyTextSize = 60;
                         inline constexpr int minMenuKeyTextSize = 60;
                         inline constexpr int maxMenuKeyTextSize = 70;
                         inline constexpr Vec2<int> menuKeyButtonTextPos{ 700, 800 };
@@ -148,7 +155,8 @@ namespace settings
                 
                     // Soft Drop
                         inline constexpr Vec2<int> softDropKeyTextPos{ 100, 900 };
-                        inline constexpr int softDropKeyTextSize = 60;
+                        inline int softDropKeyTextSize = 60;
+                        inline int alternateSoftDropKeyTextSize = 60;
                         inline constexpr int minSoftDropKeyTextSize = 60;
                         inline constexpr int maxSoftDropKeyTextSize = 70;
                         inline constexpr Vec2<int> softDropKeyButtonTextPos{ 700, 900 };
@@ -156,13 +164,15 @@ namespace settings
 
                     // Hard Drop
                         inline constexpr Vec2<int> hardDropKeyTextPos{ 100, 1000 };
-                        inline constexpr int hardDropKeyTextSize = 60;
-                        inline constexpr int minhardDropKeyTextSize = 60;
-                        inline constexpr int maxhardDropKeyTextSize = 70;
+                        inline int hardDropKeyTextSize = 60;
+                        inline int alternateHardDropKeyTextSize = 60;
+                        inline constexpr int minHardDropKeyTextSize = 60;
+                        inline constexpr int maxHardDropKeyTextSize = 70;
                         inline constexpr Vec2<int> hardDropKeyButtonTextPos{ 700, 1000 };
                         inline constexpr Vec2<int> alternateHardDropKeyButtonTextPos{ 1200, 1000 };
                 
             // Audio And Graphic
+
                 // Text
                     inline constexpr Vec2<int> audioAndGraphicsTextPos{ 660, 63 };
                     inline int audioAndGraphicsTextSize = 60;

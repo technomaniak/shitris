@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 
-OptionsMenu::OptionsMenu(SoundManager &sounds1, std::vector<std::vector<int>>& keyBindsList1):
+OptionsMenu::OptionsMenu(SoundManager& sounds1, std::vector<std::vector<int>>& keyBindsList1) :
 	optionsLoaded(false),
 	sounds(sounds1),
 	volume(0.2f),
@@ -19,7 +19,13 @@ OptionsMenu::OptionsMenu(SoundManager &sounds1, std::vector<std::vector<int>>& k
 	controlsButtonCounter(0),
 	audioAndGraphicsButtonCounter(0),
 	whatOptionPart(0),
-	keyBindsList(keyBindsList1)
+	keyBindsList(keyBindsList1),
+	moveRightCounter(0),
+	mouseOverMoveRight(false),
+	alternateMoveRightCounter(0),
+	alternateMouseOverMoveRight(false),
+	waitingForInput(KeyBinds::NONE),
+	keyPressed(0)
 {
 	LoadKeysFromSettings();
 }
@@ -169,6 +175,135 @@ void OptionsMenu::VolumeSettings()
 	}
 }
 
+bool OptionsMenu::MoveRightKeyBind()
+{
+	if (raycpp::GetMousePos() > settings::moveRightKeyButtonTextPos - Vec2<int>{ 100, 50 }
+	&& raycpp::GetMousePos() < Vec2<int>{ settings::alternateMoveRightKeyButtonTextPos.GetX(), settings::alternateMoveRightKeyButtonTextPos.GetY() + 100 } - Vec2<int>{ 100, 50 })
+	{
+		if (mouseOverMoveRight != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			mouseOverMoveRight = true;
+		}
+	}
+	else
+	{
+		if (settings::moveRightKeyTextSize > settings::minMoveRightKeyTextSize)
+		{
+			moveRightCounter++;
+			if (moveRightCounter > 0)
+			{
+				settings::moveRightKeyTextSize -= 5;
+				moveRightCounter = 0;
+			}
+		}
+		mouseOverMoveRight = false;
+	}
+	if (mouseOverMoveRight)
+	{
+		if (settings::moveRightKeyTextSize < settings::maxMoveRightKeyTextSize)
+		{
+			moveRightCounter++;
+			if (moveRightCounter > 0)
+			{
+				settings::moveRightKeyTextSize += 5;
+				moveRightCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			sounds.PlaySoundFromName("menuSound");
+			return true;
+		}
+	}
+	return false;
+}
+
+bool OptionsMenu::MoveLeftKeyBind()
+{
+	return false;
+}
+
+bool OptionsMenu::RotateRightKeyBind()
+{
+	return false;
+}
+
+bool OptionsMenu::RotateLeftKeyBind()
+{
+	return false;
+}
+
+bool OptionsMenu::ResetKeyBind()
+{
+	return false;
+}
+
+bool OptionsMenu::MenuKeyBind()
+{
+	return false;
+}
+
+bool OptionsMenu::HardDropKeyBind()
+{
+	return false;
+}
+
+bool OptionsMenu::SoftDropKeyBind()
+{
+	return false;
+}
+
+bool OptionsMenu::SwapKeyBind()
+{
+	return false;
+}
+
+bool OptionsMenu::AlternateMoveRightKeyBind()
+{
+	return false;
+}
+
+bool OptionsMenu::AlternateMoveLeftKeyBind()
+{
+	return false;
+}
+
+bool OptionsMenu::AlternateRotateRightKeyBind()
+{
+	return false;
+}
+
+bool OptionsMenu::AlternateRotateLeftKeyBind()
+{
+	return false;
+}
+
+bool OptionsMenu::AlternateResetKeyBind()
+{
+	return false;
+}
+
+bool OptionsMenu::AlternateMenuKeyBind()
+{
+	return false;
+}
+
+bool OptionsMenu::AlternateHardDropKeyBind()
+{
+	return false;
+}
+
+bool OptionsMenu::AlternateSoftDropKeyBind()
+{
+	return false;
+}
+
+bool OptionsMenu::AlternateSwapKeyBind()
+{
+	return false;
+}
+
 void OptionsMenu::ReturnButton()
 {
 	if (raycpp::GetMousePos() > settings::verticalDividerPos2 - Vec2<int>{ 0, 25 }
@@ -207,6 +342,7 @@ void OptionsMenu::ReturnButton()
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 		{
 			sounds.PlaySoundFromName("menuSound");
+			SaveKeysInSettings();
 			whatOptionPart = 0;
 			settings::controlsTextSize = 60;
 			settings::audioAndGraphicsTextSize = 60;
@@ -260,51 +396,139 @@ void OptionsMenu::AudioAndGraphicsButton()
 
 void OptionsMenu::DrawControlsKeyBinds()
 {
-	raycpp::DrawText("MOVE RIGHT", settings::moveRightKeyTextPos, settings::moveRightKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[0][0]).c_str(), settings::moveRightKeyButtonTextPos, settings::moveRightKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[1][0]).c_str(), settings::alternateMoveRightKeyButtonTextPos, settings::moveRightKeyTextSize, RAYWHITE);
+	raycpp::DrawText("MOVE RIGHT", settings::moveRightKeyTextPos, settings::minMoveRightKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[0][0]).c_str(), 
+			settings::moveRightKeyButtonTextPos - Vec2<int>{ (int)(-1 * (MeasureText(KeyBindName(keyBindsList[0][0]).c_str(), settings::minMoveRightKeyTextSize) 
+			- MeasureText(KeyBindName(keyBindsList[0][0]).c_str(), settings::moveRightKeyTextSize))) / 2, 
+		(int)((-1 * (MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[0][0]).c_str(), (int)settings::minMoveRightKeyTextSize, 20).y - MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[0][0]).c_str(), (float)settings::moveRightKeyTextSize, 20).y)) / 2) },
+			settings::moveRightKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[1][0]).c_str(),
+		settings::alternateMoveRightKeyButtonTextPos - Vec2<int>{ (int)(-1 * (MeasureText(KeyBindName(keyBindsList[01][0]).c_str(), settings::minMoveRightKeyTextSize)
+			- MeasureText(KeyBindName(keyBindsList[1][0]).c_str(), settings::alternateMoveRightKeyTextSize))) / 2,
+		(int)((-1 * (MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[1][0]).c_str(), (int)settings::minMoveRightKeyTextSize, 20).y - MeasureTextEx(GetFontDefault(), KeyBindName(keyBindsList[1][0]).c_str(), (float)settings::alternateMoveRightKeyTextSize, 20).y)) / 2) },
+		settings::alternateMoveRightKeyTextSize, RAYWHITE);
 
-	raycpp::DrawText("MOVE LEFT", settings::moveLeftKeyTextPos, settings::moveLeftKeyTextSize, RAYWHITE);
+	raycpp::DrawText("MOVE LEFT", settings::moveLeftKeyTextPos, settings::minMoveLeftKeyTextSize, RAYWHITE);
 	raycpp::DrawText(KeyBindName(keyBindsList[0][1]).c_str(), settings::moveLeftKeyButtonTextPos, settings::moveLeftKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[1][1]).c_str(), settings::alternateMoveLeftKeyButtonTextPos, settings::moveLeftKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[1][1]).c_str(), settings::alternateMoveLeftKeyButtonTextPos, settings::alternateMoveLeftKeyTextSize, RAYWHITE);
 
-	raycpp::DrawText("ROTATE RIGHT", settings::rotateRightKeyTextPos, settings::rotateRightKeyTextSize, RAYWHITE);
+	raycpp::DrawText("ROTATE RIGHT", settings::rotateRightKeyTextPos, settings::minRotateRightKeyTextSize, RAYWHITE);
 	raycpp::DrawText(KeyBindName(keyBindsList[0][2]).c_str(), settings::rotateRightKeyButtonTextPos, settings::rotateRightKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[1][2]).c_str(), settings::alternateRotateRightKeyButtonTextPos, settings::rotateRightKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[1][2]).c_str(), settings::alternateRotateRightKeyButtonTextPos, settings::alternateRotateRightKeyTextSize, RAYWHITE);
 
-	raycpp::DrawText("ROTATE LEFT", settings::rotateLeftKeyTextPos, settings::rotateLeftKeyTextSize, RAYWHITE);
+	raycpp::DrawText("ROTATE LEFT", settings::rotateLeftKeyTextPos, settings::minRotateLeftKeyTextSize, RAYWHITE);
 	raycpp::DrawText(KeyBindName(keyBindsList[0][3]).c_str(), settings::rotateLeftKeyButtonTextPos, settings::rotateLeftKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[1][3]).c_str(), settings::alternateRotateLeftKeyButtonTextPos, settings::rotateLeftKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[1][3]).c_str(), settings::alternateRotateLeftKeyButtonTextPos, settings::alternateRotateLeftKeyTextSize, RAYWHITE);
 
-	raycpp::DrawText("RESET", settings::resetKeyTextPos, settings::resetKeyTextSize, RAYWHITE);
+	raycpp::DrawText("RESET", settings::resetKeyTextPos, settings::minResetKeyTextSize, RAYWHITE);
 	raycpp::DrawText(KeyBindName(keyBindsList[0][4]).c_str(), settings::resetKeyButtonTextPos, settings::resetKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[1][4]).c_str(), settings::alternateResetKeyButtonTextPos, settings::resetKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[1][4]).c_str(), settings::alternateResetKeyButtonTextPos, settings::alternateResetKeyTextSize, RAYWHITE);
 
-	raycpp::DrawText("OPEN MENU", settings::menuKeyTextPos, settings::menuKeyTextSize, RAYWHITE);
+	raycpp::DrawText("OPEN MENU", settings::menuKeyTextPos, settings::minMenuKeyTextSize, RAYWHITE);
 	raycpp::DrawText(KeyBindName(keyBindsList[0][5]).c_str(), settings::menuKeyButtonTextPos, settings::menuKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[1][5]).c_str(), settings::alternateMenuKeyButtonTextPos, settings::menuKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[1][5]).c_str(), settings::alternateMenuKeyButtonTextPos, settings::alternateMenuKeyTextSize, RAYWHITE);
 
-	raycpp::DrawText("HARD DROP", settings::hardDropKeyTextPos, settings::hardDropKeyTextSize, RAYWHITE);
+	raycpp::DrawText("HARD DROP", settings::hardDropKeyTextPos, settings::minHardDropKeyTextSize, RAYWHITE);
 	raycpp::DrawText(KeyBindName(keyBindsList[0][6]).c_str(), settings::hardDropKeyButtonTextPos, settings::hardDropKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[1][6]).c_str(), settings::alternateHardDropKeyButtonTextPos, settings::hardDropKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[1][6]).c_str(), settings::alternateHardDropKeyButtonTextPos, settings::alternateHardDropKeyTextSize, RAYWHITE);
 
-	raycpp::DrawText("SOFT DROP", settings::softDropKeyTextPos, settings::softDropKeyTextSize, RAYWHITE);
+	raycpp::DrawText("SOFT DROP", settings::softDropKeyTextPos, settings::minSoftDropKeyTextSize, RAYWHITE);
 	raycpp::DrawText(KeyBindName(keyBindsList[0][7]).c_str(), settings::softDropKeyButtonTextPos, settings::softDropKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[1][7]).c_str(), settings::alternateSoftDropKeyButtonTextPos, settings::softDropKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[1][7]).c_str(), settings::alternateSoftDropKeyButtonTextPos, settings::alternateSoftDropKeyTextSize, RAYWHITE);
 
-	raycpp::DrawText("HOLD PIECE", settings::swapKeyTextPos, settings::swapKeyTextSize, RAYWHITE);
+	raycpp::DrawText("HOLD PIECE", settings::swapKeyTextPos, settings::minSwapKeyTextSize, RAYWHITE);
 	raycpp::DrawText(KeyBindName(keyBindsList[0][8]).c_str(), settings::swapKeyButtonTextPos, settings::swapKeyTextSize, RAYWHITE);
-	raycpp::DrawText(KeyBindName(keyBindsList[1][8]).c_str(), settings::alternateSwapKeyButtonTextPos, settings::swapKeyTextSize, RAYWHITE);
+	raycpp::DrawText(KeyBindName(keyBindsList[1][8]).c_str(), settings::alternateSwapKeyButtonTextPos, settings::alternateSwapKeyTextSize, RAYWHITE);
 }
 
 OptionsMenu::KeyBinds OptionsMenu::SelectKeyBind()
 {
-	return KeyBinds::ROTATERIGHT;
+	if (waitingForInput == KeyBinds::NONE)
+	{
+		if (MoveRightKeyBind())
+		{
+			waitingForInput = KeyBinds::MOVERIGHT;
+			return KeyBinds::MOVERIGHT;
+		}
+		//if (AlternateMoveRightKeyBind)
+		//{
+		//	return KeyBinds::ALTERNATEMOVERIGHT;
+		//}
+		//if (MoveLeftKeyBind)
+		//{
+		//	return KeyBinds::MOVELEFT;
+		//}
+		//if (AlternateMoveLeftKeyBind)
+		//{
+		//	return KeyBinds::ALTERNATEMOVELEFT;
+		//}
+		//if (RotateRightKeyBind)
+		//{
+		//	return KeyBinds::ROTATERIGHT;
+		//}
+		//if (AlternateRotateRightKeyBind)
+		//{
+		//	return KeyBinds::ALTERNATEROTATERIGHT;
+		//}
+		//if (RotateLeftKeyBind)
+		//{
+		//	return KeyBinds::ROTATELEFT;
+		//}
+		//if (AlternateRotateLeftKeyBind)
+		//{
+		//	return KeyBinds::ALTERNATEROTATELEFT;
+		//}
+	}
+	return waitingForInput;
 }
 
-int OptionsMenu::SelectKey()
+void OptionsMenu::SelectKey(KeyBinds selection)
 {
-	return 0;
+	switch (selection)
+	{
+	case OptionsMenu::KeyBinds::ROTATELEFT:
+		break;
+	case OptionsMenu::KeyBinds::ROTATERIGHT:
+		break;
+	case OptionsMenu::KeyBinds::RESET:
+		break;
+	case OptionsMenu::KeyBinds::SWAPPIECE:
+		break;
+	case OptionsMenu::KeyBinds::MENU:
+		break;
+	case OptionsMenu::KeyBinds::MOVERIGHT:
+		keyPressed = GetKeyPressed();
+		if (keyPressed != KEY_NULL)
+		{
+			keyBindsList[0][0] = keyPressed;
+			waitingForInput = KeyBinds::NONE;
+		}
+		break;
+	case OptionsMenu::KeyBinds::MOVELEFT:
+		break;
+	case OptionsMenu::KeyBinds::HARDDROP:
+		break;
+	case OptionsMenu::KeyBinds::SOFTDROP:
+		break;
+	case OptionsMenu::KeyBinds::ALTERNATEROTATELEFT:
+		break;
+	case OptionsMenu::KeyBinds::ALTERNATEROTATERIGHT:
+		break;
+	case OptionsMenu::KeyBinds::ALTERNATERESET:
+		break;
+	case OptionsMenu::KeyBinds::ALTERNATESWAPPIECE:
+		break;
+	case OptionsMenu::KeyBinds::ALTERNATEMENU:
+		break;
+	case OptionsMenu::KeyBinds::ALTERNATEMOVERIGHT:
+		break;
+	case OptionsMenu::KeyBinds::ALTERNATEMOVELEFT:
+		break;
+	case OptionsMenu::KeyBinds::ALTERNATEHARDDROP:
+		break;
+	case OptionsMenu::KeyBinds::ALTERNATESOFTDROP:
+		break;
+	}
 }
 
 void OptionsMenu::SaveKeysInSettings()
@@ -733,5 +957,6 @@ void OptionsMenu::Controls()
 {
 	ControlsButton();
 	ControlsSelection();
+	SelectKey(SelectKeyBind());
 	DrawControlsKeyBinds();
 }

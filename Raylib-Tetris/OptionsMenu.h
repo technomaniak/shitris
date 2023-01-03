@@ -23,7 +23,8 @@ private:
 		ALTERNATEMOVERIGHT,
 		ALTERNATEMOVELEFT,
 		ALTERNATEHARDDROP,
-		ALTERNATESOFTDROP
+		ALTERNATESOFTDROP,
+		NONE
 	};
 public:
 	OptionsMenu(SoundManager &sounds1, std::vector<std::vector<int>> &keyBindsList1);
@@ -42,13 +43,31 @@ private:
 	void ControlsSelection();
 	void Controls();
 	void VolumeSettings();
+	bool MoveRightKeyBind();
+	bool MoveLeftKeyBind();
+	bool RotateRightKeyBind();
+	bool RotateLeftKeyBind();
+	bool ResetKeyBind();
+	bool MenuKeyBind();
+	bool HardDropKeyBind();
+	bool SoftDropKeyBind();
+	bool SwapKeyBind();
+	bool AlternateMoveRightKeyBind();
+	bool AlternateMoveLeftKeyBind();
+	bool AlternateRotateRightKeyBind();
+	bool AlternateRotateLeftKeyBind();
+	bool AlternateResetKeyBind();
+	bool AlternateMenuKeyBind();
+	bool AlternateHardDropKeyBind();
+	bool AlternateSoftDropKeyBind();
+	bool AlternateSwapKeyBind();
 
 	void AudioAndGraphics();
 	void AudioAndGraphicsSelection();
 	void AudioAndGraphicsButton();
 	void DrawControlsKeyBinds();
 	KeyBinds SelectKeyBind();
-	int SelectKey();
+	void SelectKey(KeyBinds selection);
 	void SaveKeysInSettings();
 	void LoadKeysFromSettings();
 
@@ -73,6 +92,14 @@ private:
 
 	int audioAndGraphicsButtonCounter;
 	bool mouseOverAudioAndGraphicsButton;
+
+	int moveRightCounter;
+	bool mouseOverMoveRight;
+	int alternateMoveRightCounter;
+	bool alternateMouseOverMoveRight;
+	
+	int keyPressed;
+	KeyBinds waitingForInput;
 
 	SoundManager &sounds;
 	Color volumeSliderTint;
