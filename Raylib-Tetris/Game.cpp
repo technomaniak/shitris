@@ -465,7 +465,7 @@ void Game::DrawFuturePieces()
 				{
 					if (tetromino.getIsAnythingHeld())
 					{
-						board.DrawHeldCell(pos + Vec2<int>{x, y}, LIGHTGRAY, heldMino.GetAlternateColor(), heldMino.GetAlternateColor2(), style);
+						board.DrawHeldCell(pos + Vec2<int>{x, y}, LIGHTGRAY, Color{ 170, 170, 170, 255 }, Color{ 230, 230, 230, 255 }, style);
 					}
 					else 
 					{

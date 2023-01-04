@@ -162,6 +162,15 @@ void Board::DrawCell(Vec2<int> pos, Color color, Color alternateColor, Color alt
 		raycpp::DrawRectangle({ topLeft.GetX() + ((cellSize / 10) * 9), topLeft.GetY() },
 			Vec2<int>{ cellSize - ((cellSize / 10) * 9), cellSize } - padding, alternateColor2);
 		break;
+	case 3:
+		raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize - ((cellSize / 10) * 9), cellSize } - padding, alternateColor);
+		raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize - ((cellSize / 10) * 9) } - padding, alternateColor);
+
+		raycpp::DrawRectangle({ topLeft.GetX(), topLeft.GetY() + ((cellSize / 10) * 9) },
+			Vec2<int>{ cellSize, cellSize - ((cellSize / 10) * 9)} - padding, alternateColor2);
+
+		raycpp::DrawRectangle({ topLeft.GetX() + ((cellSize / 10) * 9), topLeft.GetY() },
+			Vec2<int>{ cellSize - ((cellSize / 10) * 9), cellSize } - padding, alternateColor2);
 	}
 }
 
@@ -191,7 +200,7 @@ void Board::DrawFutureCell(Vec2<int> pos, Color color, Color alternateColor, Col
 
 void Board::DrawHeldCell(Vec2<int> pos, Color color, Color alternateColor, Color alternateColor2, int style) const
 {
-	Vec2<int> topLeft = screenPos + (pos * cellSize);
+	Vec2<int> topLeft = { screenPos.GetX() - 50 + (pos.GetX() * cellSize) , screenPos.GetY() + (pos.GetY() * cellSize) };
 	switch (style)
 	{
 	case 0:
