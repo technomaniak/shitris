@@ -48,6 +48,7 @@ private:
 	void DrawOptionsButton(bool isNewBest);
 	void ResetGame();
 
+	int style;
 	int counterFall;
 	int counterMove;
 	int counterKeepMoving;

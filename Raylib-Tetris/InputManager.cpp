@@ -40,7 +40,7 @@ void InputManager::LoadBoard(std::string boardName, Board &board)
 		{
 			if (input[x] != '0')
 			{
-				board.SetCell({ x, y }, LIGHTGRAY);
+				board.SetCell({ x, y }, Color{ 200, 200, 200, 255 }, Color{ 170, 170, 170, 255 }, Color{ 230, 230, 230, 255 });
 			}
 		}
 	}
@@ -76,7 +76,9 @@ void InputManager::LoadTetromino(int index, Tetromino &tetromino)
 	tetromino.SetThreeToZero(tetrominoes[index].GetThreeToZero());
 	tetromino.SetTwoToThree(tetrominoes[index].GetTwoToThree());
 	tetromino.SetThreeToTwo(tetrominoes[index].GetThreeToTwo());
-	tetromino.SetALias(tetrominoes[index].GetAlias());
+	tetromino.SetAlias(tetrominoes[index].GetAlias());
+	tetromino.SetAlternateColor(tetrominoes[index].GetAlternateColor());
+	tetromino.SetAlternateColor2(tetrominoes[index].GetAlternateColor2());
 }
 
 int InputManager::LoadHighScore(std::string boardName)
@@ -269,7 +271,30 @@ void InputManager::LoadTetrominoToFile(std::string fileName, int index)
 
 	std::getline(inputFile, input);
 	std::getline(inputFile, input);
-	tetrominoes[index].SetALias(input);
+	tetrominoes[index].SetAlias(input);
+
+	// get alternate color
+
+	r = false, g = false, b = false, a = false;
+	color.clear();
+	for (int i = 0; i < 4; i++)
+	{
+		std::getline(inputFile, input, ',');
+		color.push_back(std::stoi(input));
+	}
+	tetrominoes[index].SetAlternateColor(Color{ (unsigned char)color[0], (unsigned char)color[1], (unsigned char)color[2], (unsigned char)color[3] });
+
+	// get alternate color 2
+
+	std::getline(inputFile, input);
+	r = false, g = false, b = false, a = false;
+	color.clear();
+	for (int i = 0; i < 4; i++)
+	{
+		std::getline(inputFile, input, ',');
+		color.push_back(std::stoi(input));
+	}
+	tetrominoes[index].SetAlternateColor2(Color{ (unsigned char)color[0], (unsigned char)color[1], (unsigned char)color[2], (unsigned char)color[3] });
 
 	// end my life
 }

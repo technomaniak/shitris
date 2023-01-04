@@ -8,7 +8,9 @@
 Board::Cell::Cell()
 	:
 	bExists(false),
-	c(RAYWHITE)
+	c(RAYWHITE),
+	c2(RAYWHITE),
+	c3(RAYWHITE)
 {
 
 }
@@ -17,6 +19,16 @@ void Board::Cell::SetColor(Color c_in)
 {
 	c = c_in;
 	bExists = true;
+}
+
+void Board::Cell::SetAlternateColor(Color c_in)
+{
+	c2 = c_in;
+}
+
+void Board::Cell::SetAlternateColor2(Color c_in)
+{
+	c3 = c_in;
 }
 
 void Board::Cell::Remove()
@@ -32,6 +44,16 @@ bool Board::Cell::Exists() const
 Color Board::Cell::GetColor() const
 {
 	return c;
+}
+
+Color Board::Cell::GetAlternateColor() const
+{
+	return c2;
+}
+
+Color Board::Cell::GetAlternateColor2() const
+{
+	return c3;
 }
 
 Board::Board(Vec2<int> screenPos, int cellSize_in, int padding)
@@ -53,12 +75,14 @@ Board::Board(Vec2<int> screenPos, int cellSize_in, int padding)
 	cells.resize(width * height);
 }
 
-void Board::SetCell(Vec2<int> pos, Color c)
+void Board::SetCell(Vec2<int> pos, Color c, Color c2, Color c3)
 {
 	//assert(pos.GetX() >= 0 && pos.GetY() >= 0);
 	assert(pos.GetX() < width && pos.GetY() < height);
 
 	cells[pos.GetY() * width + pos.GetX()].SetColor(c);
+	cells[pos.GetY() * width + pos.GetX()].SetAlternateColor(c2);
+	cells[pos.GetY() * width + pos.GetX()].SetAlternateColor2(c3);
 }
 
 void Board::EraseBoard()
@@ -74,30 +98,48 @@ void Board::MoveCell(Vec2<int> posOld, Vec2<int> posNew)
 	if (CellExists(posOld))
 	{
 		foundExtraLines = true;
-		SetCell(posNew, cells[posOld.GetX() + (posOld.GetY() * GetWidth())].GetColor());
+		SetCell(posNew, cells[posOld.GetX() + (posOld.GetY() * GetWidth())].GetColor(), cells[posOld.GetX() + (posOld.GetY() * GetWidth())].GetAlternateColor(), cells[posOld.GetX() + (posOld.GetY() * GetWidth())].GetAlternateColor2());
 		cells[posOld.GetX() + (posOld.GetY() * GetWidth())].Remove();
 	}
 }
 
-void Board::DrawCell(Vec2<int> pos) const
+void Board::DrawCell(Vec2<int> pos, int style) const
 {
 	Color color = cells[pos.GetY() * width + pos.GetX()].GetColor();
-	DrawCell(pos, color);
+	Color alternateColor = cells[pos.GetY() * width + pos.GetX()].GetAlternateColor();
+	Color alternateColor2 = cells[pos.GetY() * width + pos.GetX()].GetAlternateColor2();
+	
+	Vec2<int> topLeft = screenPos + pos * cellSize;
+	switch (style)
+	{
+	case 0:
+
+		raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize } - padding, color);
+		break;
+	case 2:
+		raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize } - padding, color);
+
+		raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize - ((cellSize / 10) * 9), cellSize } - padding, alternateColor);
+		raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize - ((cellSize / 10) * 9) } - padding, alternateColor);
+		raycpp::DrawRectangle({ topLeft.GetX(), topLeft.GetY() + ((cellSize / 10) * 9) },
+			Vec2<int>{ cellSize, cellSize - ((cellSize / 10) * 9)} - padding, alternateColor2);
+
+		raycpp::DrawRectangle({ topLeft.GetX() + ((cellSize / 10) * 9), topLeft.GetY() },
+			Vec2<int>{ cellSize - ((cellSize / 10) * 9), cellSize } - padding, alternateColor2);
+		break;
+	};
 }
 
-void Board::DrawCell(Vec2<int> pos, Color color) const
+void Board::DrawCell(Vec2<int> pos, Color color, Color alternateColor, Color alternateColor2, int style) const
 {
 	Vec2<int> topLeft = screenPos + (pos * cellSize);
 
-	raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize } - padding, color);
-}
-
-void Board::DrawCell(Vec2<int> pos, Color color, int style) const
-{
 	switch (style)
 	{
+	case 0:
+		raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize } - padding, color);
+		break;
 	case 1:
-		Vec2<int> topLeft = screenPos + (pos * cellSize);
 		raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize - ((cellSize / 10) * 9), cellSize } - padding, color);
 
 		raycpp::DrawRectangle({ topLeft.GetX() + ((cellSize / 10) * 9), topLeft.GetY() },
@@ -108,21 +150,66 @@ void Board::DrawCell(Vec2<int> pos, Color color, int style) const
 		raycpp::DrawRectangle({ topLeft.GetX(), topLeft.GetY() + ((cellSize / 10) * 9) },
 			Vec2<int>{ cellSize, cellSize - ((cellSize / 10) * 9)} - padding, color);
 		break;
+	case 2:
+		raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize } - padding, color);
+
+		raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize - ((cellSize / 10) * 9), cellSize } - padding, alternateColor);
+		raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize - ((cellSize / 10) * 9) } - padding, alternateColor);
+
+		raycpp::DrawRectangle({ topLeft.GetX(), topLeft.GetY() + ((cellSize / 10) * 9) },
+			Vec2<int>{ cellSize, cellSize - ((cellSize / 10) * 9)} - padding, alternateColor2);
+
+		raycpp::DrawRectangle({ topLeft.GetX() + ((cellSize / 10) * 9), topLeft.GetY() },
+			Vec2<int>{ cellSize - ((cellSize / 10) * 9), cellSize } - padding, alternateColor2);
+		break;
 	}
 }
 
-void Board::DrawFutureCell(Vec2<int> pos, Color color) const
+void Board::DrawFutureCell(Vec2<int> pos, Color color, Color alternateColor, Color alternateColor2, int style) const
 {
 	Vec2<int> topLeft = { screenPos.GetX() - 30 + (pos.GetX() * cellSize), screenPos.GetY() + 20 + (pos.GetY() * cellSize) };
+	switch (style)
+	{
+	case 0:
 
-	raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize } - padding, color);
+		raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize } - padding, color);
+		break;
+	case 2:
+		raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize } - padding, color);
+
+		raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize - ((cellSize / 10) * 9), cellSize } - padding, alternateColor);
+		raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize - ((cellSize / 10) * 9) } - padding, alternateColor);
+
+		raycpp::DrawRectangle({ topLeft.GetX(), topLeft.GetY() + ((cellSize / 10) * 9) },
+			Vec2<int>{ cellSize, cellSize - ((cellSize / 10) * 9)} - padding, alternateColor2);
+
+		raycpp::DrawRectangle({ topLeft.GetX() + ((cellSize / 10) * 9), topLeft.GetY() },
+			Vec2<int>{ cellSize - ((cellSize / 10) * 9), cellSize } - padding, alternateColor2);
+		break;
+	};
 }
 
-void Board::DrawHeldCell(Vec2<int> pos, Color color) const
+void Board::DrawHeldCell(Vec2<int> pos, Color color, Color alternateColor, Color alternateColor2, int style) const
 {
-	Vec2<int> topLeft = { screenPos.GetX() - 50 + (pos.GetX() * cellSize) , screenPos.GetY() + (pos.GetY() * cellSize) };
+	Vec2<int> topLeft = screenPos + (pos * cellSize);
+	switch (style)
+	{
+	case 0:
+		raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize } - padding, color);
+		break;
+	case 2:
+		raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize } - padding, color);
 
-	raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize } - padding, color);
+		raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize - ((cellSize / 10) * 9), cellSize } - padding, alternateColor);
+		raycpp::DrawRectangle(topLeft, Vec2<int>{ cellSize, cellSize - ((cellSize / 10) * 9) } - padding, alternateColor);
+
+		raycpp::DrawRectangle({ topLeft.GetX(), topLeft.GetY() + ((cellSize / 10) * 9) },
+			Vec2<int>{ cellSize, cellSize - ((cellSize / 10) * 9)} - padding, alternateColor2);
+
+		raycpp::DrawRectangle({ topLeft.GetX() + ((cellSize / 10) * 9), topLeft.GetY() },
+			Vec2<int>{ cellSize - ((cellSize / 10) * 9), cellSize } - padding, alternateColor2);
+		break;
+	};
 }
 
 void Board::DrawBorder() const
@@ -138,7 +225,6 @@ void Board::DrawFutureBorder(Vec2<int> pos, Vec2<int> size) const
 void Board::DrawHeldBorder(Vec2<int> pos, Vec2<int> size) const
 {
 }
-
 
 void Board::DrawFutureBoardGrid(Vec2<int> pos, int amount, int maxDimension) const
 {
@@ -238,7 +324,7 @@ void Board::DrawRestartLine(int timer) const
 		{ (((cellSize * width) + 2 + cellSize) * timer) / 61, 30 }, RED);
 }
 
-void Board::Draw() const
+void Board::Draw(int style) const
 {
 	DrawBoard();
 	DrawBorder();
@@ -250,7 +336,7 @@ void Board::Draw() const
 		{
 			if (CellExists({ iX, iY }))
 			{
-				DrawCell({ iX, iY });
+				DrawCell({ iX, iY }, style);
 			}
 		}
 	}

@@ -20,6 +20,8 @@ Tetromino::Tetromino(Board& board)
 	threeToZero(threeToZero),
 	zeroToThree(zeroToThree),
 	color(color),
+	alternateColor(RAYWHITE),
+	alternateColor2(RAYWHITE),
 	fallen(true),
 	board(board),
 	boardPos(board.GetWidth() / 2 - dimension / 2, 0),
@@ -539,7 +541,7 @@ void Tetromino::PlaceTetromino(bool &shouldEnd)
 				}
 				if (!shouldEnd)
 				{
-					board.SetCell({ boardPos.GetX() + x,  boardPos.GetY() + y }, color);
+					board.SetCell({ boardPos.GetX() + x,  boardPos.GetY() + y }, color, alternateColor, alternateColor2);
 				}
 			}
 		}
@@ -730,40 +732,6 @@ bool Tetromino::IsBottomButTop()
 	return isBottomButTop;
 }
 
-void Tetromino::Draw() const
-{
-	for (int y = 0; y < dimension; y++)
-	{
-		for (int x = 0; x < dimension; x++) 
-		{
-			bool cell = false;
-			
-			switch (currentRotation)
-			{
-			case Tetromino::Rotation::UP:
-				cell = shape[y * dimension + x];
-				break;
-			case Tetromino::Rotation::RIGHT:
-				cell = shape[dimension * (dimension - 1) - dimension * x + y];
-				break;
-			case Tetromino::Rotation::DOWN:
-				cell = shape[(dimension * dimension - 1) - dimension * y - x];
-				break;
-			case Tetromino::Rotation::LEFT:
-				cell = shape[(dimension - 1) + dimension * x - y];
-				break;
-			default:
-				break;
-			}
-
-			if (cell)
-			{
-				board.DrawCell(boardPos + Vec2<int>{x, y}, color);
-			}
-		}
-	}
-}
-
 void Tetromino::Draw(int style) const
 {
 	for (int y = 0; y < dimension; y++)
@@ -792,7 +760,7 @@ void Tetromino::Draw(int style) const
 
 			if (cell)
 			{
-				board.DrawCell(boardPos + Vec2<int>{x, y}, color, style);
+				board.DrawCell(boardPos + Vec2<int>{x, y}, color, alternateColor, alternateColor2, style);
 			}
 		}
 		
@@ -824,6 +792,16 @@ void Tetromino::AlignPos(Tetromino tetromino)
 void Tetromino::SetColor(Color c)
 {
 	color = c;
+}
+
+void Tetromino::SetAlternateColor(Color c)
+{
+	alternateColor = c;
+}
+
+void Tetromino::SetAlternateColor2(Color c)
+{
+	alternateColor2 = c;
 }
 
 void Tetromino::SetShape(std::vector<bool> shp)
@@ -896,7 +874,7 @@ void Tetromino::SetRotation(Rotation rotation)
 	currentRotation = rotation;
 }
 
-void Tetromino::SetALias(std::string newAlias)
+void Tetromino::SetAlias(std::string newAlias)
 {
 	alias = newAlias;
 }
@@ -919,6 +897,16 @@ void Tetromino::SetPos(Vec2<int> pos)
 Color Tetromino::GetColor() const
 {
 	return color;
+}
+
+Color Tetromino::GetAlternateColor() const
+{
+	return alternateColor;
+}
+
+Color Tetromino::GetAlternateColor2() const
+{
+	return alternateColor2;
 }
 
 int Tetromino::GetDimension() const

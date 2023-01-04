@@ -40,7 +40,8 @@ Game::Game(int width, int height, int fps, std::string title)
 	texturesLoaded(false),
 	darkOverlayImage(GenImageColor(settings::screenWidth, settings::screenHeight, Color{ 0, 0, 0, 100 })),
 	darkOverlay(LoadTextureFromImage(darkOverlayImage)),
-	resetTimer(1)
+	resetTimer(1),
+	style(2)
 {
 	assert(!IsWindowReady()); // if triggered game is already open.
 	std::cout << "\nLoading Board " << sizeof(int);
@@ -145,8 +146,8 @@ void Game::Draw(int power)
 {
 	DrawRectangleGradientV(0, 0, (settings::screenWidth / 5) * 3, settings::screenHeight, Color{ 33,1,0,255 }, Color{ 14,42,1,static_cast<unsigned char>(power) });
 	DrawRectangleGradientV((settings::screenWidth / 5) * 3, 0, settings::screenWidth, settings::screenHeight, Color{ 33,1,0,255 }, Color{ 14,42,1, 255 });
-	board.Draw();
-	tetromino.Draw();
+	board.Draw(style);
+	tetromino.Draw(style);
 	DrawDrawMino();
 	board.DrawTimerLine(counterDrop);
 	if (inputManager.GetTetrominoPreviewAmount() != 0)
@@ -434,11 +435,11 @@ void Game::DrawFuturePieces()
 					if (futureMino.GetDimension() < inputManager.GetMaxDimension())
 					{
 						board.DrawFutureCell(pos + Vec2<int>{x - ((futureMino.GetDimension() - inputManager.GetMaxDimension()) / 2),
-							y - ((futureMino.GetDimension() - inputManager.GetMaxDimension()) / 2)}, futureMino.GetColor());
+							y - ((futureMino.GetDimension() - inputManager.GetMaxDimension()) / 2)}, futureMino.GetColor(), futureMino.GetAlternateColor(), futureMino.GetAlternateColor2(), style);
 					}
 					else
 					{
-						board.DrawFutureCell(pos + Vec2<int>{x, y}, futureMino.GetColor());
+						board.DrawFutureCell(pos + Vec2<int>{x, y}, futureMino.GetColor(), futureMino.GetAlternateColor(), futureMino.GetAlternateColor2(), style);
 					}
 				}
 			}
@@ -464,11 +465,11 @@ void Game::DrawFuturePieces()
 				{
 					if (tetromino.getIsAnythingHeld())
 					{
-						board.DrawHeldCell(pos + Vec2<int>{x, y}, LIGHTGRAY);
+						board.DrawHeldCell(pos + Vec2<int>{x, y}, LIGHTGRAY, heldMino.GetAlternateColor(), heldMino.GetAlternateColor2(), style);
 					}
 					else 
 					{
-						board.DrawHeldCell(pos + Vec2<int>{x, y}, heldMino.GetColor());
+						board.DrawHeldCell(pos + Vec2<int>{x, y}, heldMino.GetColor(), heldMino.GetAlternateColor(), heldMino.GetAlternateColor2(), style);
 					}
 				}
 			}
@@ -520,8 +521,8 @@ void Game::GameOver()
 			MainMenuButton(newBest);
 			OptionsButton(newBest);
 		}
-		board.Draw();
-		tetromino.Draw();
+		board.Draw(style);
+		tetromino.Draw(style);
 	}
 }
 

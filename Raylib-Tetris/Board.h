@@ -12,26 +12,31 @@ private:
 	public:
 		Cell();
 		void SetColor(Color c_in);
+		void SetAlternateColor(Color c_in);
+		void SetAlternateColor2(Color c_in);
 		void Remove();
 		bool Exists() const;
 
 		Color GetColor() const;
+		Color GetAlternateColor() const;
+		Color GetAlternateColor2() const;
 	private:
 		bool bExists;
 		Color c;
+		Color c2;
+		Color c3;
 
 	};
 
 public:
 	Board(Vec2<int> screenPos, int cellSize_in, int padding);
-	void SetCell(Vec2<int> pos, Color c);
+	void SetCell(Vec2<int> pos, Color c, Color c2, Color c3);
 	void EraseBoard();
 	void MoveCell(Vec2<int> posOld, Vec2<int> posNew);
-	void DrawCell(Vec2<int> pos) const;
-	void DrawCell(Vec2<int> pos, Color color) const;
-	void DrawCell(Vec2<int> pos, Color color, int style) const;
-	void DrawFutureCell(Vec2<int> pos, Color color) const;
-	void DrawHeldCell(Vec2<int> pos, Color color) const;
+	void DrawCell(Vec2<int> pos, int style) const;
+	void DrawCell(Vec2<int> pos, Color color, Color alternateColor, Color alternateColor2, int style) const;
+	void DrawFutureCell(Vec2<int> pos, Color color, Color alternateColor, Color alternateColor2, int style) const;
+	void DrawHeldCell(Vec2<int> pos, Color color, Color alternateColor, Color alternateColor2, int style) const;
 	void DrawBorder() const;
 	void DrawFutureBorder(Vec2<int> pos, Vec2<int> size) const;
 	void DrawHeldBorder(Vec2<int> pos, Vec2<int> size) const;
@@ -41,7 +46,7 @@ public:
 	void DrawFutureBoard(Vec2<int> pos, Vec2<int> size) const;
 	void DrawTimerLine(int timer) const;
 	void DrawRestartLine(int timer) const;
-	void Draw() const;
+	void Draw(int style) const;
 	void DrawLevel() const;
 	std::vector<int> CheckForLines();
 	void ClearLines(int lastPiece, int lastAction, std::string alias, Vec2<int> pos);

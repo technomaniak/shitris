@@ -29,12 +29,13 @@ public:
 	void MoveLeft();
 	bool IsBottom();
 	bool IsBottomButTop();
-	void Draw() const;
 	void Draw(int style) const;
 	void HardDrop();
 	void AlignPos(Tetromino tetromino);
 
 	void SetColor(Color c);
+	void SetAlternateColor(Color c);
+	void SetAlternateColor2(Color c);
 	void SetShape(std::vector<bool> shp);
 	void SetDimension(int dim);
 	void SetOverloads(int overl);
@@ -49,13 +50,15 @@ public:
 	void SetCurrentPiece(int id);
 	void SetIsAnythingSetToHeld(bool val);
 	void SetRotation(Rotation rotation);
-	void SetALias(std::string newAlias);
+	void SetAlias(std::string newAlias);
 
 	void SetFallen(bool newData);
 	bool GetFallen() const;
 	void SetPos(Vec2<int> pos);
 
 	Color GetColor() const;
+	Color GetAlternateColor() const;
+	Color GetAlternateColor2() const;
 	int GetDimension() const;
 	std::vector<bool> GetShape() const;
 	std::vector<Vec2<int>> GetZeroToOne() const;
@@ -90,6 +93,8 @@ private:
 	std::vector<Vec2<int>> zeroToThree;
 	int overloads;
 	Color color;
+	Color alternateColor;
+	Color alternateColor2;
 	Board& board;
 	bool fallen;
 	int currentPieceId;
