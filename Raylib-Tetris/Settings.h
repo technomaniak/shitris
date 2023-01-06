@@ -230,4 +230,17 @@ namespace settings
             inline int optionsButtonTextSize = 35;
 
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+    // Mode Select Menu
+
+        // Reuses Return Button From Options Menu
+
+        // Position
+
+            inline constexpr Vec2<int> positionOfElement1{ 100, 150 };
+            inline constexpr int selectMenuPadding = 1;
+            inline constexpr int selectMenuCellSize = 5;
+            inline constexpr int nameTextSize = 25;
+
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 }

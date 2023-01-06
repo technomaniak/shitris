@@ -66,6 +66,9 @@
     <ClCompile Include="OptionsMenu.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="ModeSelectMenu.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -101,6 +104,9 @@
     <ClInclude Include="OptionsMenu.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
+    <ClInclude Include="ModeSelectMenu.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="El.tetromino">
@@ -124,7 +130,7 @@
     <None Include="Tee.tetromino">
       <Filter>Pliki zasobów\presets\tetrominoes</Filter>
     </None>
-    <None Include="Default.board">
+    <None Include=".Default.board">
       <Filter>Pliki zasobów\presets\board</Filter>
     </None>
     <None Include="squomino.board">

@@ -2,7 +2,7 @@
 #include "Settings.h"
 #include <iostream>
 
-MainMenu::MainMenu(SoundManager &sounds1, Texture2D &cogwheel1, std::vector<std::vector<int>> &keyBindsList1) :
+MainMenu::MainMenu(SoundManager &sounds1, Texture2D &cogwheel1, std::vector<std::vector<int>> &keyBindsList1, InputManager& manager1, std::string& boardName1, Board& board1) :
 	GameRunning(false),
 	menuLoaded(false),
 	sounds(sounds1),
@@ -19,7 +19,11 @@ MainMenu::MainMenu(SoundManager &sounds1, Texture2D &cogwheel1, std::vector<std:
 	mouseOverQuitGameButton(false),
 	keyBindsList(keyBindsList1),
 	options(OptionsMenu(sounds, keyBindsList)),
-	cogwheel(cogwheel1)
+	cogwheel(cogwheel1),
+	modeSelect(ModeSelectMenu(sounds, manager, boardName)),
+	manager(manager1),
+	board(board1),
+	boardName(boardName1)
 {
 }
 
@@ -32,11 +36,23 @@ void MainMenu::Tick()
 {
 	if (!options.GetLoaded())
 	{
-		Draw();
-		PlayButton();
-		QuitGameButton();
-		SettingsButton();
-		MainText();
+		if (modeSelect.GetLoaded())
+		{
+			modeSelect.Tick();
+		}
+		else
+		{
+			Draw();
+			PlayButton();
+			QuitGameButton();
+			SettingsButton();
+			MainText();
+			if (modeSelect.GetGameStart())
+			{
+				modeSelect.SetGameStart(false);
+				StartGame();
+			}
+		}
 	}
 	else
 	{
@@ -82,7 +98,7 @@ void MainMenu::PlayButton()
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 		{
 			gameReset = true;
-			StartGame();
+			modeSelect.LoadModeSelect();
 		}
 	}
 }
@@ -310,5 +326,6 @@ void MainMenu::MainText()
 void MainMenu::StartGame()
 {
 	sounds.PlaySoundFromName("menuSound");
+	manager.LoadBoard(boardName, board);
 	GameRunning = true;
 }

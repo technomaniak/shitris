@@ -226,6 +226,11 @@ void Board::DrawBorder() const
 	raycpp::DrawRectangleLinesEx(screenPos - (cellSize / 2) - 4, Vec2{ width * cellSize, height * cellSize } + cellSize + 2, cellSize / 2, Color{ 0, 0, 0, 106 });
 }
 
+void Board::DrawBorderMenu() const
+{
+	raycpp::DrawRectangleLinesEx(screenPos - (cellSize / 2), Vec2{ width * cellSize - 2, height * cellSize - 2 } + cellSize, cellSize / 2, Color{ 255, 255, 255, 106 });
+}
+
 void Board::DrawFutureBorder(Vec2<int> pos, Vec2<int> size) const
 {
 	raycpp::DrawRectangleLinesEx(pos, size, cellSize / 2, Color{ 0, 0, 0, 106 });
@@ -281,19 +286,39 @@ void Board::DrawBoardGrid() const
 {
 	for (int y = 1; y < GetWidth(); y++)
 	{
-		DrawLine(settings::boardPosition.GetX() - 2 + (y * cellSize),
-				 settings::boardPosition.GetY() + 2,
-				 settings::boardPosition.GetX() - 2 + (y * cellSize),
-				 settings::boardPosition.GetY() - 5 + (settings::boardWidthHeight.GetY() * cellSize),
+		DrawLine(screenPos.GetX() - 2 + (y * cellSize),
+				 screenPos.GetY() + 2,
+				 screenPos.GetX() - 2 + (y * cellSize),
+				 screenPos.GetY() - 5 + (height * cellSize),
 			     Color{ 102, 191, 255, 55 });
 	}
 	for (int x = 1; x < GetHeight(); x++)
 	{
-		DrawLine(settings::boardPosition.GetX(),
-				 settings::boardPosition.GetY() - 2 + (x * cellSize),
-				 settings::boardPosition.GetX() - 5 + (settings::boardWidthHeight.GetX() * cellSize),
-				 settings::boardPosition.GetY() - 2 + (x * cellSize),
+		DrawLine(screenPos.GetX(),
+				 screenPos.GetY() - 2 + (x * cellSize),
+				 screenPos.GetX() - 5 + (width * cellSize),
+				 screenPos.GetY() - 2 + (x * cellSize),
 				 Color{ 102, 191, 255, 55 });
+	}
+}
+
+void Board::DrawBoardGridMenu() const
+{
+	for (int y = 1; y < GetWidth(); y++)
+	{
+		DrawLine(screenPos.GetX() + (y * cellSize),
+			screenPos.GetY(),
+			screenPos.GetX() + (y * cellSize),
+			screenPos.GetY() + (height * cellSize),
+			Color{ 102, 191, 255, 55 });
+	}
+	for (int x = 1; x < GetHeight(); x++)
+	{
+		DrawLine(screenPos.GetX(),
+			screenPos.GetY() + (x * cellSize),
+			screenPos.GetX() + (width * cellSize),
+			screenPos.GetY() + (x * cellSize),
+			Color{ 102, 191, 255, 55 });
 	}
 }
 
@@ -335,10 +360,24 @@ void Board::DrawRestartLine(int timer) const
 
 void Board::Draw(int style) const
 {
+	Draw(style, true);
+}
+
+void Board::Draw(int style, bool isInGame) const
+{
+	if (isInGame)
+	{
+		score.Draw();
+		DrawLevel();
+		DrawBoardGrid();
+		DrawBorder();
+	}
+	else
+	{
+		DrawBoardGridMenu();
+		DrawBorderMenu();
+	}
 	DrawBoard();
-	DrawBorder();
-	DrawBoardGrid();
-	DrawLevel();
 	for (int iY = 0; iY < height; iY++)
 	{
 		for (int iX = 0; iX < width; iX++)
@@ -349,7 +388,6 @@ void Board::Draw(int style) const
 			}
 		}
 	}
-	score.Draw();
 }
 
 void Board::DrawLevel() const
@@ -475,6 +513,7 @@ void Board::SetSize(Vec2<int> widthHei)
 {
 	width = widthHei.GetX();
 	height = widthHei.GetY();
+	cells.resize(width * height);
 }
 
 void Board::SaveScore(std::string boardName, bool &newBest)
@@ -496,4 +535,9 @@ void Board::ResetScore()
 void Board::SetHighScore(int hS)
 {
 	score.SetHighScore(hS);
+}
+
+void Board::SetPos(Vec2<int> pos)
+{
+	screenPos = pos;
 }

@@ -1,11 +1,11 @@
 #include "Tetrominoes.h"
 #include "Settings.h"
+#include "Game.h"
+#include "InputManager.h"
 #include <assert.h>
 #include <string>
 #include <iostream>
 #include <vector>
-#include "Game.h"
-#include "InputManager.h"
 
 Tetromino::Tetromino(Board& board)
 	:

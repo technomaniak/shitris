@@ -1013,6 +1013,7 @@ void OptionsMenu::ReturnButton()
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 		{
 			sounds.PlaySoundFromName("menuSound");
+			sounds.PlaySoundFromName("menuSound");
 			SaveKeysInSettings();
 			whatOptionPart = 0;
 			settings::controlsTextSize = 60;

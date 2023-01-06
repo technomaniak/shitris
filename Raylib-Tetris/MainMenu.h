@@ -2,11 +2,13 @@
 #include "raylibCpp.h"
 #include "SoundManager.h"
 #include "OptionsMenu.h"
+#include "ModeSelectMenu.h"
+#include "InputManager.h"
 
 class MainMenu
 {
 public:
-	MainMenu(SoundManager &sounds1, Texture2D &cogwheel1, std::vector<std::vector<int>> &keyBindsList1);
+	MainMenu(SoundManager &sounds1, Texture2D &cogwheel1, std::vector<std::vector<int>> &keyBindsList1, InputManager& manager1, std::string& boardname, Board& board1);
 
 	void LoadMenu();
 	void Tick();
@@ -50,7 +52,12 @@ private:
 
 	SoundManager &sounds;
 
+	std::string& boardName;
+
 	std::vector<std::vector<int>> &keyBindsList;
 	OptionsMenu options;
 	Texture2D cogwheel;
+	InputManager& manager;
+	ModeSelectMenu modeSelect;
+	Board& board;
 };

@@ -26,8 +26,8 @@ Game::Game(int width, int height, int fps, std::string title)
 	lastAction(0),
 	gameShouldEnd(false),
 	soundManager(SoundManager()),
-	mainMenu(MainMenu(soundManager, cogwheel, keyBindsList)),
-	boardName("Default"),
+	mainMenu(MainMenu(soundManager, cogwheel, keyBindsList, inputManager, boardName, board)),
+	boardName(""),
 	newBest(false),
 	mouseOverRestartButton(false),
 	mouseOverMainMenuButton(false),
@@ -44,14 +44,6 @@ Game::Game(int width, int height, int fps, std::string title)
 	style(2)
 {
 	assert(!IsWindowReady()); // if triggered game is already open.
-	std::cout << "\nLoading Board " << sizeof(int);
-	inputManager.LoadBoard(boardName, board);
-	std::cout << "\nBoard Loaded";
-	tetrominoesList.resize(inputManager.GetTetrominoPreviewAmount());
-	for (int i = 0; i < inputManager.GetTetrominoPreviewAmount(); i++)
-	{
-		tetrominoesList[i] = SelectRandomPiece();
-	}
 	std::cout << "\nTetromino Loaded";
 	srand((int)time(NULL));
 
@@ -763,6 +755,11 @@ void Game::DrawOptionsButton(bool isNewBest)
 void Game::ResetGame()
 {
 	gameShouldEnd = false;
+	tetrominoesList.resize(inputManager.GetTetrominoPreviewAmount());
+	for (int i = 0; i < inputManager.GetTetrominoPreviewAmount(); i++)
+	{
+		tetrominoesList[i] = SelectRandomPiece();
+	}
 	inputManager.LoadBoard(boardName, board);
 	tetromino.SetCurrentPiece(tetrominoesList[0]);
 	inputManager.LoadTetromino(tetrominoesList[0], tetromino);

@@ -152,6 +152,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="ModeSelectMenu.cpp" />
     <ClCompile Include="OptionsMenu.cpp" />
     <ClCompile Include="raylibCpp.cpp" />
     <ClCompile Include="ScoreManager.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Board.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="ModeSelectMenu.h" />
     <ClInclude Include="OptionsMenu.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="InputManager.h" />
@@ -174,7 +176,7 @@
   <ItemGroup>
     <None Include="cock.board" />
     <None Include="Controls.setting" />
-    <None Include="Default.board" />
+    <None Include=".Default.board" />
     <None Include="Default.HS" />
     <None Include="defaultcontrols.setting" />
     <None Include="El.tetromino" />

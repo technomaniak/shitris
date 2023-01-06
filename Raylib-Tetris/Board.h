@@ -38,15 +38,18 @@ public:
 	void DrawFutureCell(Vec2<int> pos, Color color, Color alternateColor, Color alternateColor2, int style) const;
 	void DrawHeldCell(Vec2<int> pos, Color color, Color alternateColor, Color alternateColor2, int style) const;
 	void DrawBorder() const;
+	void DrawBorderMenu() const;
 	void DrawFutureBorder(Vec2<int> pos, Vec2<int> size) const;
 	void DrawHeldBorder(Vec2<int> pos, Vec2<int> size) const;
 	void DrawBoardGrid() const;
+	void DrawBoardGridMenu() const;
 	void DrawFutureBoardGrid(Vec2<int> pos, int amount, int maxDimension) const;
 	void DrawBoard() const;
 	void DrawFutureBoard(Vec2<int> pos, Vec2<int> size) const;
 	void DrawTimerLine(int timer) const;
 	void DrawRestartLine(int timer) const;
 	void Draw(int style) const;
+	void Draw(int style, bool isInGame) const;
 	void DrawLevel() const;
 	std::vector<int> CheckForLines();
 	void ClearLines(int lastPiece, int lastAction, std::string alias, Vec2<int> pos);
@@ -63,6 +66,7 @@ public:
 	void SaveScore(std::string boardName, bool &newBest);
 	void ResetScore();
 	void SetHighScore(int hS);
+	void SetPos(Vec2<int> pos);
 
 private:
 	std::vector<Cell> cells;
