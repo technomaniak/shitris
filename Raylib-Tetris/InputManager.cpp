@@ -121,6 +121,14 @@ int InputManager::GetMaxDimension() const
 	return maxDimension;
 }
 
+void InputManager::SetTetrominoList(std::vector<Tetromino>& list)
+{
+	for (int i = 0; i < tetrominoes.size(); i++)
+	{
+		list.push_back(tetrominoes[i]);
+	}
+}
+
 void InputManager::LoadTetrominoToFile(std::string fileName, int index)
 {
 	std::ifstream inputFile(fileName);

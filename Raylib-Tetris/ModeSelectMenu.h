@@ -3,11 +3,12 @@
 #include "Vec2.h"
 #include "SoundManager.h"
 #include "InputManager.h"
+#include "Tetrominoes.h"
 
 class ModeSelectMenu
 {
 public:
-	ModeSelectMenu(SoundManager& sounds1, InputManager& manager1, std::string& boardName1);
+	ModeSelectMenu(SoundManager& sounds1, InputManager& manager1, std::string& boardName1, int &style1, Board &board1);
 
 	void LoadModeSelect();
 	void Tick();
@@ -20,10 +21,13 @@ public:
 
 private:
 	void DrawModePreviews();
+	void DrawTetrominoes();
+	void DrawSideBar();
 	void FindAllBoardFiles();
 	void ReturnButton();
 
 	void ModePreviews();
+	void SideBar();
 
 	std::vector<std::string> boards;
 	SoundManager& sounds;
@@ -31,13 +35,18 @@ private:
 
 	bool menuLoaded;
 	bool mouseOverReturnButton;
+	bool sideBarDisplayed;
 	int returnButtonCounter;
+	int& style;
 
 	std::vector<bool> mouseOverAPreviewButton;
 
 	std::vector<Board> boardsBoards;
 	std::vector<int> measurements;
+	std::vector<int> maxDimensions;
 
 	std::string& playBoardName;
 	bool startGame;
+	Board& board;
+	std::vector<std::vector<Tetromino>> PreviewMinoes;
 };

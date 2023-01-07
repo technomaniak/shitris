@@ -26,7 +26,7 @@ Game::Game(int width, int height, int fps, std::string title)
 	lastAction(0),
 	gameShouldEnd(false),
 	soundManager(SoundManager()),
-	mainMenu(MainMenu(soundManager, cogwheel, keyBindsList, inputManager, boardName, board)),
+	mainMenu(MainMenu(soundManager, cogwheel, keyBindsList, inputManager, boardName, board, style)),
 	boardName(""),
 	newBest(false),
 	mouseOverRestartButton(false),

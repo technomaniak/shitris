@@ -36,6 +36,7 @@ public:
 	void DrawCell(Vec2<int> pos, int style) const;
 	void DrawCell(Vec2<int> pos, Color color, Color alternateColor, Color alternateColor2, int style) const;
 	void DrawFutureCell(Vec2<int> pos, Color color, Color alternateColor, Color alternateColor2, int style) const;
+	void DrawPreviewCell(Vec2<int> pos, Color color, Color alternateColor, Color alternateColor2, int style) const;
 	void DrawHeldCell(Vec2<int> pos, Color color, Color alternateColor, Color alternateColor2, int style) const;
 	void DrawBorder() const;
 	void DrawBorderMenu() const;

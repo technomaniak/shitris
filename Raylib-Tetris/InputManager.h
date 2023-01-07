@@ -17,6 +17,7 @@ public:
 	int GetHeld() const;
 	void SetHeld(int tetrominoe);
 	int GetMaxDimension() const;
+	void SetTetrominoList(std::vector<Tetromino>& list);
 
 	std::vector<Tetromino> tetrominoes;
 	int held;

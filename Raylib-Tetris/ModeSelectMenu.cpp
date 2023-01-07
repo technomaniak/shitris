@@ -7,12 +7,15 @@
 
 namespace fs = std::filesystem;
 
-ModeSelectMenu::ModeSelectMenu(SoundManager& sounds1, InputManager& manager1, std::string& boardName1) :
+ModeSelectMenu::ModeSelectMenu(SoundManager& sounds1, InputManager& manager1, std::string& boardName1, int& style1, Board& board1) :
 	boards({}),
 	sounds(sounds1),
 	manager(manager1),
 	playBoardName(boardName1),
-	startGame(false)
+	startGame(false),
+	board(board1),
+	PreviewMinoes(),
+	style(style1)
 {
 	FindAllBoardFiles();
 	measurements.clear();
@@ -35,6 +38,7 @@ void ModeSelectMenu::Draw()
 {
 	ClearBackground(BLACK);
 	DrawModePreviews();
+	DrawTetrominoes();
 	raycpp::DrawText("RETURN", settings::returnButtonTextPos - Vec2<int>{ (settings::minReturnTextSize - settings::returnTextSize) * -2,
 		((settings::minReturnTextSize - settings::returnTextSize) / 2) * -1}, settings::returnTextSize, RAYWHITE);
 }
@@ -86,6 +90,42 @@ void ModeSelectMenu::DrawModePreviews()
 	}
 }
 
+void ModeSelectMenu::DrawTetrominoes()
+{
+	for (int i = 0; i < boards.size(); i++)
+	{
+		for (int z = 0; z < PreviewMinoes[i].size(); z++)
+		{
+			std::vector<bool> shape(PreviewMinoes[i][z].GetDimension() * PreviewMinoes[i][z].GetDimension());
+			for (int y = 0; y < PreviewMinoes[i][z].GetDimension(); y++)
+			{
+				for (int x = 0; x < PreviewMinoes[i][z].GetDimension(); x++)
+				{
+					bool cell = false;
+
+					shape = PreviewMinoes[i][z].GetShape();
+					cell = shape[y * PreviewMinoes[i][z].GetDimension() + x];
+
+					if (cell)
+					{
+						board.DrawPreviewCell({ 150 + (x * (settings::selectMenuCellSize + settings::selectMenuPadding) * 3) + (boardsBoards[i].GetWidth() * boardsBoards[i].GetCellSize()) + (z * manager.GetMaxDimension() * (settings::selectMenuCellSize + 2) * 3),
+							measurements[i] + (int)MeasureTextEx(GetFontDefault(), "I|", settings::nameTextSize, 1).y + (y * (settings::selectMenuCellSize + settings::selectMenuPadding) * 3)},
+							PreviewMinoes[i][z].GetColor(),
+							PreviewMinoes[i][z].GetAlternateColor(),
+							PreviewMinoes[i][z].GetAlternateColor2(), style);
+						
+					}
+				}
+			}
+		}
+	}
+	
+}
+
+void ModeSelectMenu::DrawSideBar()
+{
+}
+
 void ModeSelectMenu::FindAllBoardFiles()
 {
 	std::string path("./");
@@ -101,6 +141,9 @@ void ModeSelectMenu::FindAllBoardFiles()
 	{
 		boardsBoards.push_back(Board(settings::positionOfElement1, settings::selectMenuCellSize, settings::selectMenuPadding));
 		manager.LoadBoard(boards[i], boardsBoards[i]);
+		maxDimensions.push_back(manager.GetMaxDimension());
+		PreviewMinoes.push_back({});
+		manager.SetTetrominoList(PreviewMinoes[i]);
 	}
 	mouseOverAPreviewButton.resize(boards.size());
 }
@@ -177,4 +220,8 @@ void ModeSelectMenu::ModePreviews()
 			}
 		}
 	}
+}
+
+void ModeSelectMenu::SideBar()
+{
 }
