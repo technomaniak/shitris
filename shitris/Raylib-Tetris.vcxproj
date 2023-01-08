@@ -24,6 +24,7 @@
     <ProjectGuid>{718879c3-e735-4b91-9193-dd156af9e4b2}</ProjectGuid>
     <RootNamespace>RaylibTetris</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>shitris</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
