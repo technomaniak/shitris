@@ -227,7 +227,7 @@ void Board::DrawPreviewCell(Vec2<int> pos, Color color, Color alternateColor, Co
 
 void Board::DrawHeldCell(Vec2<int> pos, Color color, Color alternateColor, Color alternateColor2, int style) const
 {
-	Vec2<int> topLeft = { screenPos.GetX() - 50 + (pos.GetX() * cellSize) , screenPos.GetY() + (pos.GetY() * cellSize) };
+	Vec2<int> topLeft = { screenPos.GetX() - 110 + (pos.GetX() * cellSize) , screenPos.GetY() + (pos.GetY() * cellSize) + 40 };
 	switch (style)
 	{
 	case 0:
@@ -265,6 +265,7 @@ void Board::DrawFutureBorder(Vec2<int> pos, Vec2<int> size) const
 
 void Board::DrawHeldBorder(Vec2<int> pos, Vec2<int> size) const
 {
+	raycpp::DrawRectangleLinesEx(pos, size, cellSize / 2, Color{ 0, 0, 0, 106 });
 }
 
 void Board::DrawFutureBoardGrid(Vec2<int> pos, int amount, int maxDimension) const
@@ -306,6 +307,26 @@ void Board::DrawFutureBoardGrid(Vec2<int> pos, int amount, int maxDimension) con
 				pos.GetY() - 7 + (x * cellSize),
 				Color{ 102, 191, 255, 55 });
 		}
+	}
+}
+void Board::DrawHeldBoardGrid(Vec2<int> pos, int amount, int maxDimension) const
+{
+	for (int y = 1; y < (maxDimension + 2); y++)
+	{
+		DrawLine(pos.GetX() - 2 + (y * cellSize),
+			pos.GetY() - 6 + (cellSize / 2),
+			pos.GetX() - 2 + (y * cellSize),
+			pos.GetY() - 9 + (amount * maxDimension * cellSize) + (cellSize / 2 * 3),
+			Color{ 102, 191, 255, 55 });
+		
+	}
+	for (int x = 1; x < amount * maxDimension + 2; x++)
+	{
+		DrawLine(pos.GetX() + (cellSize / 2),
+			pos.GetY() - 7 + (x * cellSize),
+			pos.GetX() - 5 + ((maxDimension + 1) * cellSize) + (cellSize / 2),
+			pos.GetY() - 7 + (x * cellSize),
+			Color{ 102, 191, 255, 55 });
 	}
 }
 
@@ -352,6 +373,11 @@ void Board::DrawBoardGridMenu() const
 void Board::DrawBoard() const
 {
 	raycpp::DrawRectangle(screenPos - (cellSize / 2) - 4, Vec2{ width * cellSize, height * cellSize } + cellSize + 2, Color{ 0, 0, 0, 56 });
+}
+
+void Board::DrawHeldBoard(Vec2<int> pos, Vec2<int> size) const
+{
+	raycpp::DrawRectangle(pos, size, Color{ 0, 0, 0, 56 });
 }
 
 void Board::DrawFutureBoard(Vec2<int> pos, Vec2<int> size) const

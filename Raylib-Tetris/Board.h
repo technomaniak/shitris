@@ -45,8 +45,10 @@ public:
 	void DrawBoardGrid() const;
 	void DrawBoardGridMenu() const;
 	void DrawFutureBoardGrid(Vec2<int> pos, int amount, int maxDimension) const;
+	void DrawHeldBoardGrid(Vec2<int> pos, int amount, int maxDimension) const;
 	void DrawBoard() const;
 	void DrawFutureBoard(Vec2<int> pos, Vec2<int> size) const;
+	void DrawHeldBoard(Vec2<int> pos, Vec2<int> size) const;
 	void DrawTimerLine(int timer) const;
 	void DrawRestartLine(int timer) const;
 	void Draw(int style) const;

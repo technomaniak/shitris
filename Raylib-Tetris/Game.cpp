@@ -457,22 +457,43 @@ void Game::DrawFuturePieces()
 				{
 					if (tetromino.getIsAnythingHeld())
 					{
-						board.DrawHeldCell(pos + Vec2<int>{x, y}, LIGHTGRAY, Color{ 170, 170, 170, 255 }, Color{ 230, 230, 230, 255 }, style);
+						if (heldMino.GetDimension() < inputManager.GetMaxDimension())
+						{
+							board.DrawHeldCell(pos + Vec2<int>{x - ((heldMino.GetDimension() - inputManager.GetMaxDimension()) / 2),
+								y - ((heldMino.GetDimension() - inputManager.GetMaxDimension()) / 2)}, LIGHTGRAY, Color{ 170, 170, 170, 255 }, Color{ 230, 230, 230, 255 }, style);
+						}
+						else
+						{
+							board.DrawHeldCell(pos + Vec2<int>{x, y}, LIGHTGRAY, Color{ 170, 170, 170, 255 }, Color{ 230, 230, 230, 255 }, style);
+						}
 					}
 					else 
 					{
-						board.DrawHeldCell(pos + Vec2<int>{x, y}, heldMino.GetColor(), heldMino.GetAlternateColor(), heldMino.GetAlternateColor2(), style);
+						if (heldMino.GetDimension() < inputManager.GetMaxDimension())
+						{
+							board.DrawHeldCell(pos + Vec2<int>{x - ((heldMino.GetDimension() - inputManager.GetMaxDimension()) / 2),
+								y - ((heldMino.GetDimension() - inputManager.GetMaxDimension()) / 2)}, heldMino.GetColor(), heldMino.GetAlternateColor(), heldMino.GetAlternateColor2(), style);
+						}
+						else
+						{
+							board.DrawHeldCell(pos + Vec2<int>{x, y}, heldMino.GetColor(), heldMino.GetAlternateColor(), heldMino.GetAlternateColor2(), style);
+						}
 					}
 				}
 			}
 		}
 	}
 
-	board.DrawFutureBoard({ ((settings::boardWidthHeight.GetX() + 8) * board.GetCellSize()), board.GetScreenPos().GetY() - 26 },
-		{ (5 * board.GetCellSize()) + board.GetCellSize() - 6, (inputManager.GetTetrominoPreviewAmount() * board.GetCellSize() * inputManager.GetMaxDimension()) - 5 + (board.GetCellSize()) * 2 });
-	board.DrawFutureBorder({ ((settings::boardWidthHeight.GetX() + 8) * board.GetCellSize()), board.GetScreenPos().GetY() - 26 },
-		{ (5 * board.GetCellSize()) + board.GetCellSize() - 6, (inputManager.GetTetrominoPreviewAmount() * board.GetCellSize() * inputManager.GetMaxDimension()) - 5 + (board.GetCellSize() * 2) });
-	board.DrawFutureBoardGrid({ ((settings::boardWidthHeight.GetX() + 8) * board.GetCellSize()), board.GetScreenPos().GetY() - 20 }, inputManager.GetTetrominoPreviewAmount(), inputManager.GetMaxDimension());
+	board.DrawFutureBoard({ ((settings::boardWidthHeight.GetX() + 8) * board.GetCellSize()) + 50, board.GetScreenPos().GetY() - 26 },
+		{ ((inputManager.GetMaxDimension() + 1) * board.GetCellSize()) + board.GetCellSize() - 6, (inputManager.GetTetrominoPreviewAmount() * board.GetCellSize() * inputManager.GetMaxDimension()) - 5 + (board.GetCellSize()) * 2 });
+	board.DrawFutureBorder({ ((settings::boardWidthHeight.GetX() + 8) * board.GetCellSize()) + 50, board.GetScreenPos().GetY() - 26 },
+		{ ((inputManager.GetMaxDimension() + 1) * board.GetCellSize()) + board.GetCellSize() - 6, (inputManager.GetTetrominoPreviewAmount() * board.GetCellSize() * inputManager.GetMaxDimension()) - 5 + (board.GetCellSize() * 2) });
+	board.DrawFutureBoardGrid({ ((settings::boardWidthHeight.GetX() + 8) * board.GetCellSize()) + 50, board.GetScreenPos().GetY() - 20 }, inputManager.GetTetrominoPreviewAmount(), inputManager.GetMaxDimension());
+	board.DrawHeldBoard({ 15, board.GetScreenPos().GetY() - 6 }, 
+		{ ((inputManager.GetMaxDimension() + 1) * board.GetCellSize()) + board.GetCellSize() - 6, ((inputManager.GetMaxDimension() + 1) * board.GetCellSize()) + board.GetCellSize() - 6 });
+	board.DrawHeldBorder({ 15, board.GetScreenPos().GetY() - 6 }, 
+		{ ((inputManager.GetMaxDimension() + 1) * board.GetCellSize()) + board.GetCellSize() - 6, ((inputManager.GetMaxDimension() + 1) * board.GetCellSize()) + board.GetCellSize() - 5 });
+	board.DrawHeldBoardGrid({ 15, board.GetScreenPos().GetY() }, 1, inputManager.GetMaxDimension());
 }
 
 void Game::DrawDrawMino()
