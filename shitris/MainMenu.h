@@ -8,7 +8,7 @@
 class MainMenu
 {
 public:
-	MainMenu(SoundManager &sounds1, Texture2D &cogwheel1, std::vector<std::vector<int>> &keyBindsList1, InputManager& manager1, std::string& boardname, Board& board1, int &style);
+	MainMenu(SoundManager &sounds1, Texture2D &cogwheel1, Texture2D& quitTexture1, std::vector<std::vector<int>> &keyBindsList1, InputManager& manager1, std::string& boardname, Board& board1, int &style);
 
 	void LoadMenu();
 	void Tick();
@@ -31,6 +31,7 @@ private:
 	void SettingsButton();
 	void QuitGameButton();
 	void SetAnimationValueMainText();
+	void CreditsButton();
 
 	bool GameRunning;
 	bool menuLoaded;
@@ -38,6 +39,9 @@ private:
 
 	int playButtonCounter;
 	bool mouseOverPlayButton;
+
+	int creditsButtonCounter;
+	bool mouseOverCreditsButton;
 
 	int quitGameButtonCounter;
 	bool mouseOverQuitGameButton;
@@ -57,7 +61,8 @@ private:
 
 	std::vector<std::vector<int>> &keyBindsList;
 	OptionsMenu options;
-	Texture2D cogwheel;
+	Texture2D &cogwheel;
+	Texture2D &quitGameTexture;
 	InputManager& manager;
 	ModeSelectMenu modeSelect;
 };

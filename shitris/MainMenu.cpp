@@ -2,7 +2,7 @@
 #include "Settings.h"
 #include <iostream>
 
-MainMenu::MainMenu(SoundManager &sounds1, Texture2D &cogwheel1, std::vector<std::vector<int>> &keyBindsList1, InputManager& manager1, std::string& boardName1, Board& board1, int &style) :
+MainMenu::MainMenu(SoundManager &sounds1, Texture2D &cogwheel1, Texture2D& quitTexture1, std::vector<std::vector<int>> &keyBindsList1, InputManager& manager1, std::string& boardName1, Board& board1, int &style) :
 	GameRunning(false),
 	menuLoaded(false),
 	sounds(sounds1),
@@ -15,15 +15,18 @@ MainMenu::MainMenu(SoundManager &sounds1, Texture2D &cogwheel1, std::vector<std:
 	quitGameButtonCounter(0),
 	playButtonCounter(0),
 	settingsButtonCounter(0),
+	creditsButtonCounter(0),
 	gameReset(true),
 	mouseOverQuitGameButton(false),
+	mouseOverCreditsButton(false),
 	keyBindsList(keyBindsList1),
 	options(OptionsMenu(sounds, keyBindsList)),
 	cogwheel(cogwheel1),
 	modeSelect(ModeSelectMenu(sounds, manager, boardName, style, board)),
 	manager(manager1),
 	board(board1),
-	boardName(boardName1)
+	boardName(boardName1),
+	quitGameTexture(quitTexture1)
 {
 }
 
@@ -46,6 +49,7 @@ void MainMenu::Tick()
 			PlayButton();
 			QuitGameButton();
 			SettingsButton();
+			CreditsButton();
 			MainText();
 			if (modeSelect.GetGameStart())
 			{
@@ -98,6 +102,7 @@ void MainMenu::PlayButton()
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 		{
 			gameReset = true;
+			sounds.PlaySoundFromName("menuSound");
 			modeSelect.LoadModeSelect();
 		}
 	}
@@ -148,7 +153,6 @@ void MainMenu::SettingsButton()
 
 void MainMenu::QuitGameButton()
 {
-
 	if (raycpp::GetMousePos() > settings::quitGameButtonPos - Vec2<int>{ 0, 25 }
 	&& raycpp::GetMousePos() < settings::quitGameButtonPos - Vec2<int>{ 0, 25 } + settings::quitGameButtonSize)
 	{
@@ -160,12 +164,12 @@ void MainMenu::QuitGameButton()
 	}
 	else
 	{
-		if (settings::quitGameButtonTextSize < settings::maxQuitGameButtonTextSize)
+		if (settings::quitGameButtonTextureSize < settings::maxQuitGameButtonTextureSize)
 		{
 			quitGameButtonCounter++;
 			if (quitGameButtonCounter > 0)
 			{
-				settings::quitGameButtonTextSize += 5;
+				settings::quitGameButtonTextureSize += 0.01;
 				quitGameButtonCounter = 0;
 			}
 		}
@@ -173,12 +177,12 @@ void MainMenu::QuitGameButton()
 	}
 	if (mouseOverQuitGameButton)
 	{
-		if (settings::quitGameButtonTextSize > settings::minQuitGameButtonTextSize)
+		if (settings::quitGameButtonTextureSize > settings::minQuitGameButtonTextureSize)
 		{
 			quitGameButtonCounter++;
 			if (quitGameButtonCounter > 0)
 			{
-				settings::quitGameButtonTextSize -= 5;
+				settings::quitGameButtonTextureSize -= 0.01;
 				quitGameButtonCounter = 0;
 			}
 		}
@@ -222,6 +226,50 @@ void MainMenu::SetAnimationValueMainText()
 	}
 }
 
+void MainMenu::CreditsButton()
+{
+	if (raycpp::GetMousePos() > settings::creditsButtonPos - Vec2<int>{ 0, 25 }
+	&& raycpp::GetMousePos() < settings::creditsButtonPos - Vec2<int>{ 0, 25 } + settings::creditsButtonSize)
+	{
+		if (mouseOverCreditsButton != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			mouseOverCreditsButton = true;
+		}
+	}
+	else
+	{
+		if (settings::creditsButtonTextSize < settings::maxCreditsButtonTextSize)
+		{
+			creditsButtonCounter++;
+			if (creditsButtonCounter > 0)
+			{
+				settings::creditsButtonTextSize += 5;
+				creditsButtonCounter = 0;
+			}
+		}
+		mouseOverCreditsButton = false;
+	}
+	if (mouseOverCreditsButton)
+	{
+		if (settings::creditsButtonTextSize > settings::minCreditsButtonTextSize)
+		{
+			creditsButtonCounter++;
+			if (creditsButtonCounter > 0)
+			{
+				settings::creditsButtonTextSize -= 5;
+				creditsButtonCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			gameReset = true;
+			sounds.PlaySoundFromName("menuSound");
+			modeSelect.LoadModeSelect();
+		}
+	}
+}
+
 bool MainMenu::GetGameRunning() const
 {
 	return GameRunning;
@@ -253,11 +301,15 @@ void MainMenu::Draw() const
 		settings::playButtonPos.GetY() - (settings::playButtonSize.GetY() / 2) + (int)(settings::playButtonSize.GetY() - MeasureTextEx(GetFontDefault(), "PLAY", (float)(settings::playButtonTextSize / 2), 20).y) },
 		settings::playButtonTextSize, RAYWHITE);
 
+	// Credits Button
+	raycpp::DrawRectangleLinesEx(settings::creditsButtonPos, settings::creditsButtonSize, 5, RAYWHITE);
+	raycpp::DrawText("CREDITS", { settings::creditsButtonTextPos.GetX() - (settings::creditsButtonSize.GetX() / 2) + (settings::creditsButtonSize.GetX() - MeasureText("CREDITS", settings::creditsButtonTextSize) / 2),
+		settings::creditsButtonPos.GetY() - (settings::creditsButtonSize.GetY() / 2) + (int)(settings::creditsButtonSize.GetY() - MeasureTextEx(GetFontDefault(), "CREDITS", (float)(settings::creditsButtonTextSize / 2), 20).y) },
+		settings::creditsButtonTextSize, RAYWHITE);
+
 	// Quit Game button
 	raycpp::DrawRectangleLinesEx(settings::quitGameButtonPos, settings::quitGameButtonSize, 5, RAYWHITE);
-	raycpp::DrawText("QUIT", { settings::quitGameButtonTextPos.GetX() - (settings::quitGameButtonSize.GetX() / 2) + (settings::quitGameButtonSize.GetX() - MeasureText("QUIT", settings::quitGameButtonTextSize) / 2),
-		settings::quitGameButtonPos.GetY() - (settings::quitGameButtonSize.GetY() / 2) + (int)(settings::quitGameButtonSize.GetY() - MeasureTextEx(GetFontDefault(), "QUIT", (float)(settings::quitGameButtonTextSize / 2), 20).y) },
-		settings::quitGameButtonTextSize, RAYWHITE);
+	raycpp::DrawTextureEx(quitGameTexture, settings::quitGameButtonTexturePos + (int)(((19.53125 - (settings::quitGameButtonTextureSize * 100)) * 5.12) / 2) + Vec2<int>{ 6, 7 }, 0.0f, settings::quitGameButtonTextureSize, RAYWHITE);
 
 	// Settings Button
 	raycpp::DrawRectangleLinesEx(settings::settingsButtonPos , settings::settingsButtonSize, 5, RAYWHITE);

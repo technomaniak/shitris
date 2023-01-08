@@ -53,13 +53,22 @@ namespace settings
             inline constexpr Vec2<int> settingsButtonPos{ 75, 75 };
             inline Vec2<int> settingsButtonTexturePos = settingsButtonPos + Vec2<int>{ 6, 6 };
 
+        // Credits Button
+            inline constexpr Vec2<int> creditsButtonSize{ 500, 150 };
+            inline constexpr int minCreditsButtonTextSize = 80;
+            inline constexpr int maxCreditsButtonTextSize = 100;
+            inline int creditsButtonTextSize = 100;
+            inline constexpr Vec2<int> creditsButtonPos = playButtonPos + Vec2<int>{ 0, 200 };
+            inline Vec2<int> creditsButtonTextPos{ creditsButtonPos.GetX(), creditsButtonPos.GetY() };
+
+
         // Quit Game Button
-            inline constexpr Vec2<int> quitGameButtonSize{ 500, 150 };
-            inline constexpr int minQuitGameButtonTextSize = 80;
-            inline constexpr int maxQuitGameButtonTextSize = 100;
-            inline int quitGameButtonTextSize = 100;
-            inline constexpr Vec2<int> quitGameButtonPos = playButtonPos + Vec2<int>{ 0, 200 };
-            inline Vec2<int> quitGameButtonTextPos{ quitGameButtonPos.GetX(), quitGameButtonPos.GetY() };
+            inline constexpr Vec2<int> quitGameButtonSize{ 110, 110 };
+            inline constexpr float maxQuitGameButtonTextureSize = 0.1903125f;
+            inline constexpr float minQuitGameButtonTextureSize = 0.1403125f;
+            inline float quitGameButtonTextureSize = 0.1903125f;
+            inline constexpr Vec2<int> quitGameButtonPos{ screenWidth - 250, 75 };
+            inline Vec2<int> quitGameButtonTexturePos{ quitGameButtonPos.GetX(), quitGameButtonPos.GetY() };
 
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 

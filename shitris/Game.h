@@ -26,6 +26,8 @@ private:
 
 	Texture2D cogwheel;
 	Image cogwheelImage;
+	Texture2D quitGameTexture;
+	Image quitGameImage;
 
 	Texture2D darkOverlay;
 	Image darkOverlayImage;

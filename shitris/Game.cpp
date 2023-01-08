@@ -16,6 +16,8 @@ Game::Game(int width, int height, int fps, std::string title)
 	counterFall(1),
 	cogwheelImage(LoadImage("Cogwheel.png")),
 	cogwheel(LoadTextureFromImage(cogwheelImage)),
+	quitGameImage(LoadImage("quitTexture.png")),
+	quitGameTexture(LoadTextureFromImage(quitGameImage)),
 	keyBindsList({ { 262, 263, 88, 90, 82, 256, 32, 264, 67 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 } }),
 	counterMove(0),
 	counterKeepMoving(0),
@@ -26,7 +28,7 @@ Game::Game(int width, int height, int fps, std::string title)
 	lastAction(0),
 	gameShouldEnd(false),
 	soundManager(SoundManager()),
-	mainMenu(MainMenu(soundManager, cogwheel, keyBindsList, inputManager, boardName, board, style)),
+	mainMenu(MainMenu(soundManager, cogwheel, quitGameTexture, keyBindsList, inputManager, boardName, board, style)),
 	boardName(""),
 	newBest(false),
 	mouseOverRestartButton(false),
@@ -73,7 +75,6 @@ void Game::Tick()
 	{
 		texturesLoaded = true;
 		LoadTextures();
-		mainMenu.UpdateTextures(cogwheel);
 	}
 	if (mainMenu.GetGameRunning())
 	{
@@ -397,8 +398,10 @@ void Game::LoadTextures()
 {
 	darkOverlay = LoadTextureFromImage(darkOverlayImage);
 	cogwheel = LoadTextureFromImage(cogwheelImage);
+	quitGameTexture = LoadTextureFromImage(quitGameImage);
 	UnloadImage(cogwheelImage);
 	UnloadImage(darkOverlayImage);
+	UnloadImage(quitGameImage);
 }
 
 int Game::SelectRandomPiece() const

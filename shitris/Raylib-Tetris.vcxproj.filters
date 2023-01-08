@@ -182,5 +182,8 @@
     <Image Include="Cogwheel.png">
       <Filter>Pliki zasobów\Textures</Filter>
     </Image>
+    <Image Include="quitTexture.png">
+      <Filter>Pliki zasobów\Textures</Filter>
+    </Image>
   </ItemGroup>
 </Project>
