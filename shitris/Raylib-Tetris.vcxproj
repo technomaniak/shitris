@@ -177,12 +177,12 @@
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="cock.board" />
     <None Include="Controls.setting" />
     <None Include=".Default.board" />
     <None Include="Default.HS" />
     <None Include="defaultcontrols.setting" />
     <None Include="El.tetromino" />
+    <None Include="F:\Personal Projects\Pong\stresstest.board" />
     <None Include="Jay.tetromino" />
     <None Include="SkewS.tetromino" />
     <None Include="SkewZ.tetromino" />

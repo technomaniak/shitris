@@ -64,7 +64,6 @@ void SoundManager::PlayRandomMusic()
 	currentlyPlaying = rand() % music_amount;
 	SetMusicVolume(music[currentlyPlaying], musicVolume);
 	PlayMusicStream(music[currentlyPlaying]);
-	std::cout << "\nPlay music " << GetMusicTimeLength(music[currentlyPlaying]);
 }
 
 void SoundManager::UpdateCurrentMusic()

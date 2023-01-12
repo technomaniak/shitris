@@ -2,7 +2,7 @@
 #include "Settings.h"
 #include <iostream>
 
-MainMenu::MainMenu(SoundManager &sounds1, Texture2D &cogwheel1, Texture2D& quitTexture1, std::vector<std::vector<int>> &keyBindsList1, InputManager& manager1, std::string& boardName1, Board& board1, int &style) :
+MainMenu::MainMenu(SoundManager& sounds1, Texture2D& cogwheel1, Texture2D& quitTexture1, std::vector<std::vector<int>>& keyBindsList1, InputManager& manager1, std::string& boardName1, Board& board1, int& style) :
 	GameRunning(false),
 	menuLoaded(false),
 	sounds(sounds1),
@@ -26,7 +26,8 @@ MainMenu::MainMenu(SoundManager &sounds1, Texture2D &cogwheel1, Texture2D& quitT
 	manager(manager1),
 	board(board1),
 	boardName(boardName1),
-	quitGameTexture(quitTexture1)
+	quitGameTexture(quitTexture1),
+	creditsMenu(CreditsMenu(sounds))
 {
 }
 
@@ -42,6 +43,10 @@ void MainMenu::Tick()
 		if (modeSelect.GetLoaded())
 		{
 			modeSelect.Tick();
+		}
+		else if (creditsMenu.GetMenuLoaded())
+		{
+			creditsMenu.Tick();
 		}
 		else
 		{
@@ -169,7 +174,7 @@ void MainMenu::QuitGameButton()
 			quitGameButtonCounter++;
 			if (quitGameButtonCounter > 0)
 			{
-				settings::quitGameButtonTextureSize += 0.01;
+				settings::quitGameButtonTextureSize += (float)0.01;
 				quitGameButtonCounter = 0;
 			}
 		}
@@ -182,7 +187,7 @@ void MainMenu::QuitGameButton()
 			quitGameButtonCounter++;
 			if (quitGameButtonCounter > 0)
 			{
-				settings::quitGameButtonTextureSize -= 0.01;
+				settings::quitGameButtonTextureSize -= (float)0.01;
 				quitGameButtonCounter = 0;
 			}
 		}
@@ -265,7 +270,7 @@ void MainMenu::CreditsButton()
 		{
 			gameReset = true;
 			sounds.PlaySoundFromName("menuSound");
-			modeSelect.LoadModeSelect();
+			creditsMenu.LoadCreditsMenu();
 		}
 	}
 }
@@ -312,7 +317,7 @@ void MainMenu::Draw() const
 	raycpp::DrawTextureEx(quitGameTexture, settings::quitGameButtonTexturePos + (int)(((19.53125 - (settings::quitGameButtonTextureSize * 100)) * 5.12) / 2) + Vec2<int>{ 6, 7 }, 0.0f, settings::quitGameButtonTextureSize, RAYWHITE);
 
 	// Settings Button
-	raycpp::DrawRectangleLinesEx(settings::settingsButtonPos , settings::settingsButtonSize, 5, RAYWHITE);
+	raycpp::DrawRectangleLinesEx(settings::settingsButtonPos, settings::settingsButtonSize, 5, RAYWHITE);
 	raycpp::DrawTextureEx(cogwheel, settings::settingsButtonTexturePos + (int)(((19.53125 - (settings::settingsButtonTextureSize * 100)) * 5.12) / 2), 0.0f, settings::settingsButtonTextureSize, RAYWHITE);
 
 }
@@ -362,7 +367,7 @@ void MainMenu::MainText()
 		}
 	}
 
-	DrawTextPro(GetFontDefault(), "SHITRIS", { settings::screenWidth / 2, settings::screenHeight / 2 }, { (float)MeasureText("SHITRIS", settings::mainTextSize) / 2 - 25, 
+	DrawTextPro(GetFontDefault(), "SHITRIS", { settings::screenWidth / 2, settings::screenHeight / 2 }, { (float)MeasureText("SHITRIS", settings::mainTextSize) / 2 - 25,
 											   MeasureTextEx(GetFontDefault(), "SHITRIS", (float)settings::mainTextSize, 5).y }, (float)menuTextRotation, (float)settings::mainTextSize, 5, RAYWHITE);
 
 	SetAnimationValueMainText();

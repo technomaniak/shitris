@@ -14,20 +14,20 @@ InputManager::InputManager() :
 
 }
 
-void InputManager::LoadBoard(std::string boardName, Board &board)
+void InputManager::LoadBoard(std::string boardName, Board& board)
 {
 	std::ifstream inputFile(boardName + ".board");
 	std::string input;
-	
+
 	board.SetHighScore(LoadHighScore(boardName));
 
 	// getting board size
 
-	std::getline (inputFile, input, ' ');
+	std::getline(inputFile, input, ' ');
 	settings::boardWidthHeight.SetX(std::stoi(input));
 	std::getline(inputFile, input);
 	settings::boardWidthHeight.SetY(std::stoi(input));
-	
+
 	board.SetSize(settings::boardWidthHeight);
 
 	// getting board data
@@ -46,7 +46,7 @@ void InputManager::LoadBoard(std::string boardName, Board &board)
 	}
 
 	// getting pieces
-	
+
 	std::getline(inputFile, input);
 	tetrominoeAmount = std::stoi(input);
 	for (int i = 0; i < tetrominoeAmount; i++)
@@ -62,7 +62,7 @@ void InputManager::LoadBoard(std::string boardName, Board &board)
 	tetrominoePreviewAmount = std::stoi(input);
 }
 
-void InputManager::LoadTetromino(int index, Tetromino &tetromino)
+void InputManager::LoadTetromino(int index, Tetromino& tetromino)
 {
 	tetromino.SetColor(tetrominoes[index].GetColor());
 	tetromino.SetDimension(tetrominoes[index].GetDimension());

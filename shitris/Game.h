@@ -10,7 +10,7 @@ class Game
 {
 public:
 	Game(int width, int height, int fps, std::string title);
-	Game(const Game& other)= delete;
+	Game(const Game& other) = delete;
 	Game& operator=(const Game& other) = delete;
 	~Game() noexcept;
 
@@ -71,8 +71,9 @@ private:
 	int mainMenuButtonCounter;
 	int gameOverCounter;
 	int optionsButtonCounter;
+	bool hardReset;
 	std::string boardName;
-	
+
 	std::vector<std::vector<int>> keyBindsList{};
 	InputManager inputManager;
 	SoundManager soundManager;

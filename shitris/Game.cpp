@@ -43,7 +43,8 @@ Game::Game(int width, int height, int fps, std::string title)
 	darkOverlayImage(GenImageColor(settings::screenWidth, settings::screenHeight, Color{ 0, 0, 0, 100 })),
 	darkOverlay(LoadTextureFromImage(darkOverlayImage)),
 	resetTimer(1),
-	style(2)
+	style(2),
+	hardReset(false)
 {
 	assert(!IsWindowReady()); // if triggered game is already open.
 	std::cout << "\nTetromino Loaded";
@@ -54,7 +55,7 @@ Game::Game(int width, int height, int fps, std::string title)
 	SetTargetFPS(fps);
 }
 
-Game::~Game() noexcept 
+Game::~Game() noexcept
 {
 	assert(GetWindowHandle()); // if triggered game window isn't open 
 	soundManager.CloseSound();
@@ -85,7 +86,7 @@ void Game::Tick()
 			mainMenu.SetGameReset(false);
 		}
 		else
-			{
+		{
 			if (gamePaused)
 			{
 				if (mainMenu.GetOptionsLoaded())
@@ -131,7 +132,7 @@ void Game::Tick()
 }
 
 void Game::Draw()
-{	
+{
 	Draw(105);
 }
 
@@ -156,7 +157,7 @@ void Game::Draw(int power)
 
 void Game::Update()
 {
-
+	// Finish Fall Sequence
 	if (tetromino.GetFallen())
 	{
 		board.ClearLines(tetromino.GetCurrentPieceId(), lastAction, tetromino.GetAlias(), tetromino.GetPos());
@@ -172,8 +173,10 @@ void Game::Update()
 		}
 		tetromino.SetFallen(false);
 		tetromino.SetIsAnythingSetToHeld(false);
-		tetromino.SetRotation(Tetromino::Rotation::UP);}
+		tetromino.SetRotation(Tetromino::Rotation::UP);
+	}
 
+	// Rotate Clockwise
 	if (IsKeyPressed(keyBindsList[0][2]) || IsKeyPressed(keyBindsList[1][2]))
 	{
 		tetromino.RotateClockwise();
@@ -184,6 +187,8 @@ void Game::Update()
 		}
 		lastAction = 1;
 	}
+
+	// Rotate Counter Clockwise
 	if (IsKeyPressed(keyBindsList[0][3]) || IsKeyPressed(keyBindsList[1][3]))
 	{
 		tetromino.RotateCounterClockwise();
@@ -194,6 +199,7 @@ void Game::Update()
 		}
 		lastAction = 1;
 	}
+
 	//if (IsKeyPressed(KEY_W))
 	//{
 	//	tetromino.RotateFull();
@@ -205,6 +211,7 @@ void Game::Update()
 	//	lastAction = 1;
 	//}
 
+	// Move Left 
 	if (IsKeyDown(keyBindsList[0][1]) || IsKeyDown(keyBindsList[1][1]))
 	{
 		counterMove++;
@@ -246,6 +253,7 @@ void Game::Update()
 		lastAction = 2;
 	}
 
+	// Move Right
 	if (IsKeyDown(keyBindsList[0][0]) || IsKeyDown(keyBindsList[1][0]))
 	{
 		counterMove++;
@@ -288,6 +296,7 @@ void Game::Update()
 		lastAction = 2;
 	}
 
+	// Soft Drop
 	if (IsKeyDown(keyBindsList[0][7]) || IsKeyDown(keyBindsList[1][7]))
 	{
 		if (!tetromino.IsBottom())
@@ -297,6 +306,7 @@ void Game::Update()
 		counterFall += 5 + board.GetSpeed();
 	}
 
+	// Hold
 	if (IsKeyPressed(keyBindsList[0][8]) || IsKeyPressed(keyBindsList[1][8]))
 	{
 		if (!tetromino.getIsAnythingHeld())
@@ -329,6 +339,7 @@ void Game::Update()
 		}
 	}
 
+	// Hard Drop
 	if (IsKeyPressed(keyBindsList[0][6]) || IsKeyPressed(keyBindsList[1][6]))
 	{
 		tetromino.HardDrop();
@@ -337,6 +348,7 @@ void Game::Update()
 
 	counterFall += board.GetSpeed() + 1;
 
+	// Check For Drop On Floor
 	if (tetromino.IsBottom())
 	{
 		counterDrop--;
@@ -344,7 +356,7 @@ void Game::Update()
 		{
 			tetromino.PlaceTetromino(gameShouldEnd);
 			soundManager.PlaySoundFromName("placeSound");
-			
+
 			counterDrop = 40;
 			counterFall = 1;
 		}
@@ -362,16 +374,20 @@ void Game::Update()
 		}
 	}
 
+	// Pause
 	if (IsKeyPressed(keyBindsList[0][5]) || IsKeyPressed(keyBindsList[1][5]))
 	{
 		gamePaused = !gamePaused;
 	}
 
-	if (IsKeyPressed(keyBindsList[0][4]) || IsKeyPressed(keyBindsList[1][4]))
+	// Reset Game
+	if (IsKeyDown(keyBindsList[0][4]) || IsKeyDown(keyBindsList[1][4]))
 	{
 		resetTimer++;
+		std::cout << "\n" << resetTimer << "\n";
 		if (resetTimer > 61)
 		{
+			hardReset = true;
 			ResetGame();
 			resetTimer = 1;
 		}
@@ -448,7 +464,7 @@ void Game::DrawFuturePieces()
 		for (int y = 0; y < heldMino.GetDimension(); y++)
 		{
 			std::vector<bool> shape(heldMino.GetDimension() * heldMino.GetDimension());
-			Vec2<int> pos = { -4 , 0};
+			Vec2<int> pos = { -4 , 0 };
 			for (int x = 0; x < heldMino.GetDimension(); x++)
 			{
 				bool cell = false;
@@ -470,7 +486,7 @@ void Game::DrawFuturePieces()
 							board.DrawHeldCell(pos + Vec2<int>{x, y}, LIGHTGRAY, Color{ 170, 170, 170, 255 }, Color{ 230, 230, 230, 255 }, style);
 						}
 					}
-					else 
+					else
 					{
 						if (heldMino.GetDimension() < inputManager.GetMaxDimension())
 						{
@@ -492,9 +508,9 @@ void Game::DrawFuturePieces()
 	board.DrawFutureBorder({ ((settings::boardWidthHeight.GetX() + 8) * board.GetCellSize()) + 50, board.GetScreenPos().GetY() - 26 },
 		{ ((inputManager.GetMaxDimension() + 1) * board.GetCellSize()) + board.GetCellSize() - 6, (inputManager.GetTetrominoPreviewAmount() * board.GetCellSize() * inputManager.GetMaxDimension()) - 5 + (board.GetCellSize() * 2) });
 	board.DrawFutureBoardGrid({ ((settings::boardWidthHeight.GetX() + 8) * board.GetCellSize()) + 50, board.GetScreenPos().GetY() - 20 }, inputManager.GetTetrominoPreviewAmount(), inputManager.GetMaxDimension());
-	board.DrawHeldBoard({ 15, board.GetScreenPos().GetY() - 6 }, 
+	board.DrawHeldBoard({ 15, board.GetScreenPos().GetY() - 6 },
 		{ ((inputManager.GetMaxDimension() + 1) * board.GetCellSize()) + board.GetCellSize() - 6, ((inputManager.GetMaxDimension() + 1) * board.GetCellSize()) + board.GetCellSize() - 6 });
-	board.DrawHeldBorder({ 15, board.GetScreenPos().GetY() - 6 }, 
+	board.DrawHeldBorder({ 15, board.GetScreenPos().GetY() - 6 },
 		{ ((inputManager.GetMaxDimension() + 1) * board.GetCellSize()) + board.GetCellSize() - 6, ((inputManager.GetMaxDimension() + 1) * board.GetCellSize()) + board.GetCellSize() - 5 });
 	board.DrawHeldBoardGrid({ 15, board.GetScreenPos().GetY() }, 1, inputManager.GetMaxDimension());
 }
@@ -639,7 +655,7 @@ void Game::RestartButton(bool isNewBest)
 		extraOffset = { 0, 0 };
 	}
 
-	if (raycpp::GetMousePos() - Vec2<int>{ 0, - 20 } - extraOffset > settings::restartButtonPos
+	if (raycpp::GetMousePos() - Vec2<int>{ 0, -20 } - extraOffset > settings::restartButtonPos
 		&& raycpp::GetMousePos() < settings::restartButtonPos + settings::restartButtonSize - Vec2<int>{ 0, 20 } + extraOffset)
 	{
 		if (mouseOverRestartButton != true)
@@ -674,6 +690,7 @@ void Game::RestartButton(bool isNewBest)
 		}
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 		{
+			hardReset = true;
 			ResetGame();
 			soundManager.PlaySoundFromName("menuSound");
 		}
@@ -784,6 +801,10 @@ void Game::ResetGame()
 	{
 		tetrominoesList[i] = SelectRandomPiece();
 	}
+	if (hardReset)
+	{
+		board.EraseBoard();
+	}
 	inputManager.LoadBoard(boardName, board);
 	tetromino.SetCurrentPiece(tetrominoesList[0]);
 	inputManager.LoadTetromino(tetrominoesList[0], tetromino);
@@ -802,8 +823,8 @@ void Game::ResetGame()
 	holdPiece = -1;
 	inputManager.SetHeld(-1);
 	board.ResetScore();
-	board.EraseBoard();
 	newBest = false;
 	mainMenu.UnLoadOptions();
 	inputManager.LoadHighScore(boardName);
+	hardReset = false;
 }

@@ -142,9 +142,6 @@
     <None Include="squomino.board">
       <Filter>Pliki zasobów\presets\board</Filter>
     </None>
-    <None Include="cock.board">
-      <Filter>Pliki zasobów\presets\board</Filter>
-    </None>
     <None Include="test.board">
       <Filter>Pliki zasobów\presets\board</Filter>
     </None>
@@ -168,6 +165,9 @@
     </None>
     <None Include="defaultcontrols.setting">
       <Filter>Pliki zasobów\PlayerData</Filter>
+    </None>
+    <None Include="F:\Personal Projects\Pong\stresstest.board">
+      <Filter>Pliki zasobów\presets\board</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

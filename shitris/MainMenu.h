@@ -4,11 +4,12 @@
 #include "OptionsMenu.h"
 #include "ModeSelectMenu.h"
 #include "InputManager.h"
+#include "CreditsMenu.h"
 
 class MainMenu
 {
 public:
-	MainMenu(SoundManager &sounds1, Texture2D &cogwheel1, Texture2D& quitTexture1, std::vector<std::vector<int>> &keyBindsList1, InputManager& manager1, std::string& boardname, Board& board1, int &style);
+	MainMenu(SoundManager& sounds1, Texture2D& cogwheel1, Texture2D& quitTexture1, std::vector<std::vector<int>>& keyBindsList1, InputManager& manager1, std::string& boardname, Board& board1, int& style);
 
 	void LoadMenu();
 	void Tick();
@@ -19,7 +20,7 @@ public:
 	void Draw() const;
 	bool GetGameReset() const;
 	void SetGameReset(bool val);
-	void UpdateTextures(Texture2D &cogwheel1);
+	void UpdateTextures(Texture2D& cogwheel1);
 	void LoadOptions();
 	void UnLoadOptions();
 	bool GetOptionsLoaded();
@@ -54,15 +55,16 @@ private:
 	bool mouseOverSettingsButton;
 	int settingsButtonCounter;
 
-	SoundManager &sounds;
+	SoundManager& sounds;
 
 	std::string& boardName;
 	Board& board;
 
-	std::vector<std::vector<int>> &keyBindsList;
+	std::vector<std::vector<int>>& keyBindsList;
 	OptionsMenu options;
-	Texture2D &cogwheel;
-	Texture2D &quitGameTexture;
+	Texture2D& cogwheel;
+	Texture2D& quitGameTexture;
 	InputManager& manager;
 	ModeSelectMenu modeSelect;
+	CreditsMenu creditsMenu;
 };

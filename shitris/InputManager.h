@@ -10,7 +10,7 @@ public:
 	InputManager();
 
 	void LoadBoard(std::string boardName, Board& board);
-	void LoadTetromino(int index, Tetromino &tetromino);
+	void LoadTetromino(int index, Tetromino& tetromino);
 	int LoadHighScore(std::string boardName);
 	int GetTetrominoPreviewAmount() const;
 	int GetTetrominoAmount() const;
