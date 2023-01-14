@@ -30,4 +30,4 @@ if for some reason you want to download this and compile it here are dependencie
 
 # Plans for this
 
-![TO-DO LIST](https://user-images.githubusercontent.com/49454508/211193238-bfb79029-70ed-482c-8c31-ce694f604e7f.png)
+![TO-DO LIST](![image](https://user-images.githubusercontent.com/49454508/212492799-d437286d-cd2f-444b-9ffb-595f52ebc1f6.png))
