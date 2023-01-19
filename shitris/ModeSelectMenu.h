@@ -28,6 +28,8 @@ private:
 
 	void ModePreviews();
 	void SideBar();
+	void SideBarPlayButton();
+	void DrawSideBarPlayButton();
 
 	std::vector<std::string> boards;
 	SoundManager& sounds;
@@ -35,9 +37,13 @@ private:
 
 	bool menuLoaded;
 	bool mouseOverReturnButton;
+	bool mouseOverPlayButton;
+	int playButtonCounter;
 	bool sideBarDisplayed;
 	int returnButtonCounter;
 	int& style;
+	bool sideBarEnabled;
+	int whichSideBar;
 
 	std::vector<bool> mouseOverAPreviewButton;
 

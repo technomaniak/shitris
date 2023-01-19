@@ -15,7 +15,11 @@ ModeSelectMenu::ModeSelectMenu(SoundManager& sounds1, InputManager& manager1, st
 	startGame(false),
 	board(board1),
 	PreviewMinoes(),
-	style(style1)
+	style(style1),
+	sideBarEnabled(false),
+	whichSideBar(-1),
+	playButtonCounter(0),
+	mouseOverPlayButton(false)
 {
 	FindAllBoardFiles();
 	measurements.clear();
@@ -41,6 +45,10 @@ void ModeSelectMenu::Draw()
 	DrawTetrominoes();
 	raycpp::DrawText("RETURN", settings::returnButtonTextPos - Vec2<int>{ (settings::minReturnTextSize - settings::returnTextSize) * -2,
 		((settings::minReturnTextSize - settings::returnTextSize) / 2) * -1}, settings::returnTextSize, RAYWHITE);
+	if (sideBarEnabled)
+	{
+		DrawSideBar();
+	}
 }
 
 void ModeSelectMenu::SetLoaded(bool val)
@@ -124,6 +132,8 @@ void ModeSelectMenu::DrawTetrominoes()
 
 void ModeSelectMenu::DrawSideBar()
 {
+	raycpp::DrawLineEx({ settings::screenWidth / 2, 100 }, { settings::screenWidth / 2, settings::screenHeight }, 3, RAYWHITE);
+	DrawSideBarPlayButton();
 }
 
 void ModeSelectMenu::FindAllBoardFiles()
@@ -215,8 +225,8 @@ void ModeSelectMenu::ModePreviews()
 			{
 				sounds.PlaySoundFromName("menuSound");
 				playBoardName = boards[i];
-				SetLoaded(false);
-				SetGameStart(true);
+				sideBarEnabled = true;
+				whichSideBar = i;
 			}
 		}
 	}
@@ -224,4 +234,57 @@ void ModeSelectMenu::ModePreviews()
 
 void ModeSelectMenu::SideBar()
 {
+	SideBarPlayButton();
+}
+
+void ModeSelectMenu::SideBarPlayButton()
+{
+	if (raycpp::GetMousePos() > Vec2<int>{ settings::screenWidth / 4 * 3 - 250, settings::screenHeight / 6 * 5 - 25 }
+	&& raycpp::GetMousePos() < Vec2<int>{ settings::screenWidth / 4 * 3 + 250, settings::screenHeight / 6 * 5 + 25 })
+	{
+		if (mouseOverPlayButton != true)
+		{
+			sounds.PlaySoundFromName("menuSound");
+			mouseOverPlayButton = true;
+		}
+	}
+	else
+	{
+		if (settings::playButtonTextSize < settings::maxPlayButtonTextSize)
+		{
+			playButtonCounter++;
+			if (playButtonCounter > 0)
+			{
+				settings::playButtonTextSize += 5;
+				playButtonCounter = 0;
+			}
+		}
+		mouseOverPlayButton = false;
+	}
+	if (mouseOverPlayButton)
+	{
+		if (settings::playButtonTextSize > settings::minPlayButtonTextSize)
+		{
+			playButtonCounter++;
+			if (playButtonCounter > 0)
+			{
+				settings::playButtonTextSize -= 5;
+				playButtonCounter = 0;
+			}
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			sounds.PlaySoundFromName("menuSound");
+			SetLoaded(false);
+			SetGameStart(true);
+		}
+	}
+}
+
+void ModeSelectMenu::DrawSideBarPlayButton()
+{
+	raycpp::DrawRectangleLinesEx({ settings::screenWidth / 4 * 3 - 250, settings::screenHeight / 6 * 5 - 25 }, settings::playButtonSize, 3, RAYWHITE);
+	raycpp::DrawText("PLAY", { (settings::screenWidth / 4 * 3 - 250) - (settings::playButtonSize.GetX() / 2) + (settings::playButtonSize.GetX() - MeasureText("PLAY", settings::playButtonTextSize) / 2),
+		(settings::screenHeight / 6 * 5 - 25) - (settings::playButtonSize.GetY() / 2) + (int)(settings::playButtonSize.GetY() - MeasureTextEx(GetFontDefault(), "PLAY", (float)(settings::playButtonTextSize / 2), 20).y) },
+		settings::playButtonTextSize, RAYWHITE);
 }
