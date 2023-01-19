@@ -518,7 +518,7 @@ void Game::DrawFuturePieces()
 void Game::DrawDrawMino()
 {
 	drawMino.AlignPos(tetromino);
-	drawMino.Draw(1);
+	drawMino.Draw(3);
 }
 
 void Game::GameOver()

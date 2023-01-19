@@ -782,6 +782,8 @@ void Tetromino::AlignPos(Tetromino tetromino)
 	shape = tetromino.GetShape();
 	boardPos = tetromino.GetPos();
 	color = tetromino.GetColor();
+	alternateColor = tetromino.GetAlternateColor();
+	alternateColor2 = tetromino.GetAlternateColor2();
 	currentRotation = (Rotation)tetromino.GetRotation();
 	while (!IsBottom())
 	{

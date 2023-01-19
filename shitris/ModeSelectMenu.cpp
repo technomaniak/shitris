@@ -35,6 +35,10 @@ void ModeSelectMenu::Tick()
 {
 	Draw();
 	ReturnButton();
+	if (sideBarEnabled)
+	{
+		SideBarPlayButton();
+	}
 	ModePreviews();
 }
 
@@ -239,8 +243,8 @@ void ModeSelectMenu::SideBar()
 
 void ModeSelectMenu::SideBarPlayButton()
 {
-	if (raycpp::GetMousePos() > Vec2<int>{ settings::screenWidth / 4 * 3 - 250, settings::screenHeight / 6 * 5 - 25 }
-	&& raycpp::GetMousePos() < Vec2<int>{ settings::screenWidth / 4 * 3 + 250, settings::screenHeight / 6 * 5 + 25 })
+	if (raycpp::GetMousePos() > Vec2<int>{ settings::screenWidth / 4 * 3 - 250, settings::screenHeight / 6 * 5 - 25 } - Vec2<int>{ 0, 25 }
+		&& raycpp::GetMousePos() < Vec2<int>{ settings::screenWidth / 4 * 3 + 250, settings::screenHeight / 6 * 5 + 25 } + Vec2<int>{ 0, 75 })
 	{
 		if (mouseOverPlayButton != true)
 		{
