@@ -25,6 +25,7 @@ private:
 	void DrawSideBar();
 	void FindAllBoardFiles();
 	void ReturnButton();
+	void DrawHighScore();
 
 	void ModePreviews();
 	void SideBar();

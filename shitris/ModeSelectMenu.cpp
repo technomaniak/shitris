@@ -138,6 +138,7 @@ void ModeSelectMenu::DrawSideBar()
 {
 	raycpp::DrawLineEx({ settings::screenWidth / 2, 100 }, { settings::screenWidth / 2, settings::screenHeight }, 3, RAYWHITE);
 	DrawSideBarPlayButton();
+	DrawHighScore();
 }
 
 void ModeSelectMenu::FindAllBoardFiles()
@@ -206,6 +207,11 @@ void ModeSelectMenu::ReturnButton()
 			SetLoaded(false);
 		}
 	}
+}
+
+void ModeSelectMenu::DrawHighScore()
+{
+	raycpp::DrawText(TextFormat("HI: %08i", boardsBoards[whichSideBar].GetHighScore()), { settings::screenWidth / 4 * 3 - 250, settings::screenHeight / 6 * 5 - 150 }, 69, RAYWHITE);
 }
 
 void ModeSelectMenu::ModePreviews()

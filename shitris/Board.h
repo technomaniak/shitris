@@ -61,6 +61,7 @@ public:
 	int GetHeight() const;
 	int GetSpeed() const;
 	int GetLevel() const;
+	int GetHighScore() const;
 	Vec2<int> GetScreenPos() const;
 	int GetCellSize() const;
 	void IncreaseScore(int increase);
@@ -82,6 +83,7 @@ private:
 	int level;
 	bool foundExtraLines;
 	bool scoreSaved;
+	int highScore;
 
 	ScoreManager score;
 }; 

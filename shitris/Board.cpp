@@ -547,6 +547,11 @@ int Board::GetLevel() const
 	return level;
 }
 
+int Board::GetHighScore() const
+{
+	return highScore;
+}
+
 Vec2<int> Board::GetScreenPos() const
 {
 	return screenPos;
@@ -588,6 +593,7 @@ void Board::ResetScore()
 void Board::SetHighScore(int hS)
 {
 	score.SetHighScore(hS);
+	highScore = hS;
 }
 
 void Board::SetPos(Vec2<int> pos)
