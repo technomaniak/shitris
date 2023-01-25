@@ -39,7 +39,6 @@ private:
 	bool mouseOverReturnButton;
 	bool mouseOverPlayButton;
 	int playButtonCounter;
-	bool sideBarDisplayed;
 	int returnButtonCounter;
 	int& style;
 	bool sideBarEnabled;

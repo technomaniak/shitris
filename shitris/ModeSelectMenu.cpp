@@ -200,6 +200,9 @@ void ModeSelectMenu::ReturnButton()
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 		{
 			sounds.PlaySoundFromName("menuSound");
+			sideBarEnabled = false;
+			sideBarEnabled = false;
+			whichSideBar = -1;
 			SetLoaded(false);
 		}
 	}
@@ -281,6 +284,8 @@ void ModeSelectMenu::SideBarPlayButton()
 			sounds.PlaySoundFromName("menuSound");
 			SetLoaded(false);
 			SetGameStart(true);
+			sideBarEnabled = false;
+			whichSideBar = -1;
 		}
 	}
 }
